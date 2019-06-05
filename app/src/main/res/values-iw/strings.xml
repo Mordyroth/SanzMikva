@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">צאנז מקוה</string>
+    <string name="language">Language/שפה</string>
+    <string name="help">עזרה</string>
+    <string name="cancel_help">ביטול עזרה</string>
+    <string name="ready">מוכן</string>
+    <string name="cancel_ready">צריכים עוד זמן</string>
+    <string name="done">בוצע</string>
+    <string name="done_mess">תודה!</string>
+    <string name="question1">הסר איפור וקרמים לעור.</string>
+    <string name="question2">הסר לק. גזור, קובץ נקי אצבע מסמרים אצבע.</string>
+    <string name="question3">צחצוח שיניים; שום חלקיקי מזון לא יישארו בין השיניים. השתמש בחוט דנטלי (עדיף בהעדר), רק אם אתה בטוח שזה לא ייתפס בין השיניים. יש לשטוף את הפה במים.</string>
+    <string name="question4">להתרחץ עם מים חמים. לשטוף את כל הגוף ביסודיות. השתמש סבון ו מטלית או ספוג loofah</string>
+    <string name="question5">שים לב זהירות: פינה של העיניים, הגבות, הריסים, האוזניים וחורי העגיל, האף, מתחת לסנטר, בתי השחי, המרפקים, הגב, מסביב לשדיים, הטבור, אזור איברי המין (גם פנימי), בין ירכיים, בין בהונות, כפות רגליים.</string>
+    <string name="question6">עור חלק וקשח. לרכך ולהסיר גלדים יבשים בתנאי דימום לא תתרחש.</string>
+    <string name="question7">הסר רסיסים בולטים.</string>
+    <string name="question8">לשטוף את השיער עם שמפו, ללא מזגנים.</string>
+    <string name="question9">מקלחת או לשטוף ביסודיות עם סבון שאינו לחות או לשטוף את הגוף.</string>
+    <string name="question10">מסרק את כל השיער בזמן רטוב עדיין. זה מועיל לשים מגבת מתחת לשיער כך שיער רופף לא תיפול על הגוף.</string>
+    <string name="question11">אם ההכנות מתבצעות בבית, להתקלח ולהרכיב את השיער במקווה.</string>
+    <string name="question12">בדוק את הגוף שלך, חזותית על ידי נגיעה, באמצעות מראה בעת הצורך, כדי להבטיח כי אתה ללא התערבות חומרים.</string>
+    <string name="question13">הסר עדשות מגע או משקפיים.</string>
+    <string name="question14">השתמש בשירותים אם יש צורך, כדי להיות בטוח לשטוף את כל האזורים כדי להבטיח נקי של רקמות טואלט, וכו מחדש מסרק שיער הערווה.</string>
+    <string name="music_prompt">בחר שיר</string>
+    <string-array name="song_arrays">
+        <item>אין מוזיקה</item>
+        <item>שיר מספר אחד</item>
+        <item>שיר מספר שתיים</item>
+        <item>שיר מספר שלוש</item>
+        <item>השיר מספר ארבע</item>
+        <item>שיר מספר חמש</item>
+        <item>השיר מספר שש</item>
+    </string-array>
+</resources>

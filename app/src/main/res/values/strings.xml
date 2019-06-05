@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Sanz Mikva</string>
+    <string name="app_id">001</string>
+    <string name="language">Language/שפה</string>
+    <string name="help">HELP</string>
+    <string name="cancel_help">cancel help</string>
+    <string name="ready">READY</string>
+    <string name="cancel_ready">Need More Time</string>
+    <string name="done">done</string>
+    <string name="done_mess">Thank You!</string>
+    <string name="question1">Remove make-up and skin lotions.</string>
+    <string name="question2">Remove nail polish. Cut, file and clean finger and toe nails.</string>
+    <string name="question3">Brush teeth; no particles of food should remain between teeth. Use dental floss (unwaxed preferred), only if you are sure it will not get caught between teeth. Rinse mouth with water.</string>
+    <string name="question4">Bathe with warm water. Wash entire body thoroughly. Use soap and washcloth or loofah sponge</string>
+    <string name="question5">Give careful attention to the following: corner of eyes, eyebrows, eyelashes, ears and earring holes, nose, under chin, underarms, elbows, back, around and under breasts, navel, genital area (also internally), between thighs, knees, between toes, soles of feet.</string>
+    <string name="question6">Smooth hard skin and calluses. Soften and remove dry scabs provided bleeding will not occur.</string>
+    <string name="question7">Remove protruding splinters.</string>
+    <string name="question8">Wash hair with shampoo, without conditioners.</string>
+    <string name="question9">Shower or rinse thoroughly with a non-moisturizing soap or body wash.</string>
+    <string name="question10">Comb all hair while still wet. It is helpful to place a towel under the hair so loose hair will not fall on body.</string>
+    <string name="question11">If preparations are made at home, shower and recomb your hair at the mikvah.</string>
+    <string name="question12">Check your body, visually and by touching, using a mirror when needed to ensure that you are free of intervening substances.</string>
+    <string name="question13">Remove contact lenses or eyeglasses.</string>
+    <string name="question14">Use the bathroom if necessary, be sure to wash all areas to ensure clean of toilet tissue, etc and re comb pubic hair.</string>
+    <string name="music_prompt">Choose a Song</string>
+    <string-array name="song_arrays">
+        <item>No Music</item>
+        <item>Song Number One</item>
+        <item>Song Number Two</item>
+        <item>Song Number Three</item>
+        <item>Song Number Four</item>
+        <item>Song Number Five</item>
+        <item>Song Number Six</item>
+    </string-array>
+</resources>
