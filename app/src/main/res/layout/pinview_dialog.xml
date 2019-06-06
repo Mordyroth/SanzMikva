@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:elevation="3dp"
+    card_view:cardCornerRadius="30dp"
+    card_view:cardElevation="3dp"
+    card_view:cardUseCompatPadding="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Enter Pin"
+            android:layout_marginBottom="10dp"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <EditText
+                android:id="@+id/edtCode1"
+                android:layout_width="100dp"
+                android:layout_height="90dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/shape_rounded_sky"
+                android:cursorVisible="false"
+                android:digits="1234567890"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="45dp"
+                android:textColor="@color/colorBlack" />
+
+            <EditText
+                android:id="@+id/edtCode2"
+                android:layout_width="100dp"
+                android:layout_height="90dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/shape_rounded_sky"
+                android:cursorVisible="false"
+                android:digits="1234567890"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="45dp"
+                android:textColor="@color/colorBlack" />
+
+            <EditText
+                android:id="@+id/edtCode3"
+                android:layout_width="100dp"
+                android:layout_height="90dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/shape_rounded_sky"
+                android:cursorVisible="false"
+                android:digits="1234567890"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="45dp"
+                android:textColor="@color/colorBlack" />
+
+            <EditText
+                android:id="@+id/edtCode4"
+                android:layout_width="100dp"
+                android:layout_height="90dp"
+                android:background="@drawable/shape_rounded_sky"
+                android:cursorVisible="false"
+                android:digits="1234567890"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textSize="45dp"
+                android:textColor="@color/colorBlack" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <Button
+                android:id="@+id/btn_yes"
+                android:layout_width="130dp"
+                android:layout_height="70dp"
+                android:background="#dddddd"
+                android:clickable="true"
+                android:text="Yes"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:textSize="30dp"/>
+
+            <Button
+                android:id="@+id/btn_no"
+                android:layout_width="130dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="5dp"
+                android:background="#dddddd"
+                android:clickable="true"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="30dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

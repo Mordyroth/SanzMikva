@@ -4,7 +4,8 @@
     android:id="@+id/rlLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#ddd"
+    tools:context=".CustomListActivity">
 
     <ListView
         android:id="@+id/lvUsers"
@@ -15,6 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:divider="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonLayout"
         app:layout_constraintHorizontal_bias="0.5"
@@ -181,7 +183,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0">
 
-                <Spinner
+                <!--<Spinner
                     android:id="@+id/spinner1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -195,7 +197,22 @@
                     android:background="@android:color/transparent"
                     android:entries="@array/song_arrays"
                     android:prompt="@string/music_prompt"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog" />-->
+                <TextView
+                    android:id="@+id/txtSpin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:background="@android:color/transparent" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -228,7 +245,7 @@
             android:shadowRadius="6"
             android:text="@string/help"
             android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:textSize="40sp"
             app:layout_constraintBottom_toTopOf="@+id/button2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -253,7 +270,7 @@
             android:shadowRadius="6"
             android:text="@string/ready"
             android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:textSize="40sp"
             app:layout_constraintBottom_toTopOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -278,7 +295,8 @@
             android:shadowRadius="6"
             android:text="@string/done"
             android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@id/mPinView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -286,7 +304,42 @@
             app:layout_constraintVertical_weight="3" />
 
 
+        <ImageView
+            android:id="@+id/mPinView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="music"
+            android:scaleType="fitCenter"
+            android:src="@drawable/music1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button3"
+            app:layout_constraintVertical_weight="1.5"/>
+
     </android.support.constraint.ConstraintLayout>
+
+
+    <!--<ImageView
+        android:id="@+id/mPinView"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="25dp"
+        android:onClick="music"
+        android:scaleType="fitCenter"
+        android:src="@drawable/music1"
+        app:layout_constraintBottom_toTopOf="@+id/arrival"
+        app:layout_constraintStart_toEndOf="@+id/lvUsers" />-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/lvUsers"-->
+
 
 
 </android.support.constraint.ConstraintLayout>
