@@ -90,6 +90,7 @@ public class CustomListActivity extends Activity {
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });*/
+        txtSpin.setText("No Music");
         spinner2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

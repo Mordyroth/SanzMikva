@@ -52,11 +52,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "528264669348-08pgmbvnqdtbvbim595770g8plvp8hkn.apps.googleusercontent.com",
+          "client_id": "528264669348-cadlu8mole7r8vqq2b3qndug0rfvli50.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.android.miveh2",
-            "certificate_hash": "d8bd3a74815eb3b0769dbc64bc391363c4bcdb2a"
+            "certificate_hash": "60ccb5c4b504410e54fa0d0e8bc839b94ae01eba"
           }
         },
         {

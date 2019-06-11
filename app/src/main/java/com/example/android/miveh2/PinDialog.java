@@ -122,7 +122,7 @@ public class PinDialog extends Dialog implements android.view.View.OnClickListen
 
                     if(!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim()))
                     {
-                        ActivityUtils.hideKeyboard(c);
+                        AppUtils.hideKeyboard(c);
                         verifyCode(enteredPin);
 
                         RoomNnmberDialog roomNnmberDialog = new RoomNnmberDialog(c);
