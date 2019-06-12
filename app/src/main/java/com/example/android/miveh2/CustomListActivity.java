@@ -1,12 +1,14 @@
 package com.example.android.miveh2;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +22,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +43,11 @@ import static android.support.constraint.Constraints.TAG;
 
 public class CustomListActivity extends BaseActivity {
     MediaPlayer mediaPlayer = new MediaPlayer();
-    private Spinner spinner;
+    /*private Spinner spinner;*/
+    RelativeLayout spinner2;
+    TextView txtSpin;
+    String SongItem;
+    ImageView mPinView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +60,15 @@ public class CustomListActivity extends BaseActivity {
         setContentView(R.layout.activity_custom_list);
         populateUsersList();
 
-        spinner = findViewById(R.id.spinner1);
+        //spinner = findViewById(R.id.spinner1);
+        spinner2 = (RelativeLayout) findViewById(R.id.spinner2);
+        txtSpin = (TextView) findViewById(R.id.txtSpin);
+        mPinView = (ImageView) findViewById(R.id.mPinView);
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         String music = sharedPref.getString("current_music", "hey");
         System.out.println(music);
         // check if media player is playing
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.song_arrays, R.layout.music_spinner);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -78,7 +89,63 @@ public class CustomListActivity extends BaseActivity {
 
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
-                });
+                });*/
+        txtSpin.setText("No Music");
+        spinner2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(CustomListActivity.this);
+            }
+        });
+
+        mPinView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PinDialog cdd = new PinDialog(CustomListActivity.this);
+                cdd.show();
+            }
+        });
+
+    }
+
+    public void showDialog(Activity activity){
+
+        final String[] company = getResources().getStringArray(R.array.song_arrays);
+
+        final Dialog dialog = new Dialog(activity);
+        // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.song_listview_dialog);
+
+        ListView listView = (ListView) dialog.findViewById(R.id.listview);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.simple_spinner_dropdown_item, R.id.chkTextView, company);
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Object item = parent.getItemAtPosition(position);
+                if (position != 0) {
+                    play(item.toString());
+                } else {
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                    }
+                }
+                System.out.println(item.toString());
+
+                SongItem = ""+company[position];
+                txtSpin.setText(SongItem);
+                //Toast.makeText(getApplicationContext() , ""+company[position], Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void populateUsersList() {
@@ -103,7 +170,7 @@ public class CustomListActivity extends BaseActivity {
         if (curr_text.equals(getString(R.string.help))) {
             helpLayout.setVisibility(View.VISIBLE);
             p1_button.setText(R.string.cancel_help);
-            p1_button.setTextSize(20);
+            p1_button.setTextSize(40);
             p1_button.setTextColor(Color.YELLOW);
             //Some url endpoint that you may have
             String myUrl = "http://54.218.240.133/mikva/input.php?id=" + getString(R.string.app_id) + "&status=help";
@@ -123,7 +190,7 @@ public class CustomListActivity extends BaseActivity {
         } else {
             helpLayout.setVisibility(View.GONE);
             p1_button.setText(R.string.help);
-            p1_button.setTextSize(30);
+            p1_button.setTextSize(40);
             p1_button.setTextColor(Color.WHITE);
             //Some url endpoint that you may have
             String myUrl = "http://54.218.240.133/mikva/input.php?id=" + getString(R.string.app_id) + "&status=cancel-help";
@@ -147,7 +214,7 @@ public class CustomListActivity extends BaseActivity {
     public void done(View v) {
         Button p1_button = (Button) findViewById(R.id.button3);
         p1_button.setText(R.string.done_mess);
-        p1_button.setTextSize(15);
+        p1_button.setTextSize(40);
         p1_button.setTextColor(Color.YELLOW);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -176,7 +243,7 @@ public class CustomListActivity extends BaseActivity {
         if (curr_text.equals(getString(R.string.ready))) {
             helpLayout.setVisibility(View.VISIBLE);
             p1_button.setText(R.string.cancel_ready);
-            p1_button.setTextSize(20);
+            p1_button.setTextSize(40);
             p1_button.setTextColor(Color.YELLOW);
             //Some url endpoint that you may have
             String myUrl = "http://54.218.240.133/mikva/input.php?id=" + getString(R.string.app_id) + "&status=ready";
@@ -196,7 +263,7 @@ public class CustomListActivity extends BaseActivity {
         } else {
             helpLayout.setVisibility(View.GONE);
             p1_button.setText(R.string.ready);
-            p1_button.setTextSize(30);
+            p1_button.setTextSize(40);
             p1_button.setTextColor(Color.WHITE);
             //Some url endpoint that you may have
             String myUrl = "http://54.218.240.133/mikva/input.php?id=" + getString(R.string.app_id) + "&status=cancel-ready";
@@ -266,7 +333,8 @@ public class CustomListActivity extends BaseActivity {
     }
 
     public void music(View V) {
-        spinner.performClick();
+        //spinner.performClick();
+        txtSpin.setText(SongItem);
     }
     public void checkbox (View v) {
         Log.v("hey", "heyoooooo");
@@ -289,19 +357,25 @@ public class CustomListActivity extends BaseActivity {
 
     }
     public void textCheckBox(View v) {
-        CheckBox checkBox;
-        TextView text;
-        ViewGroup row = (ViewGroup) v;
-        View view = row.getChildAt(1);
-        View textView = row.getChildAt(0);
-        checkBox = (CheckBox) view;
-        text = (TextView) textView;
-        if (checkBox.isChecked()) {
-            text.setTextColor(getResources().getColor(R.color.auto));
-            checkBox.setChecked(false);
-        } else {
-            text.setTextColor(getResources().getColor(R.color.disabled));
-            checkBox.setChecked(true);
+        try {
+            CheckBox checkBox;
+            TextView text;
+            ViewGroup row = (ViewGroup) v;
+            View view = row.getChildAt(1);
+            View textView = row.getChildAt(0);
+            checkBox = (CheckBox) view;
+            text = (TextView) textView;
+            if (checkBox.isChecked()) {
+                text.setTextColor(getResources().getColor(R.color.auto));
+                checkBox.setChecked(false);
+            } else {
+                text.setTextColor(getResources().getColor(R.color.disabled));
+                checkBox.setChecked(true);
+            }
+        }
+        catch (Exception e)
+        {
+
         }
     }
 
