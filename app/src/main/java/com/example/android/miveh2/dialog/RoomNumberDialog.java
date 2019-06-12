@@ -1,4 +1,4 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.miveh2.utils.AppUtils;
+import com.example.android.miveh2.R;
 import com.example.android.miveh2.model.FireBaseDBInstanceModel;
 import com.example.android.miveh2.model.DevicesEvent;
 import com.example.android.miveh2.utils.PreferenceUtils;
@@ -29,9 +31,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class RoomNnmberDialog extends Dialog implements android.view.View.OnClickListener {
+public class RoomNumberDialog extends Dialog implements android.view.View.OnClickListener {
 
-    private final static String TAG = RoomNnmberDialog.class.getSimpleName();
+    private final static String TAG = RoomNumberDialog.class.getSimpleName();
 
     public Activity c;
     public Dialog d;
@@ -47,7 +49,7 @@ public class RoomNnmberDialog extends Dialog implements android.view.View.OnClic
     ArrayList<DevicesEvent> listDeviceEvents = null;
     private ProgressDialog mProgressDialog;
 
-    public RoomNnmberDialog(Activity a) {
+    public RoomNumberDialog(Activity a) {
         super(a);
         this.c = a;
 

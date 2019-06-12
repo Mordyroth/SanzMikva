@@ -1,10 +1,9 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-import android.widget.Toolbar;
+
+import com.example.android.miveh2.R;
+import com.example.android.miveh2.activity.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -12,6 +12,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.android.miveh2.utils.AppUtils;
+import com.example.android.miveh2.R;
 
 public class PinDialog extends Dialog implements android.view.View.OnClickListener {
 
@@ -125,7 +128,7 @@ public class PinDialog extends Dialog implements android.view.View.OnClickListen
                         AppUtils.hideKeyboard(c);
                         verifyCode(enteredPin);
 
-                        RoomNnmberDialog roomNnmberDialog = new RoomNnmberDialog(c);
+                        RoomNumberDialog roomNnmberDialog = new RoomNumberDialog(c);
                         roomNnmberDialog.show();
                     }
                 }

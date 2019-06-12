@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.android.miveh2"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -36,5 +36,6 @@ dependencies {
     
     //Fierebase
     implementation 'com.google.firebase:firebase-database:17.0.0'
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

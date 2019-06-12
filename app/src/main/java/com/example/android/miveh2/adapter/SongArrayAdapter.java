@@ -1,4 +1,4 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+
+import com.example.android.miveh2.R;
 
 public class SongArrayAdapter extends BaseAdapter implements SpinnerAdapter {
 

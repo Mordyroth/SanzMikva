@@ -1,7 +1,9 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.model;
 
 import android.content.Context;
 
+
+import com.example.android.miveh2.R;
 
 import java.util.ArrayList;
 

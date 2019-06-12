@@ -1,4 +1,4 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.adapter;
 
 
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.example.android.miveh2.R;
+import com.example.android.miveh2.model.User;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
 package com.example.android.miveh2.firebaseservices;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,12 +13,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
-import com.example.android.miveh2.AppUtils;
-import com.example.android.miveh2.CustomListActivity;
+import com.example.android.miveh2.utils.AppUtils;
+import com.example.android.miveh2.activity.CustomListActivity;
 import com.example.android.miveh2.R;
 import com.example.android.miveh2.utils.PreferenceUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
 
 import org.json.JSONObject;
 

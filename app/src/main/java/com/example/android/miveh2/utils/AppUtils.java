@@ -1,4 +1,4 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.utils;
 
 import android.app.Activity;
 import android.view.View;

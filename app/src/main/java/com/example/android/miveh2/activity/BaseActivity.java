@@ -1,4 +1,4 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.activity;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;

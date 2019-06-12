@@ -1,4 +1,4 @@
-package com.example.android.miveh2;
+package com.example.android.miveh2.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -25,10 +25,14 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.miveh2.adapter.CustomUsersAdapter;
+import com.example.android.miveh2.apicall.HttpGetRequest;
+import com.example.android.miveh2.dialog.PinDialog;
+import com.example.android.miveh2.R;
+import com.example.android.miveh2.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
