@@ -2,7 +2,7 @@
     <string name="app_name">Sanz Mikva</string>
     <string name="app_id">001</string>
     <string name="language">Language/שפה</string>
-    <string name="help">HELP</string>
+    <string name="help">Help</string>
     <string name="cancel_help">cancel help</string>
     <string name="ready">READY</string>
     <string name="cancel_ready">Need More Time</string>
@@ -30,6 +30,12 @@
     <string name="occupied">OCCUPIED</string>
     <string name="str_yes">YES</string>
     <string name="str_no">NO</string>
+    <string name="choose_music">Choose Music</string>
+    <string name="occupied_successfully">Occupied Successfully</string>
+    <string name="aledy_occupied">This Room is already Occupied.Are you sure you want Occupied again ?</string>
+    <string name="alert">Alert</string>
+    <string name="uuid_room_occupied">This Room number already Occupied for your Device</string>
+    <string name="okay">OKAY</string>
     <string-array name="song_arrays">
         <item>No Music</item>
         <item>Song Number One</item>

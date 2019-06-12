@@ -8,6 +8,7 @@ public class AppUtils {
 
     public static String DEVICES_DB = "Devices";
     public static String ROOM_TABLE = "Room";
+    public static String ROOM_NUMBER = "room_number";
     public static String FCM_TOKEN = "FCMToken";
 
 

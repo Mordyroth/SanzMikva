@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:elevation="3dp"
-    card_view:cardCornerRadius="30dp"
+    card_view:cardCornerRadius="5dp"
     card_view:cardElevation="3dp"
     card_view:cardUseCompatPadding="true">
 
@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:text="@string/music_prompt"
+            android:text="@string/choose_music"
             android:textColor="#FFFFFF"
             android:textSize="25sp" />
 
@@ -39,7 +39,7 @@
                 android:id="@+id/listview"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"></ListView>
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>

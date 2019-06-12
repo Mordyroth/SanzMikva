@@ -2,27 +2,30 @@ package com.example.android.miveh2.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 public class PreferenceUtils {
-    private static PreferenceUtils yourPreference;
-    private SharedPreferences sharedPreferences;
+    private static PreferenceUtils instance;
+    private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor prefsEditor;
+    Context context;
 
     public static PreferenceUtils getInstance(Context context) {
-        if (yourPreference == null) {
-            yourPreference = new PreferenceUtils(context);
+        if (instance == null) {
+            instance = new PreferenceUtils(context);
+            sharedPreferences = context.getSharedPreferences("Miveh2AppPreference", Context.MODE_PRIVATE);
+            prefsEditor = sharedPreferences.edit();
         }
-        return yourPreference;
+        return instance;
     }
 
     private PreferenceUtils(Context context) {
-        sharedPreferences = context.getSharedPreferences("Miveh2AppPreference", Context.MODE_PRIVATE);
+        this.context = context;
     }
 
     public void save(String key, String value) {
-        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+
         prefsEditor.putString(key, value);
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 
     public String get(String key) {
@@ -30,6 +33,19 @@ public class PreferenceUtils {
             return sharedPreferences.getString(key, "");
         }
         return "";
+    }
+
+    public void save(String key, Integer value) {
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        prefsEditor.putInt(key, value);
+        prefsEditor.apply();
+    }
+
+    public Integer getInt(String key) {
+        if (sharedPreferences != null) {
+            return sharedPreferences.getInt(key, 0);
+        }
+        return 0;
     }
 
     public void removeAll() {

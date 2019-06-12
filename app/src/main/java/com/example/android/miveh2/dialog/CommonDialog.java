@@ -59,7 +59,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         initialization();
 
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getWindow().setGravity(Gravity.BOTTOM);
+
 
         if (title == null || title.equalsIgnoreCase(""))
             tvTitle.setVisibility(View.GONE);

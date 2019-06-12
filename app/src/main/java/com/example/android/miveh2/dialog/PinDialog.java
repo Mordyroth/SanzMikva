@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.android.miveh2.utils.AppUtils;
 import com.example.android.miveh2.R;
+import com.example.android.miveh2.utils.AppUtils;
 
 public class PinDialog extends Dialog implements android.view.View.OnClickListener {
 
@@ -123,16 +122,14 @@ public class PinDialog extends Dialog implements android.view.View.OnClickListen
                     enteredPin += (edtCode3.getText().toString().trim());
                     enteredPin += (edtCode4.getText().toString().trim());
 
-                    if(!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim()))
-                    {
+                    if (!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim())) {
                         AppUtils.hideKeyboard(c);
                         verifyCode(enteredPin);
 
                         RoomNumberDialog roomNnmberDialog = new RoomNumberDialog(c);
                         roomNnmberDialog.show();
                     }
-                }
-                else if (s.length() == 0) {
+                } else if (s.length() == 0) {
                     setFocus(edtCode3);
                 }
 
@@ -165,9 +162,8 @@ public class PinDialog extends Dialog implements android.view.View.OnClickListen
         edtCode2.setSelection(edtCode2.getText().toString().length());
     }
 
-    public void verifyCode(String enteredPin){
+    public void verifyCode(String enteredPin) {
         allPin = enteredPin;
-        Toast.makeText(c , ""+allPin, Toast.LENGTH_LONG).show();
         dismiss();
     }
 
@@ -175,7 +171,7 @@ public class PinDialog extends Dialog implements android.view.View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                Toast.makeText(c , ""+allPin, Toast.LENGTH_LONG).show();
+
                 //activity.finish();
                 break;
             case R.id.btn_no:

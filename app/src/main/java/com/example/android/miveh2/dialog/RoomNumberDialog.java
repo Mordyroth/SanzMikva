@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.miveh2.R;
@@ -23,6 +24,7 @@ import com.example.android.miveh2.model.FireBaseDBInstanceModel;
 import com.example.android.miveh2.model.Room;
 import com.example.android.miveh2.utils.AppUtils;
 import com.example.android.miveh2.utils.PreferenceUtils;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,23 +44,24 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
     private EditText edtRoomCode;
     String allPin = null;
 
-    private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFireBaseDatabase;
 
     private String mRoomNumber = null;
     private ArrayList<Room> mRoomsFromServerList = new ArrayList<>();
     private ProgressDialog mProgressDialog;
     private String mUUID;
     private CommonDialog commonDialog;
-    private boolean isUUIDExist = false;
+
+    private ProgressBar progressBar;
+    private boolean isRoomUUidSame = false;
 
     public RoomNumberDialog(Activity a) {
         super(a);
         this.activity = a;
 
 
-        mFirebaseInstance = FireBaseDBInstanceModel.getInstance().getmFirebaseInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference(AppUtils.ROOM_TABLE);
+        FirebaseDatabase mFirebaseInstance = FireBaseDBInstanceModel.getInstance().getmFirebaseInstance();
+        mFireBaseDatabase = mFirebaseInstance.getReference(AppUtils.ROOM_TABLE);
     }
 
     @Override
@@ -83,13 +86,14 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         });
         edtRoomCode.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
 
+        progressBar = findViewById(R.id.ivProgress);
+
 
         yes = (Button) findViewById(R.id.btn_yes);
         no = (Button) findViewById(R.id.btn_no);
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
 
-        getDataFromServer();
 
     }
 
@@ -134,9 +138,10 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         switch (v.getId()) {
             case R.id.btn_yes:
                 if (getRoomNumber() != 0 && getRoomNumber() <= 25) {
-                    Toast.makeText(activity, "" + getRoomNumber(), Toast.LENGTH_LONG).show();
 
-                    setInitiateRoom();
+                    progressBar.setVisibility(View.VISIBLE);
+                    getDataFromServer();
+
 
                 } else {
                     Log.e("TAG:::", "is not under 25");
@@ -154,7 +159,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
     public void getDataFromServer() {
         //showProgressDialog();
-        mFirebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        mFireBaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -164,11 +170,14 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                         mRoomsFromServerList.add(devicesEvent);
                     }
                 }
+                progressBar.setVisibility(View.GONE);
+                setInitiateRoom();
                 //hideProgressDialog();
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
+                progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Failed to read devices", error.toException());
                 //hideProgressDialog();
             }
@@ -177,6 +186,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
 
     private void setInitiateRoom() {
+
+
         mRoomNumber = String.valueOf(getRoomNumber());
         mUUID = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -186,18 +197,17 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         room.setStatus(activity.getString(R.string.occupied));
 
         if (TextUtils.isEmpty(mRoomNumber)) {
-            mRoomNumber = mFirebaseDatabase.push().getKey();
+            mRoomNumber = mFireBaseDatabase.push().getKey();
         }
 
         boolean isRoomExist = checkRoomExist(mRoomNumber);
 
-        if (isUUIDExist && isRoomExist) {
 
-            commonDialog = new CommonDialog(getContext(), "Alert", "This Room number already Occupied for your Device", "OKAY", "", new CommonDialog.OnButtonClickListener() {
+        if (isRoomUUidSame) {
+
+            commonDialog = new CommonDialog(getContext(), activity.getString(R.string.alert), activity.getString(R.string.uuid_room_occupied), activity.getString(R.string.okay), "", new CommonDialog.OnButtonClickListener() {
                 @Override
                 public void onOkClick(View view) {
-
-
                     commonDialog.dismiss();
 
 
@@ -209,7 +219,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         } else if (isRoomExist) {
 
 
-            commonDialog = new CommonDialog(getContext(), "Alert", "This Room number already Occupied.Are you sure you want Occupied again ?", "YES", "NO", new CommonDialog.OnButtonClickListener() {
+            commonDialog = new CommonDialog(getContext(), activity.getString(R.string.alert), activity.getString(R.string.aledy_occupied), activity.getString(R.string.yes), activity.getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
                 @Override
                 public void onOkClick(View view) {
 
@@ -234,22 +244,12 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
     private void addRoomInFireBase(final Room room) {
         try {
-            mFirebaseDatabase.child(mRoomNumber).addValueEventListener(new ValueEventListener() {
+            mFireBaseDatabase.child(mRoomNumber).setValue(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(activity, activity.getString(R.string.occupied_successfully), Toast.LENGTH_SHORT).show();
+                    PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, Integer.parseInt(mRoomNumber));
 
-                    mFirebaseDatabase.child(mRoomNumber).setValue(room);
-
-                    Room otherRoom = dataSnapshot.getValue(Room.class);
-                    if (otherRoom == null) {
-                        Log.e(TAG, "Devices data is null!");
-                        return;
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    Log.e(TAG, "Failed to read devices", error.toException());
                 }
             });
         } catch (Exception e) {
@@ -265,26 +265,23 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         for (int i = 0; i < mRoomsFromServerList.size(); i++) {
 
 
-            if (mRoomsFromServerList.get(i).getRoom_key().equalsIgnoreCase(roomNo) &&
-                    mRoomsFromServerList.get(i).getRoom_key().equals(roomNo) &&
-                    !TextUtils.isEmpty(mRoomsFromServerList.get(i).getRoom_key())) {
+            if (mRoomsFromServerList.get(i).getUuid().equalsIgnoreCase(mUUID) && mRoomsFromServerList.get(i).getRoom_key().equalsIgnoreCase(roomNo)) {
+                isRoomUUidSame = true;
+                break;
+            } else if (mRoomsFromServerList.get(i).getRoom_key().equalsIgnoreCase(roomNo)) {
                 isValid = true;
                 break;
+
             } else {
                 isValid = false;
             }
 
-            if (mRoomsFromServerList.get(i).getUuid().equalsIgnoreCase(mUUID) &&
-                    mRoomsFromServerList.get(i).getUuid().equals(mUUID) &&
-                    !TextUtils.isEmpty(mRoomsFromServerList.get(i).getUuid())) {
-                isUUIDExist = true;
-                break;
-            } else {
-                isUUIDExist = false;
-            }
+
         }
         return isValid;
     }
+
+
 
 
 

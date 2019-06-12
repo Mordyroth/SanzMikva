@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,11 +29,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.miveh2.R;
 import com.example.android.miveh2.adapter.CustomUsersAdapter;
 import com.example.android.miveh2.apicall.HttpGetRequest;
 import com.example.android.miveh2.dialog.PinDialog;
-import com.example.android.miveh2.R;
 import com.example.android.miveh2.model.User;
+import com.example.android.miveh2.utils.AppUtils;
+import com.example.android.miveh2.utils.PreferenceUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +55,8 @@ public class CustomListActivity extends BaseActivity {
     TextView txtSpin;
     String SongItem;
     ImageView mPinView;
+    private ImageView upButton;
+    private ImageView downButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,7 @@ public class CustomListActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_custom_list);
         populateUsersList();
-
+        volumecontrol();
         //spinner = findViewById(R.id.spinner1);
         spinner2 = (RelativeLayout) findViewById(R.id.spinner2);
         txtSpin = (TextView) findViewById(R.id.txtSpin);
@@ -71,36 +76,21 @@ public class CustomListActivity extends BaseActivity {
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         String music = sharedPref.getString("current_music", "hey");
         System.out.println(music);
-        // check if media player is playing
-        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.song_arrays, R.layout.music_spinner);
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        Object item = parent.getItemAtPosition(pos);
-                        if (pos != 0) {
-                            play(item.toString());
-                        } else {
-                            if (mediaPlayer.isPlaying()) {
-                                mediaPlayer.stop();
-                                mediaPlayer.release();
-                            }
-                        }
-                        System.out.println(item.toString());     //prints the text in spinner item.
-                    }
 
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });*/
-        txtSpin.setText("No Music");
+        txtSpin.setText(getString(R.string.choose_music));
         spinner2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(CustomListActivity.this);
             }
         });
+
+
+        if (PreferenceUtils.getInstance(this).getInt(AppUtils.ROOM_NUMBER) == 0) {
+            PinDialog cdd = new PinDialog(CustomListActivity.this);
+            cdd.setCancelable(false);
+            cdd.show();
+        }
 
         mPinView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +102,7 @@ public class CustomListActivity extends BaseActivity {
 
     }
 
-    public void showDialog(Activity activity){
+    public void showDialog(Activity activity) {
 
         final String[] company = getResources().getStringArray(R.array.song_arrays);
 
@@ -124,7 +114,7 @@ public class CustomListActivity extends BaseActivity {
         dialog.setContentView(R.layout.song_listview_dialog);
 
         ListView listView = (ListView) dialog.findViewById(R.id.listview);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.simple_spinner_dropdown_item, R.id.chkTextView, company);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, R.id.chkTextView, company);
         listView.setAdapter(arrayAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -138,13 +128,15 @@ public class CustomListActivity extends BaseActivity {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.stop();
                         mediaPlayer.release();
+                        upButton.setVisibility(View.VISIBLE);
+                        downButton.setVisibility(View.VISIBLE);
                     }
                 }
                 System.out.println(item.toString());
 
-                SongItem = ""+company[position];
+                SongItem = "" + company[position];
                 txtSpin.setText(SongItem);
-                //Toast.makeText(getApplicationContext() , ""+company[position], Toast.LENGTH_SHORT).show();
+
                 dialog.dismiss();
             }
         });
@@ -229,7 +221,7 @@ public class CustomListActivity extends BaseActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value = dataSnapshot.getValue(String.class);
-                Toast.makeText(getApplicationContext() , value, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -288,6 +280,10 @@ public class CustomListActivity extends BaseActivity {
     }
 
     public void play(String song) {
+
+        upButton.setVisibility(View.VISIBLE);
+        downButton.setVisibility(View.VISIBLE);
+
         String songName;
         switch (song) {
             case "Song Number One":
@@ -333,14 +329,15 @@ public class CustomListActivity extends BaseActivity {
         }
         mediaPlayer.start();
 
-        Toast.makeText(this, songName, Toast.LENGTH_LONG).show();
+
     }
 
     public void music(View V) {
         //spinner.performClick();
         txtSpin.setText(SongItem);
     }
-    public void checkbox (View v) {
+
+    public void checkbox(View v) {
         Log.v("hey", "heyoooooo");
         CheckBox checkBox;
         TextView text;
@@ -360,6 +357,7 @@ public class CustomListActivity extends BaseActivity {
         }
 
     }
+
     public void textCheckBox(View v) {
         try {
             CheckBox checkBox;
@@ -376,9 +374,7 @@ public class CustomListActivity extends BaseActivity {
                 text.setTextColor(getResources().getColor(R.color.disabled));
                 checkBox.setChecked(true);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
@@ -412,5 +408,33 @@ public class CustomListActivity extends BaseActivity {
             finish();
         }
 
+    }
+
+
+    public void volumecontrol() {
+        final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+
+
+        upButton = findViewById(R.id.ivUolumeUp);
+        upButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+//To increase media player volume
+                audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+            }
+        });
+
+        downButton = findViewById(R.id.ivUolumeDown);
+        downButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+//To decrease media player volume
+                audioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
+            }
+        });
     }
 }
