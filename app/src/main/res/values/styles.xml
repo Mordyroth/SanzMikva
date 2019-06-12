@@ -7,11 +7,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
 
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+
+    </style>
+
+    <style name="pinStyle">
+        <item name="android:padding">@dimen/_8sdp</item>
+        <item name="android:textSize">@dimen/_35sdp</item>
+
 
     </style>
 </resources>

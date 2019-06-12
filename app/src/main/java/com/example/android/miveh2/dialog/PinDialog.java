@@ -176,7 +176,7 @@ public class PinDialog extends Dialog implements android.view.View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_yes:
                 Toast.makeText(c , ""+allPin, Toast.LENGTH_LONG).show();
-                //c.finish();
+                //activity.finish();
                 break;
             case R.id.btn_no:
                 dismiss();

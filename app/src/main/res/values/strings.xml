@@ -23,6 +23,13 @@
     <string name="question13">Remove contact lenses or eyeglasses.</string>
     <string name="question14">Use the bathroom if necessary, be sure to wash all areas to ensure clean of toilet tissue, etc and re comb pubic hair.</string>
     <string name="music_prompt">Choose a Song</string>
+    <string name="cancel">CANCEL</string>
+    <string name="yes">Yes</string>
+    <string name="enter_room_number_must_be_less_then_1_to_25">Enter room number must be less then 1 to 25</string>
+    <string name="room_number">Room Number</string>
+    <string name="occupied">OCCUPIED</string>
+    <string name="str_yes">YES</string>
+    <string name="str_no">NO</string>
     <string-array name="song_arrays">
         <item>No Music</item>
         <item>Song Number One</item>

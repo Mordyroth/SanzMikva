@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:elevation="3dp"
-    card_view:cardCornerRadius="30dp"
+    card_view:cardCornerRadius="@dimen/_10sdp"
     card_view:cardElevation="3dp"
     card_view:cardUseCompatPadding="true">
 
@@ -22,12 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="Enter Pin"
-            android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"
-            android:textSize="50sp" />
+            android:textSize="@dimen/_25sdp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -38,8 +38,9 @@
 
             <EditText
                 android:id="@+id/edtCode1"
-                android:layout_width="100dp"
-                android:layout_height="90dp"
+                style="@style/pinStyle"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_65sdp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/shape_rounded_sky"
                 android:cursorVisible="false"
@@ -48,13 +49,13 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
-                android:textSize="45dp"
                 android:textColor="@color/colorBlack" />
 
             <EditText
                 android:id="@+id/edtCode2"
-                android:layout_width="100dp"
-                android:layout_height="90dp"
+                style="@style/pinStyle"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_65sdp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/shape_rounded_sky"
                 android:cursorVisible="false"
@@ -63,13 +64,13 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
-                android:textSize="45dp"
                 android:textColor="@color/colorBlack" />
 
             <EditText
                 android:id="@+id/edtCode3"
-                android:layout_width="100dp"
-                android:layout_height="90dp"
+                style="@style/pinStyle"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_65sdp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/shape_rounded_sky"
                 android:cursorVisible="false"
@@ -78,22 +79,21 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
-                android:textSize="45dp"
                 android:textColor="@color/colorBlack" />
 
             <EditText
                 android:id="@+id/edtCode4"
-                android:layout_width="100dp"
-                android:layout_height="90dp"
+                style="@style/pinStyle"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_65sdp"
                 android:background="@drawable/shape_rounded_sky"
                 android:cursorVisible="false"
                 android:digits="1234567890"
                 android:gravity="center"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:maxLines="1"
                 android:maxLength="1"
-                android:textSize="45dp"
+                android:maxLines="1"
                 android:textColor="@color/colorBlack" />
         </LinearLayout>
 
@@ -112,22 +112,23 @@
                 android:clickable="true"
                 android:text="Yes"
                 android:textColor="@color/colorPrimaryDark"
+                android:textSize="30dp"
                 android:textStyle="bold"
-                android:visibility="gone"
-                android:textSize="30dp"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_no"
-                android:layout_width="130dp"
-                android:layout_height="70dp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:background="#dddddd"
+                android:background="@drawable/shape_rounded_sky"
                 android:clickable="true"
-                android:text="Cancel"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:textSize="30dp"/>
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

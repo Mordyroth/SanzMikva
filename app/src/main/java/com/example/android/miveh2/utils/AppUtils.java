@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 public class AppUtils {
 
     public static String DEVICES_DB = "Devices";
+    public static String ROOM_TABLE = "Room";
     public static String FCM_TOKEN = "FCMToken";
 
 

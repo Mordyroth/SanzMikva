@@ -37,5 +37,8 @@ dependencies {
     //Fierebase
     implementation 'com.google.firebase:firebase-database:17.0.0'
     implementation 'com.google.firebase:firebase-messaging:18.0.0'
+
+    //sdp library
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
 }
 apply plugin: 'com.google.gms.google-services'
