@@ -37,7 +37,7 @@ import java.util.concurrent.ExecutionException;
 
 import static android.support.constraint.Constraints.TAG;
 
-public class CustomListActivity extends Activity {
+public class CustomListActivity extends BaseActivity {
     MediaPlayer mediaPlayer = new MediaPlayer();
     private Spinner spinner;
 

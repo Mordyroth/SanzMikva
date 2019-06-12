@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
