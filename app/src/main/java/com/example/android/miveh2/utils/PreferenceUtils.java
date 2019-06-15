@@ -35,8 +35,8 @@ public class PreferenceUtils {
         return "";
     }
 
-    public void save(String key, Integer value) {
-        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+ /*   public void save(String key, Integer value) {
+
         prefsEditor.putInt(key, value);
         prefsEditor.apply();
     }
@@ -46,7 +46,7 @@ public class PreferenceUtils {
             return sharedPreferences.getInt(key, 0);
         }
         return 0;
-    }
+    }*/
 
     public void removeAll() {
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();

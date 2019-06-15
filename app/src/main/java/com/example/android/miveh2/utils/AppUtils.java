@@ -8,18 +8,16 @@ public class AppUtils {
 
     public static String DEVICES_DB = "Devices";
     public static String ROOM_TABLE = "Room";
+    public static String HELP_TABLE = "Help";
+    public static String FEEDBACK_TABLE = "Feedback";
     public static String ROOM_NUMBER = "room_number";
     public static String FCM_TOKEN = "FCMToken";
-
 
 
     //For Story Database
     public static String StoryDb = "Story";
     public static String StoryStorageFolder = "story_Image";
     public static String StoryVideoFolder = "Story_Video";
-
-
-
 
 
     public static void hideKeyboard(Activity activity) {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/arrival"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_120sdp"
+    android:layout_alignParentBottom="true"
+    android:background="@color/colorPrimaryDark">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/raindrops"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_10sdp"
+        android:src="@drawable/raindrops" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/raindrops"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/currently"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@+id/raindrops"
+            android:text="You are currently In : "
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <TextView
+
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/ahead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="People Ahead Of You"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+</RelativeLayout>

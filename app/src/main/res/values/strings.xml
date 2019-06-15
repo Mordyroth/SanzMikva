@@ -45,4 +45,32 @@
         <item>Song Number Five</item>
         <item>Song Number Six</item>
     </string-array>
+
+
+    !--
+    <string name="smile_rating_terrible">Terrible</string>
+    <string name="smile_rating_bad">Bad</string>-->
+    <string name="smile_rating_okay">Could use improvement</string>
+    <string name="smile_rating_good">Satisfactory</string>
+    <string name="smile_rating_great">Excellent</string>
+
+
+    <string name="could_use_imrove">Could use improvement</string>
+    <string name="satisfactory">Satisfactory</string>
+    <string name="excellent">Excellent</string>
+    <string name="your_experience">Your experience...</string>
+    <string name="submit">Submit</string>
+    <string name="help_is_on_the_way">Help is on the way</string>
+    <string name="worker_on_the_way">Worker is on the way</string>
+    <string name="donate">Donate</string>
+    <string name="room_ready">Room is ready.</string>
+
+
+    <string-array name="names">
+        <!--<item>@string/smile_rating_terrible</item>
+        <item>@string/smile_rating_bad</item>-->
+        <item>@string/smile_rating_okay</item>
+        <item>@string/smile_rating_good</item>
+        <item>@string/smile_rating_great</item>
+    </string-array>
 </resources>

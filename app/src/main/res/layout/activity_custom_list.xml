@@ -26,7 +26,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/arrival"
         android:layout_width="0dp"
-        android:layout_height="140dp"
+        android:layout_height="@dimen/_120sdp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
@@ -34,6 +34,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="16dp"
         android:background="@color/colorPrimaryDark"
+        android:elevation="@dimen/_10sdp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/buttonLayout"
@@ -62,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="There Are Currently:"
+            android:text="You are currently In : "
             android:textColor="@android:color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@id/number"
@@ -131,6 +132,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="1.9" />
+
+
+
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/spinner3"
@@ -224,7 +228,6 @@
 
         <Button
             android:id="@+id/button"
-
             style="@style/acmeFont"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -337,8 +340,8 @@
         android:background="@drawable/beck_volume_up"
         android:elevation="@dimen/_10sdp"
         android:padding="@dimen/_5sdp"
-        android:visibility="gone"
         android:src="@drawable/ic_volume_up"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -351,8 +354,8 @@
         android:background="@drawable/beck_volume_down"
         android:elevation="@dimen/_10sdp"
         android:padding="@dimen/_5sdp"
-        android:visibility="gone"
         android:src="@drawable/ic_volume_down"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonLayout" />
 

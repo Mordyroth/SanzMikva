@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.miveh2.R;
 import com.example.android.miveh2.utils.AppUtils;
 
-public class PinDialog extends Dialog implements android.view.View.OnClickListener {
+public class PinDialog extends Dialog implements View.OnClickListener {
 
     public Activity c;
     public Dialog d;
@@ -171,8 +172,8 @@ public class PinDialog extends Dialog implements android.view.View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-
-                //activity.finish();
+                Toast.makeText(c, "" + allPin, Toast.LENGTH_LONG).show();
+                //c.finish();
                 break;
             case R.id.btn_no:
                 dismiss();

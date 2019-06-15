@@ -215,6 +215,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
             });
 
             commonDialog.show();
+            PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
         } else if (isRoomExist) {
 
@@ -234,6 +235,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
             });
 
             commonDialog.show();
+            PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
 
         } else {
@@ -248,7 +250,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(activity, activity.getString(R.string.occupied_successfully), Toast.LENGTH_SHORT).show();
-                    PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, Integer.parseInt(mRoomNumber));
+                    PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
                 }
             });
