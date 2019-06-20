@@ -1,10 +1,8 @@
 package com.example.android.miveh2.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -14,12 +12,13 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,18 +38,24 @@ import com.example.android.miveh2.dialog.PinDialog;
 import com.example.android.miveh2.dialog.RatingDialog;
 import com.example.android.miveh2.model.Feedback;
 import com.example.android.miveh2.model.Help;
+import com.example.android.miveh2.model.NextRoomHelp;
+import com.example.android.miveh2.model.Room;
 import com.example.android.miveh2.model.User;
 import com.example.android.miveh2.utils.AppUtils;
 import com.example.android.miveh2.utils.PreferenceUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class CustomListActivity extends BaseActivity {
-    MediaPlayer mediaPlayer = new MediaPlayer();
+
     /*private Spinner spinner;*/
     RelativeLayout spinner2;
     TextView txtSpin;
@@ -58,8 +63,8 @@ public class CustomListActivity extends BaseActivity {
     ImageView mPinView;
     private ImageView ivVolumeUp;
     private ImageView ivVolumeDown;
-    private String mUUID;
-    private String mRoomNumber;
+    private String mUUID = "";
+    private String mRoomNumber = "";
     private Button btnHelp;
     private View helpLayout;
     private DatabaseReference dbHelp;
@@ -67,31 +72,48 @@ public class CustomListActivity extends BaseActivity {
     private Button btnReady;
     private Button btnDone;
 
-    private String status = Help.HELP_PRESS;
+    private String status = "";
     private CommonDialog commonDialog;
     private DatabaseReference dbFeedback;
     private String ratingStatus = "";
     private RatingDialog ratingDialog;
     private TextView tvCurrantRoom;
     private TextView tvStatusOfWorker;
-    private Button btnDonate;
+
     private SeekBar volumeSeekbar;
+    private RelativeLayout rl_music;
+    private DatabaseReference dbRoomTable;
+    private ArrayList<Room> mRoomsFromServerList = new ArrayList<>();
+    private DatabaseReference dbNextRoomHelp;
+    private FirebaseDatabase rootRef;
+    private String mDate = "";
+    private TextView tvCurrantStatus;
+    private static int mNextRoomHelpCount = 0;
+    MediaPlayer mediaPlayer;
+    private int maxVal = 0;
+    private String helpKey;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_customer_help);
         populateUsersList();
+        mediaPlayer = new MediaPlayer();
 
+        mDate = AppUtils.getDate();
 
         bindViews();
-        setVolumeControl();
         initialization();
+        setVolumeControl();
+
 
     }
+
 
     private void bindViews() {
         spinner2 = (RelativeLayout) findViewById(R.id.spinner2);
@@ -103,63 +125,140 @@ public class CustomListActivity extends BaseActivity {
         btnDone = (Button) findViewById(R.id.button3);
 
         btnReady = (Button) findViewById(R.id.button2);
-        ivVolumeDown = findViewById(R.id.ivUolumeDown);
-        ivVolumeUp = findViewById(R.id.ivUolumeUp);
+        ivVolumeDown = findViewById(R.id.ivVolumeDown);
+        ivVolumeUp = findViewById(R.id.ivVolumeUp);
         volumeSeekbar = (SeekBar) findViewById(R.id.seekbar);
 
         tvCurrantRoom = findViewById(R.id.number);
         tvStatusOfWorker = findViewById(R.id.ahead);
-        btnDonate = findViewById(R.id.donate);
+        tvCurrantStatus = findViewById(R.id.currently);
+
+        rl_music = findViewById(R.id.rl_music);
 
     }
 
     private void initialization() {
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        dbHelp = database.getReference(AppUtils.HELP_TABLE);
-        dbFeedback = database.getReference(AppUtils.FEEDBACK_TABLE);
-
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        String music = sharedPref.getString("current_music", "hey");
-        System.out.println(music);
-
-        txtSpin.setText(getString(R.string.choose_music));
-        spinner2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(CustomListActivity.this);
-            }
-        });
+        rootRef = FirebaseDatabase.getInstance();
+        dbHelp = rootRef.getReference(AppUtils.HELP_TABLE);
+        dbFeedback = rootRef.getReference(AppUtils.FEEDBACK_TABLE);
+        dbRoomTable = rootRef.getReference(AppUtils.ROOM_TABLE);
+        dbNextRoomHelp = rootRef.getReference(AppUtils.NEXT_ROOM_HELP);
 
 
-        if (PreferenceUtils.getInstance(this).get(AppUtils.ROOM_NUMBER).equalsIgnoreCase("")) {
-            PinDialog cdd = new PinDialog(CustomListActivity.this);
-            cdd.setCancelable(false);
-            cdd.show();
-        }
+        //setRoomHelpTable(false);
+        getRoom();
+        setListener();
+        getDataFromServer();
 
-        mPinView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PinDialog cdd = new PinDialog(CustomListActivity.this);
-                cdd.show();
-            }
-        });
     }
 
 
-    @SuppressLint("SetTextI18n")
+    private void setNextRoomHelpValues() {
+
+        showProgressBar(true);
+        final List<NextRoomHelp> mNextRoomHelpList = new ArrayList<>();
+        dbNextRoomHelp.child(mDate).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mNextRoomHelpList.clear();
+
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                        NextRoomHelp help = data.getValue(NextRoomHelp.class);
+                        mNextRoomHelpList.add(help);
+
+
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getAheadOfPeople(mNextRoomHelpList);
+                        }
+                    });
+
+                }
+
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                showProgressBar(false);
+            }
+        });
+
+    }
+
+    private void getAheadOfPeople(List<NextRoomHelp> mNextRoomHelpList) {
+        showProgressBar(true);
+
+
+        int size = mNextRoomHelpList.size();
+
+        int currantRoomCount = 0;
+        boolean isBreak = false;
+
+
+        List<NextRoomHelp> tempList = new ArrayList<>();
+
+
+        for (int i = 0; i < size; i++) {
+
+            if (mRoomNumber.equalsIgnoreCase(mNextRoomHelpList.get(i).getRoom_key())) {
+                currantRoomCount = mNextRoomHelpList.get(i).getHelp_count_number();
+                isBreak = true;
+                break;
+            }
+
+
+        }
+
+        if (isBreak) {
+
+            if (status.equalsIgnoreCase(Help.HELP_PRESS))
+                helpLayout.setVisibility(View.VISIBLE);
+            else helpLayout.setVisibility(View.GONE);
+
+
+            for (int j = 0; j < size; j++) {
+
+                if (mNextRoomHelpList.get(j).getHelp_status().equalsIgnoreCase(Help.HELP_PRESS)) {
+                    if (currantRoomCount > mNextRoomHelpList.get(j).getHelp_count_number()) {
+                        tempList.add(mNextRoomHelpList.get(j));
+                    }
+                }
+
+                if (j == (size - 1)) {
+
+                    if (tempList.size() == 0) {
+                        tvCurrantStatus.setText("You are next in line");
+                        tvCurrantRoom.setVisibility(View.GONE);
+                    } else {
+                        tvCurrantRoom.setVisibility(View.VISIBLE);
+                        tvCurrantStatus.setText("People ahead of you");
+                        tvCurrantRoom.setText("" + tempList.size());
+                    }
+
+                }
+            }
+
+
+        }
+
+
+        showProgressBar(false);
+    }
+
+
     public void help(View v) {
 
-
-        mUUID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        mRoomNumber = PreferenceUtils.getInstance(this).get(AppUtils.ROOM_NUMBER);
-        tvCurrantRoom.setText("" + mRoomNumber);
-
+        getRoom();
 
         if (mRoomNumber.equalsIgnoreCase("")) {
 
-            commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), "You does not Occupied any room,so are you want to occupied any Room??", getString(R.string.yes), getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
+            commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), getString(R.string.you_does_not_occupied_any_room), getString(R.string.yes), getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
                 @Override
                 public void onOkClick(View view) {
 
@@ -176,55 +275,69 @@ public class CustomListActivity extends BaseActivity {
             });
 
             commonDialog.show();
-        }
-
-        if (help == null || !help.getRoom_key().equalsIgnoreCase(mRoomNumber)) {
-            help = new Help();
-        }
-
-
-        help.setUuid(mUUID);
-        help.setRoom_key(mRoomNumber);
-
-
-        String curr_text = btnHelp.getText().toString();
-
-
-        if (curr_text.equals(getString(R.string.help))) {
-
-            if (!status.equalsIgnoreCase(Help.DONE) || status.equalsIgnoreCase(Help.HELP_CANCEL)) {
-
-                //Press Help
-
-                status = Help.HELP_PRESS;
-                help.setHelp_press_time(System.currentTimeMillis());
-                help.setReady_press_time(0l);
-                help.setReady_cancel_time(0l);
-                help.setDone_press_time(0l);
-                help.setHelp_cancel_time(0l);
-
-                helpLayout.setVisibility(View.VISIBLE);
-                tvStatusOfWorker.setText(getString(R.string.help_is_on_the_way));
-                btnHelp.setText(R.string.cancel_help);
-                btnHelp.setTextColor(Color.YELLOW);
-                addHelpInFireBase(help);
-            }
         } else {
+            if (help == null || !help.getRoom_key().equalsIgnoreCase(mRoomNumber)) {
+                help = new Help();
+                helpKey = dbHelp.push().getKey();
+            }
 
-            if (status.equalsIgnoreCase(Help.HELP_PRESS) || status.equalsIgnoreCase(Help.READY_CANCEL)) {
 
-                status = Help.HELP_CANCEL;
-                help.setHelp_cancel_time(System.currentTimeMillis());
+            help.setUuid(mUUID);
+            help.setRoom_key(mRoomNumber);
 
-                helpLayout.setVisibility(View.GONE);
-                btnHelp.setText(R.string.help);
-                btnHelp.setTextColor(Color.WHITE);
-                addHelpInFireBase(help);
+
+            String curr_text = btnHelp.getText().toString();
+
+
+            if (curr_text.equals(getString(R.string.help))) {
+
+                if (!status.equalsIgnoreCase(Help.DONE) || status.equalsIgnoreCase(Help.HELP_CANCEL)) {
+
+                    //Press Help
+
+                    status = Help.HELP_PRESS;
+                    help.setHelp_press_time(System.currentTimeMillis());
+                    help.setReady_press_time(0l);
+                    help.setReady_cancel_time(0l);
+                    help.setDone_press_time(0l);
+                    help.setHelp_cancel_time(0l);
+
+
+                    tvStatusOfWorker.setText(getString(R.string.help_is_on_the_way));
+                    btnHelp.setText(R.string.cancel_help);
+                    btnHelp.setTextColor(Color.YELLOW);
+
+                    addHelpInFireBase(help, true);
+
+                } else {
+
+                    getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+
+                if (status.equalsIgnoreCase(Help.HELP_PRESS) || status.equalsIgnoreCase(Help.READY_CANCEL)) {
+
+                    status = Help.HELP_CANCEL;
+                    help.setHelp_cancel_time(System.currentTimeMillis());
+
+                    helpLayout.setVisibility(View.GONE);
+
+
+                    btnHelp.setText(R.string.help);
+                    btnHelp.setTextColor(Color.WHITE);
+                    addHelpInFireBase(help, true);
+                } else {
+
+                    getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
+                }
+
             }
 
         }
+    }
 
-
+    private Toast getToast(String string, int lengthShort) {
+        return Toast.makeText(this, string, lengthShort);
     }
 
 
@@ -236,7 +349,6 @@ public class CustomListActivity extends BaseActivity {
 
             if (status.equalsIgnoreCase(Help.HELP_PRESS) || status.equalsIgnoreCase(Help.READY_CANCEL)) {
 
-                helpLayout.setVisibility(View.VISIBLE);
                 btnReady.setText(R.string.cancel_ready);
                 btnReady.setTextColor(Color.YELLOW);
                 help.setReady_press_time(System.currentTimeMillis());
@@ -245,18 +357,24 @@ public class CustomListActivity extends BaseActivity {
                 help.setReady_cancel_time(0l);
                 tvStatusOfWorker.setText(getString(R.string.worker_on_the_way));
 
-                addHelpInFireBase(help);
+                addHelpInFireBase(help, false);
+            } else {
+
+                getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
             }
         } else {
             if (status.equalsIgnoreCase(Help.READY_PRESS)) {
-                helpLayout.setVisibility(View.GONE);
+
                 btnReady.setText(R.string.ready);
                 btnReady.setTextColor(Color.WHITE);
                 status = Help.READY_CANCEL;
                 help.setReady_cancel_time(System.currentTimeMillis());
 
 
-                addHelpInFireBase(help);
+                addHelpInFireBase(help, false);
+            } else {
+
+                getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
             }
 
 
@@ -313,16 +431,285 @@ public class CustomListActivity extends BaseActivity {
 
                 status = Help.DONE;
                 help.setDone_press_time(System.currentTimeMillis());
-                addHelpInFireBase(help);
+                addHelpInFireBase(help, true);
 
+                helpLayout.setVisibility(View.GONE);
                 // helpLayout.setVisibility(View.GONE);
 
 
             }
+        } else {
+            getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
         }
     }
 
+
+    private void getRoom() {
+
+        showProgressBar(true);
+        rootRef.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(AppUtils.ROOM_TABLE)) {
+
+                    mUUID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                    mRoomNumber = PreferenceUtils.getInstance(CustomListActivity.this).get(AppUtils.ROOM_NUMBER);
+                } else {
+
+                    if (mRoomNumber != null && !mRoomNumber.equalsIgnoreCase("")) {
+                        mRoomNumber = "";
+                        mUUID = "";
+                        recreate();
+                    }
+
+                }
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                showProgressBar(false);
+            }
+        });
+
+    }
+
+    private void callHelp() {
+
+        showProgressBar(true);
+
+        rootRef.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(AppUtils.NEXT_ROOM_HELP)) {
+
+                    dbNextRoomHelp.child(mDate).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+
+
+                                for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                                    NextRoomHelp nextRoomHelp = data.getValue(NextRoomHelp.class);
+
+
+                                    if (maxVal == 0) {
+                                        maxVal = nextRoomHelp.getHelp_count_number();
+
+                                    } else {
+
+                                        if (maxVal < nextRoomHelp.getHelp_count_number()) {
+                                            maxVal = nextRoomHelp.getHelp_count_number();
+
+                                        }
+
+                                    }
+
+                                }
+
+                                mNextRoomHelpCount = maxVal;
+                                showProgressBar(false);
+                                setNextHelpModel();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            showProgressBar(false);
+                        }
+                    });
+
+
+                } else {
+                    showProgressBar(false);
+                    setNextHelpModel();
+                }
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                showProgressBar(false);
+            }
+        });
+
+
+    }
+
+    private void setNextHelpModel() {
+        showProgressBar(true);
+        NextRoomHelp nextRoomHelp = new NextRoomHelp();
+        nextRoomHelp.setDate(mDate);
+        nextRoomHelp.setRoom_key(mRoomNumber);
+        nextRoomHelp.setHelp_count_number(mNextRoomHelpCount + 1);
+        nextRoomHelp.setHelp_status(status);
+        nextRoomHelp.setUuid(mUUID);
+        addNextHelpInFireBase(nextRoomHelp);
+    }
+
+
+    private void addHelpInFireBase(final Help help, final boolean isAhead) {
+        showProgressBar(true);
+        try {
+
+
+            help.setStatus(status);
+            dbHelp.child(helpKey).setValue(help).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    if (isAhead) {
+                        callHelp();
+
+                    }
+                    //  Toast.makeText(CustomListActivity.this, status, Toast.LENGTH_SHORT).show();
+
+                }
+
+            });
+            showProgressBar(false);
+        } catch (Exception e) {
+            showProgressBar(false);
+            e.printStackTrace();
+        }
+    }
+
+
+    private void addFeedbackInFireBase(Feedback feedback) {
+        try {
+
+            String key = dbFeedback.push().getKey();
+
+            dbFeedback.child(key).setValue(feedback).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    getToast("Thank for your feedback", Toast.LENGTH_SHORT).show();
+
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void addNextHelpInFireBase(NextRoomHelp nextRoomHelp) {
+
+        dbNextRoomHelp.child(mDate).child(mRoomNumber).setValue(nextRoomHelp).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                setNextRoomHelpValues();
+
+            }
+        });
+        showProgressBar(false);
+    }
+
+
+    public void getDataFromServer() {
+        showProgressBar(true);
+
+        dbRoomTable.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mRoomsFromServerList.clear();
+
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot datas : dataSnapshot.getChildren()) {
+                        Room devicesEvent = datas.getValue(Room.class);
+                        devicesEvent.setRoom_key(datas.getKey());
+                        mRoomsFromServerList.add(devicesEvent);
+                    }
+                }
+                checkData();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                showProgressBar(false);
+
+            }
+        });
+    }
+
+    private void checkData() {
+
+        getRoom();
+        boolean isBreak = false;
+        if (mRoomNumber != null && !mRoomNumber.equalsIgnoreCase("") && mUUID != null && !mUUID.equalsIgnoreCase("")) {
+            int size = mRoomsFromServerList.size();
+            for (int i = 0; i < size; i++) {
+
+                ///check my currant room number has on server room
+                if (!mRoomsFromServerList.get(i).getUuid().equalsIgnoreCase(mUUID)) {
+                    if (mRoomNumber.equalsIgnoreCase(mRoomsFromServerList.get(i).getRoom_key())) {
+                        PreferenceUtils.getInstance(this).removeAll();
+                        mRoomNumber = "";
+                        mUUID = "";
+                        isBreak = true;
+                    }
+
+                }
+            }
+
+        }
+        showProgressBar(false);
+
+        if (isBreak) {
+            recreate();
+        }
+    }
+
+    private void setListener() {
+        final SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String music = sharedPref.getString("current_music", "hey");
+        System.out.println(music);
+
+        txtSpin.setText(getString(R.string.choose_music));
+        spinner2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(CustomListActivity.this);
+            }
+        });
+
+
+        if (PreferenceUtils.getInstance(this).get(AppUtils.ROOM_NUMBER).equalsIgnoreCase("")) {
+            PinDialog cdd = new PinDialog(CustomListActivity.this);
+            cdd.setCancelable(false);
+            cdd.show();
+        }
+
+        mPinView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PinDialog cdd = new PinDialog(CustomListActivity.this);
+                cdd.show();
+
+            }
+        });
+    }
+
+
+    /*public void setDefult() {
+
+            if (status != null && !status.equalsIgnoreCase("")) {
+                status = "";
+                btnHelp.setText(R.string.help);
+                btnHelp.setTextColor(Color.WHITE);
+                btnReady.setText(R.string.ready);
+                btnReady.setTextColor(Color.WHITE);
+                helpLayout.setVisibility(View.GONE);
+
+            }
+        }
+    }
+*/
     private void openRatingDialog(String s) {
+
         commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.your_experience), s, getString(R.string.submit), getString(R.string.cancel), true, new CommonDialog.OnButtonClickListenerWithEdit() {
 
 
@@ -333,116 +720,21 @@ public class CustomListActivity extends BaseActivity {
                 Feedback feedback = new Feedback();
                 feedback.setRoom_key(mRoomNumber);
                 feedback.setFeedback(value);
+                feedback.setCurrantDate(System.currentTimeMillis());
 
                 feedback.setExperience_status(ratingStatus);
                 addFeedbackInFireBase(feedback);
 
+
                 commonDialog.dismiss();
 
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        recreate();
-                    }
-                }, 1000);
+                recreate();
 
 
             }
         });
 
         commonDialog.show();
-    }
-
-    private void addHelpInFireBase(final Help help) {
-        try {
-            help.setStatus(status);
-            dbHelp.child(mRoomNumber).setValue(help).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    //  Toast.makeText(CustomListActivity.this, status, Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void addFeedbackInFireBase(Feedback feedback) {
-        try {
-
-            dbFeedback.child(mRoomNumber).setValue(feedback).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(CustomListActivity.this, "Thank for your feedback", Toast.LENGTH_SHORT).show();
-
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void play(String song) {
-
-        ivVolumeUp.setVisibility(View.VISIBLE);
-        ivVolumeDown.setVisibility(View.VISIBLE);
-        volumeSeekbar.setVisibility(View.VISIBLE);
-
-        String songName;
-        switch (song) {
-            case "Song Number One":
-                songName = "music1";
-                break;
-            case "Song Number Two":
-                songName = "music2";
-                break;
-            case "Song Number Three":
-                songName = "music3";
-                break;
-            case "Song Number Four":
-                songName = "music4";
-                break;
-            case "Song Number Five":
-                songName = "music5";
-                break;
-            case "Song Number Six":
-                songName = "music6";
-                break;
-            default:
-                songName = "music2";
-        }
-
-        String filename = "android.resource://" + this.getPackageName() + "/raw/" + songName;
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("current_music", filename);
-        editor.commit();
-        mediaPlayer = new MediaPlayer();
-        if (mediaPlayer.isPlaying()) {
-            //stop or pause your media player mediaPlayer.stop(); or mediaPlayer.pause();
-            mediaPlayer.stop();
-            Toast.makeText(this, "pause", Toast.LENGTH_LONG).show();
-        }
-        try {
-            mediaPlayer.setDataSource(this, Uri.parse(filename));
-        } catch (Exception e) {
-        }
-        try {
-            mediaPlayer.prepare();
-        } catch (Exception e) {
-        }
-        mediaPlayer.start();
-
-
-    }
-
-    public void music(View V) {
-        //spinner.performClick();
-        txtSpin.setText(SongItem);
     }
 
     public void checkbox(View v) {
@@ -500,9 +792,12 @@ public class CustomListActivity extends BaseActivity {
             conf.locale = myLocale;
             conf.setLocale(new Locale("iw"));
             res.updateConfiguration(conf, dm);
-            Intent refresh = new Intent(this, CustomListActivity.class);
-            startActivity(refresh);
-            finish();
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                rl_music.setVisibility(View.GONE);
+            }
+            recreate();
         } else {
             Locale myLocale = new Locale("en");
             Resources res = getResources();
@@ -511,9 +806,12 @@ public class CustomListActivity extends BaseActivity {
             conf.locale = myLocale;
             conf.setLocale(new Locale("en"));
             res.updateConfiguration(conf, dm);
-            Intent refresh = new Intent(this, CustomListActivity.class);
-            startActivity(refresh);
-            finish();
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                rl_music.setVisibility(View.GONE);
+            }
+            recreate();
         }
 
     }
@@ -619,8 +917,7 @@ public class CustomListActivity extends BaseActivity {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.stop();
                         mediaPlayer.release();
-                        ivVolumeUp.setVisibility(View.VISIBLE);
-                        ivVolumeDown.setVisibility(View.VISIBLE);
+                        rl_music.setVisibility(View.GONE);
                     }
                 }
                 System.out.println(item.toString());
@@ -634,6 +931,74 @@ public class CustomListActivity extends BaseActivity {
 
         dialog.show();
     }
+
+    public void play(String song) {
+
+
+        rl_music.setVisibility(View.VISIBLE);
+
+        String songName = "";
+        switch (song) {
+            case "Song Number One":
+                songName = "music1";
+                break;
+            case "Song Number Two":
+                songName = "music2";
+                break;
+            case "Song Number Three":
+                songName = "music3";
+                break;
+            case "Song Number Four":
+                songName = "music4";
+                break;
+            case "Song Number Five":
+                songName = "music5";
+                break;
+            case "Song Number Six":
+                songName = "music6";
+                break;
+            default:
+                songName = "music2";
+
+            case "No Music":
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                    rl_music.setVisibility(View.GONE);
+                }
+
+                break;
+        }
+
+        String filename = "android.resource://" + this.getPackageName() + "/raw/" + songName;
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("current_music", filename);
+        editor.commit();
+        mediaPlayer = new MediaPlayer();
+        if (mediaPlayer.isPlaying()) {
+            //stop or pause your media player mediaPlayer.stop(); or mediaPlayer.pause();
+            mediaPlayer.stop();
+            getToast("pause", Toast.LENGTH_LONG).show();
+        }
+        try {
+            mediaPlayer.setDataSource(this, Uri.parse(filename));
+        } catch (Exception e) {
+        }
+        try {
+            mediaPlayer.prepare();
+        } catch (Exception e) {
+        }
+        mediaPlayer.start();
+
+
+    }
+
+    public void music(View V) {
+        //spinner.performClick();
+        txtSpin.setText(SongItem);
+    }
+
 
     private void populateUsersList() {
         // Construct the data source

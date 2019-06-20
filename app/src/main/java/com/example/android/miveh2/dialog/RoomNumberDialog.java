@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,15 +37,17 @@ import java.util.ArrayList;
 public class RoomNumberDialog extends Dialog implements android.view.View.OnClickListener {
 
     private final static String TAG = RoomNumberDialog.class.getSimpleName();
+    private final DatabaseReference dbNextRoomHelp;
+    private final DatabaseReference dbHelp;
 
     public Activity activity;
-    public Dialog dialog;
+
     public Button yes, no;
 
     private EditText edtRoomCode;
-    String allPin = null;
 
-    private DatabaseReference mFireBaseDatabase;
+
+    private DatabaseReference dbRoomTable;
 
     private String mRoomNumber = null;
     private ArrayList<Room> mRoomsFromServerList = new ArrayList<>();
@@ -54,14 +57,18 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
     private ProgressBar progressBar;
     private boolean isRoomUUidSame = false;
+    private ProgressDialog progressDialog;
 
     public RoomNumberDialog(Activity a) {
         super(a);
         this.activity = a;
 
 
-        FirebaseDatabase mFirebaseInstance = FireBaseDBInstanceModel.getInstance().getmFirebaseInstance();
-        mFireBaseDatabase = mFirebaseInstance.getReference(AppUtils.ROOM_TABLE);
+        FirebaseDatabase rootRef = FireBaseDBInstanceModel.getInstance().getmFirebaseInstance();
+        dbRoomTable = rootRef.getReference(AppUtils.ROOM_TABLE);
+        dbHelp = rootRef.getReference(AppUtils.HELP_TABLE);
+
+        dbNextRoomHelp = rootRef.getReference(AppUtils.NEXT_ROOM_HELP);
     }
 
     @Override
@@ -93,7 +100,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         no = (Button) findViewById(R.id.btn_no);
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
-
+        getDataFromServer();
 
     }
 
@@ -140,7 +147,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                 if (getRoomNumber() != 0 && getRoomNumber() <= 25) {
 
                     progressBar.setVisibility(View.VISIBLE);
-                    getDataFromServer();
+                    setInitiateRoom();
 
 
                 } else {
@@ -159,8 +166,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
     public void getDataFromServer() {
         //showProgressDialog();
-
-        mFireBaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        showProgressBar(true);
+        dbRoomTable.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -171,17 +178,20 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                     }
                 }
                 progressBar.setVisibility(View.GONE);
-                setInitiateRoom();
-                //hideProgressDialog();
+
+                showProgressBar(false);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
+                showProgressBar(false);
                 progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Failed to read devices", error.toException());
                 //hideProgressDialog();
             }
         });
+
+
     }
 
 
@@ -195,9 +205,10 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         Log.e("getToken:::", "" + PreferenceUtils.getInstance(activity.getApplicationContext()).get(AppUtils.FCM_TOKEN));
         room.setUuid(mUUID);
         room.setStatus(activity.getString(R.string.occupied));
+        room.setRoom_key(mRoomNumber);
 
         if (TextUtils.isEmpty(mRoomNumber)) {
-            mRoomNumber = mFireBaseDatabase.push().getKey();
+            mRoomNumber = dbRoomTable.push().getKey();
         }
 
         boolean isRoomExist = checkRoomExist(mRoomNumber);
@@ -209,13 +220,13 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                 @Override
                 public void onOkClick(View view) {
                     commonDialog.dismiss();
-
+                    PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
                 }
             });
 
             commonDialog.show();
-            PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
+
 
         } else if (isRoomExist) {
 
@@ -225,38 +236,84 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                 public void onOkClick(View view) {
 
                     if (view.getId() == R.id.tvYes) {
+
+
                         addRoomInFireBase(room);
                         commonDialog.dismiss();
 
                     } else {
                         commonDialog.dismiss();
+                        PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
                     }
                 }
             });
 
             commonDialog.show();
-            PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
 
         } else {
+
 
             addRoomInFireBase(room);
         }
     }
 
     private void addRoomInFireBase(final Room room) {
+
+        String mDate = AppUtils.getDate();
+
+
+        showProgressBar(true);
+        Query applesQuery = dbRoomTable.orderByChild("uuid").equalTo(mUUID);
+        Query applesQuery1 = dbHelp.orderByChild("uuid").equalTo(mUUID);
+        Query applesQuery2 = dbNextRoomHelp.child(mDate).orderByChild("uuid").equalTo(mUUID);
+
+        removePriveousData(applesQuery);
+     //   removePriveousData(applesQuery1);
+        removePriveousData(applesQuery2);
+
+
+
+
+
         try {
-            mFireBaseDatabase.child(mRoomNumber).setValue(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+            dbRoomTable.child(mRoomNumber).setValue(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(activity, activity.getString(R.string.occupied_successfully), Toast.LENGTH_SHORT).show();
                     PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
+                    showProgressBar(false);
+                    activity.recreate();
+
+                    /*Intent intent = new Intent(getContext(), CustomListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getContext().startActivity(intent);*/
                 }
             });
         } catch (Exception e) {
+            showProgressBar(false);
             e.printStackTrace();
         }
+    }
+
+    private void removePriveousData(Query applesQuery) {
+        showProgressBar(true);
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+                showProgressBar(false);
+            }
+        });
     }
 
     private boolean checkRoomExist(String roomNo) {
@@ -284,20 +341,18 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
     }
 
 
+    public void showProgressBar(boolean isProgress) {
 
 
+        if (progressDialog == null)
+            progressDialog = new ProgressDialog(getContext(), R.style.AppTheme_ProgressDialog_Theme);
 
-    /*public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(activity);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage("Loading...");
-        }
-        mProgressDialog.show();
+        progressDialog.setCancelable(false);
+        // progressDialog.setTitle("please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        if (isProgress)
+            progressDialog.show();
+        else
+            progressDialog.dismiss();
     }
-    public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }*/
 }

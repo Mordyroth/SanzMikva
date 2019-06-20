@@ -38,6 +38,41 @@
         <item name="android:inputType">number</item>
     </style>
 
+
+    <style name="CustomAlertDialogStyle">
+        <item name="android:bottomBright">@color/colorWhite</item>
+        <item name="android:bottomDark">@color/colorWhite</item>
+        <item name="android:bottomMedium">@color/colorWhite</item>
+        <item name="android:centerBright">@color/colorWhite</item>
+        <item name="android:centerDark">@color/colorWhite</item>
+        <item name="android:centerMedium">@color/colorWhite</item>
+        <item name="android:fullBright">@drawable/progress_drawable</item>
+        <item name="android:fullDark">@drawable/progress_drawable</item>
+        <item name="android:topBright">@color/colorWhite</item>
+        <item name="android:topDark">@color/colorWhite</item>
+    </style>
+
+    <style name="AppTheme.ProgressDialog.Theme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
+        <!--  <item name="android:windowBackground">@android:color/transparent</item>-->
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="android:layout_gravity">center</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <declare-styleable name="SmileRating">
         <attr name="angryColor" format="color" />
         <attr name="normalColor" format="color" />

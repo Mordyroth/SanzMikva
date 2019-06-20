@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class AppUtils {
 
     public static String DEVICES_DB = "Devices";
     public static String ROOM_TABLE = "Room";
+    public static String NEXT_ROOM_HELP = "NextRoomHelp";
     public static String HELP_TABLE = "Help";
     public static String FEEDBACK_TABLE = "Feedback";
     public static String ROOM_NUMBER = "room_number";
@@ -29,5 +34,15 @@ public class AppUtils {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static String getDate() {
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
+        return formattedDate;
+
     }
 }

@@ -15,12 +15,12 @@
         android:layout_height="wrap_content">
 
         <ProgressBar
-            android:visibility="gone"
             android:id="@+id/ivProgress"
-            android:progressDrawable="@drawable/progressbar"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:progressDrawable="@drawable/progressbar"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/ll"
@@ -30,14 +30,15 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
+                android:padding="@dimen/_8sdp"
                 android:text="@string/room_number"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/_30sdp" />
+                android:textSize="@dimen/_20sdp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -48,7 +49,7 @@
                 android:gravity="center"
                 android:text="@string/enter_room_number_must_be_less_then_1_to_25"
                 android:textColor="#000000"
-                android:textSize="15sp" />
+                android:textSize="@dimen/_20sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,9 +92,9 @@
                     android:background="#dddddd"
                     android:clickable="true"
                     android:text="@string/yes"
-
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_no"
@@ -105,7 +106,8 @@
                     android:text="@string/cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 

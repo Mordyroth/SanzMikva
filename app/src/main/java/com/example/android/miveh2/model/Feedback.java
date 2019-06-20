@@ -2,9 +2,10 @@ package com.example.android.miveh2.model;
 
 public class Feedback {
 
-    public String experience_status;
-    public String feedback;
-    public String room_key;
+    private String experience_status;
+    private String feedback;
+    private String room_key;
+    private long currantDate;
 
     public String getExperience_status() {
         return experience_status;
@@ -28,5 +29,14 @@ public class Feedback {
 
     public void setRoom_key(String room_key) {
         this.room_key = room_key;
+    }
+
+
+    public long getCurrantDate() {
+        return currantDate;
+    }
+
+    public void setCurrantDate(long currantDate) {
+        this.currantDate = currantDate;
     }
 }

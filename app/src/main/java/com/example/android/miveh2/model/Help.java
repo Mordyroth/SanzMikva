@@ -24,8 +24,8 @@ public class Help {
     private String status;
 
 
-    private String help_to_ready_time;
-    private String ready_to_done_time;
+    private String help_to_ready_time="";
+    private String ready_to_done_time="";
 
 
     public Long getHelp_press_time() {

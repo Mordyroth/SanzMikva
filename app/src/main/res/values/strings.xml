@@ -64,6 +64,9 @@
     <string name="worker_on_the_way">Worker is on the way</string>
     <string name="donate">Donate</string>
     <string name="room_ready">Room is ready.</string>
+    <string name="people_ahead_of_you">People ahead of you</string>
+    <string name="you_does_not_occupied_any_room">You does not Occupied any room,so are you want to occupied any Room??</string>
+    <string name="must_cancel_other_request">Must cancel the other request first.</string>
 
 
     <string-array name="names">

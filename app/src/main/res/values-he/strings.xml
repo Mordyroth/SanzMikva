@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">צאנז מקוה</string>
     <string name="help">עזרה</string>
+    <string name="aledy_occupied">חדר זה כבר כבוש. האם אתה בטוח שאתה רוצה שוב הכבושים?</string>
+    <string name="your_experience">חדר זה כבר כבוש. האם אתה בטוח שאתה רוצה שוב הכבושים?</string>
+    <string name="cancel">בטל</string>
+    <string name="choose_music">בחר מוסיקה</string>
+    <string name="could_use_imrove">יכול להשתמש בשיפור</string>
+    <string name="okay">בסדר</string>
+    <string name="people_ahead_of_you">אנשים לפניך</string>
+    <string name="str_yes">כן</string>
+    <string name="submit">שלח</string>
+    <string name="yes">כן</string>
 </resources>

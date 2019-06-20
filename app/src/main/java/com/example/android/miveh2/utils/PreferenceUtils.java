@@ -49,9 +49,8 @@ public class PreferenceUtils {
     }*/
 
     public void removeAll() {
-        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         prefsEditor.clear();
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 }
 
