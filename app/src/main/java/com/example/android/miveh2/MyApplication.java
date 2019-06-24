@@ -1,9 +1,12 @@
 package com.example.android.miveh2;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.example.android.miveh2.model.FireBaseDBInstanceModel;
+import com.example.android.miveh2.utils.AppUtils;
 import com.google.firebase.database.FirebaseDatabase;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -26,4 +29,6 @@ public class MyApplication extends Application {
         FireBaseDBInstanceModel model = FireBaseDBInstanceModel.getInstance();
         model.setmFirebaseInstance(mFirebaseInstance);
     }
+
+
 }

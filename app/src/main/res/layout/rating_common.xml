@@ -16,8 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-       >
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -28,14 +27,14 @@
             android:padding="@dimen/_10sdp"
             android:text="How was your experience?"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_12sdp" />
 
 
         <LinearLayout
-            android:padding="@dimen/_20sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp">
 
             <LinearLayout
                 android:id="@+id/llImprovement"
@@ -47,8 +46,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/_80sdp"
-                    android:layout_height="@dimen/_80sdp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/improvement" />
 
@@ -60,7 +59,7 @@
                     android:gravity="center"
                     android:text="@string/could_use_imrove"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_16sdp" />
+                    android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 
             <LinearLayout
@@ -73,8 +72,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/_90sdp"
-                    android:layout_height="@dimen/_90sdp"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/satisfactory" />
 
@@ -85,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/satisfactory"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_16sdp" />
+                    android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 
             <LinearLayout
@@ -98,8 +97,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/excellent" />
 
@@ -110,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/excellent"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_16sdp" />
+                    android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 
         </LinearLayout>

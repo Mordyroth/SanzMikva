@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.miveh2.R;
+import com.example.android.miveh2.activity.CustomListActivity;
 import com.example.android.miveh2.model.FireBaseDBInstanceModel;
 import com.example.android.miveh2.model.Room;
 import com.example.android.miveh2.utils.AppUtils;
@@ -39,6 +41,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
     private final static String TAG = RoomNumberDialog.class.getSimpleName();
     private final DatabaseReference dbNextRoomHelp;
     private final DatabaseReference dbHelp;
+    private final FirebaseDatabase rootRef;
 
     public Activity activity;
 
@@ -64,7 +67,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         this.activity = a;
 
 
-        FirebaseDatabase rootRef = FireBaseDBInstanceModel.getInstance().getmFirebaseInstance();
+        rootRef = FireBaseDBInstanceModel.getInstance().getmFirebaseInstance();
         dbRoomTable = rootRef.getReference(AppUtils.ROOM_TABLE);
         dbHelp = rootRef.getReference(AppUtils.HELP_TABLE);
 
@@ -83,7 +86,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         edtRoomCode = (EditText) findViewById(R.id.edtRoomCode);
 
         int minValue = 1;
-        int maxValue = 25;
+        int maxValue = 19;
 
 
         edtRoomCode.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -144,14 +147,14 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                if (getRoomNumber() != 0 && getRoomNumber() <= 25) {
+                if (getRoomNumber() != 0 && getRoomNumber() <= 19) {
 
                     progressBar.setVisibility(View.VISIBLE);
                     setInitiateRoom();
 
 
                 } else {
-                    Log.e("TAG:::", "is not under 25");
+                    Log.e("TAG:::", "is not under 19");
                 }
                 break;
             case R.id.btn_no:
@@ -260,42 +263,76 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
     private void addRoomInFireBase(final Room room) {
 
-        String mDate = AppUtils.getDate();
+        final String mDate = AppUtils.getDate();
 
 
         showProgressBar(true);
-        Query applesQuery = dbRoomTable.orderByChild("uuid").equalTo(mUUID);
-        Query applesQuery1 = dbHelp.orderByChild("uuid").equalTo(mUUID);
-        Query applesQuery2 = dbNextRoomHelp.child(mDate).orderByChild("uuid").equalTo(mUUID);
-
-        removePriveousData(applesQuery);
-     //   removePriveousData(applesQuery1);
-        removePriveousData(applesQuery2);
 
 
+        final Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                rootRef.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild(AppUtils.NEXT_ROOM_HELP)) {
+                            Query applesQuery = dbRoomTable.orderByChild("uuid").equalTo(mUUID);
+                            removePriveousData(applesQuery);
+                        }
+                        if (dataSnapshot.hasChild(AppUtils.HELP_TABLE)) {
+                            dbHelp.child(CustomListActivity.helpKey).removeValue();
+                            //.orderByChild("status").equalTo(Help.HELP_PRESS);
+                            // removePriveousData(applesQuery1);
+                        }
+                        if (dataSnapshot.hasChild(AppUtils.NEXT_ROOM_HELP)) {
+                            Query applesQuery2 = dbNextRoomHelp.child(mDate).orderByChild("uuid").equalTo(mUUID);
+                            removePriveousData(applesQuery2);
+                        }
 
 
+                        try {
+                            dbRoomTable.child(mRoomNumber).setValue(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(activity, activity.getString(R.string.occupied_successfully), Toast.LENGTH_SHORT).show();
+                                    PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
-        try {
-            dbRoomTable.child(mRoomNumber).setValue(room).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(activity, activity.getString(R.string.occupied_successfully), Toast.LENGTH_SHORT).show();
-                    PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
-
-                    showProgressBar(false);
-                    activity.recreate();
+                                    showProgressBar(false);
+                                    activity.recreate();
 
                     /*Intent intent = new Intent(getContext(), CustomListActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     getContext().startActivity(intent);*/
-                }
-            });
-        } catch (Exception e) {
-            showProgressBar(false);
-            e.printStackTrace();
-        }
+                                }
+                            });
+                        } catch (Exception e) {
+                            showProgressBar(false);
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+        };
+        thread.start();
+
+
+
+
+
+
     }
+
 
     private void removePriveousData(Query applesQuery) {
         showProgressBar(true);

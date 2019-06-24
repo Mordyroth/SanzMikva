@@ -119,16 +119,14 @@
 
             <Button
                 android:id="@+id/btn_no"
-                android:layout_width="@dimen/_130sdp"
+                android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginLeft="5dp"
+                android:background="@drawable/shape_rounded_sky"
                 android:clickable="true"
                 android:text="Cancel"
-                android:textAllCaps="false"
-                android:background="@drawable/shape_rounded_sky"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/_15sdp"
-                />
+                android:textSize="@dimen/_15sdp" />
         </LinearLayout>
     </LinearLayout>
 

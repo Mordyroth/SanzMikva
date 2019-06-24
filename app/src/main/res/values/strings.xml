@@ -25,7 +25,7 @@
     <string name="music_prompt">Choose a Song</string>
     <string name="cancel">CANCEL</string>
     <string name="yes">Yes</string>
-    <string name="enter_room_number_must_be_less_then_1_to_25">Enter room number must be less then 1 to 25</string>
+    <string name="enter_room_number_must_be_less_then_1_to_25">Enter room number must be less then 1 to 19</string>
     <string name="room_number">Room Number</string>
     <string name="occupied">OCCUPIED</string>
     <string name="str_yes">YES</string>

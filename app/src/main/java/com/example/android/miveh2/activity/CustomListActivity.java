@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -14,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,10 +46,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class CustomListActivity extends BaseActivity {
 
@@ -91,7 +88,8 @@ public class CustomListActivity extends BaseActivity {
     private static int mNextRoomHelpCount = 0;
     MediaPlayer mediaPlayer;
     private int maxVal = 0;
-    private String helpKey;
+    public static String helpKey;
+    private AVLoadingIndicatorView avi;
 
 
     @Override
@@ -134,6 +132,7 @@ public class CustomListActivity extends BaseActivity {
         tvCurrantStatus = findViewById(R.id.currently);
 
         rl_music = findViewById(R.id.rl_music);
+        avi = findViewById(R.id.avi);
 
     }
 
@@ -360,7 +359,9 @@ public class CustomListActivity extends BaseActivity {
                 addHelpInFireBase(help, false);
             } else {
 
-                getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
+                //if()
+
+                getToast("Must press help request first.", Toast.LENGTH_SHORT).show();
             }
         } else {
             if (status.equalsIgnoreCase(Help.READY_PRESS)) {
@@ -372,9 +373,6 @@ public class CustomListActivity extends BaseActivity {
 
 
                 addHelpInFireBase(help, false);
-            } else {
-
-                getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
             }
 
 
@@ -439,7 +437,7 @@ public class CustomListActivity extends BaseActivity {
 
             }
         } else {
-            getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
+            getToast("Must press ready request first.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -483,32 +481,54 @@ public class CustomListActivity extends BaseActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(AppUtils.NEXT_ROOM_HELP)) {
 
-                    dbNextRoomHelp.child(mDate).addListenerForSingleValueEvent(new ValueEventListener() {
+                    dbNextRoomHelp.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
+
+                            if (dataSnapshot.hasChild(mDate)) {
+
+                                dbNextRoomHelp.child(mDate).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                                for (DataSnapshot data : dataSnapshot.getChildren()) {
-
-                                    NextRoomHelp nextRoomHelp = data.getValue(NextRoomHelp.class);
+                                        if (dataSnapshot.exists()) {
 
 
-                                    if (maxVal == 0) {
-                                        maxVal = nextRoomHelp.getHelp_count_number();
+                                            for (DataSnapshot data : dataSnapshot.getChildren()) {
 
-                                    } else {
+                                                NextRoomHelp nextRoomHelp = data.getValue(NextRoomHelp.class);
 
-                                        if (maxVal < nextRoomHelp.getHelp_count_number()) {
-                                            maxVal = nextRoomHelp.getHelp_count_number();
 
+                                                if (maxVal == 0) {
+                                                    maxVal = nextRoomHelp.getHelp_count_number();
+
+                                                } else {
+
+                                                    if (maxVal < nextRoomHelp.getHelp_count_number()) {
+                                                        maxVal = nextRoomHelp.getHelp_count_number();
+
+                                                    }
+
+                                                }
+
+                                            }
+
+                                            mNextRoomHelpCount = maxVal;
+                                            showProgressBar(false);
+                                            setNextHelpModel();
                                         }
+
 
                                     }
 
-                                }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        showProgressBar(false);
+                                    }
+                                });
 
-                                mNextRoomHelpCount = maxVal;
+                            } else {
                                 showProgressBar(false);
                                 setNextHelpModel();
                             }
@@ -516,7 +536,7 @@ public class CustomListActivity extends BaseActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            showProgressBar(false);
+
                         }
                     });
 
@@ -781,40 +801,17 @@ public class CustomListActivity extends BaseActivity {
 
     public void lang(View v) {
 
-        Locale current = getResources().getConfiguration().locale;
-        boolean locale = current.toString().startsWith("en");
-        if (locale) {
-            //Toast.makeText(this, current.toString(), Toast.LENGTH_LONG).show();
-            Locale myLocale = new Locale("iw");
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.locale = myLocale;
-            conf.setLocale(new Locale("iw"));
-            res.updateConfiguration(conf, dm);
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                rl_music.setVisibility(View.GONE);
-            }
-            recreate();
-        } else {
-            Locale myLocale = new Locale("en");
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.locale = myLocale;
-            conf.setLocale(new Locale("en"));
-            res.updateConfiguration(conf, dm);
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                rl_music.setVisibility(View.GONE);
-            }
-            recreate();
+
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            rl_music.setVisibility(View.GONE);
         }
+        AppUtils.setLanguage(CustomListActivity.this);
+
 
     }
+
 
     public void donate(View view) {
 
@@ -910,9 +907,11 @@ public class CustomListActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Object item = parent.getItemAtPosition(position);
+                String item = company[position];
+
+
                 if (position != 0) {
-                    play(item.toString());
+                    play(item);
                 } else {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.stop();
@@ -920,7 +919,7 @@ public class CustomListActivity extends BaseActivity {
                         rl_music.setVisibility(View.GONE);
                     }
                 }
-                System.out.println(item.toString());
+                System.out.println(item);
 
                 SongItem = "" + company[position];
                 txtSpin.setText(SongItem);
@@ -959,7 +958,7 @@ public class CustomListActivity extends BaseActivity {
                 break;
             default:
                 songName = "music2";
-
+                break;
             case "No Music":
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
@@ -1008,5 +1007,27 @@ public class CustomListActivity extends BaseActivity {
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.lvUsers);
         listView.setAdapter(adapter);
+    }
+
+
+    public void showProgressBar(boolean isProgress) {
+        if (isProgress) {
+            startAnim();
+        } else {
+            stopAnim();
+        }
+    }
+
+
+    void startAnim() {
+        avi.setVisibility(View.VISIBLE);
+        avi.show();
+        // or avi.smoothToShow();
+    }
+
+    void stopAnim() {
+        avi.setVisibility(View.GONE);
+        avi.hide();
+        // or avi.smoothToHide();
     }
 }
