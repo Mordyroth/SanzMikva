@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -54,7 +53,7 @@ public class AppUtils {
 
     }
 
-    public static void setLanguage(Activity activity) {
+    public static void setLanguage(Activity activity, ImageView ivVolumeDown, ImageView ivVolumeUp) {
 
 
         Locale current = activity.getResources().getConfiguration().locale;
@@ -63,16 +62,33 @@ public class AppUtils {
         boolean locale = current.toString().contains("en");
         if (locale) {
             language = "iw";
+            setMirroredEnable(true, ivVolumeDown, ivVolumeUp);
         } else {
             language = "en";
         }
 
-        Locale myLocale = new Locale(language);
+        LocaleHelper.setLocale(activity, language);
+
+        activity.recreate();
+       /* Locale myLocale = new Locale(language);
+        Locale.setDefault(myLocale);
         Resources res = activity.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.setLocale(myLocale);
+        res.updateConfiguration(conf, dm);*/
+
+/*
+        Resources res = activity.getResources();
+// Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(language.toLowerCase())); // API 17+ only.
+// Use conf.locale = new Locale(...) if targeting lower versions
         res.updateConfiguration(conf, dm);
+*/
+
+    //  LocaleHelper.setLocale(activity, language);
 
         activity.recreate();
     }

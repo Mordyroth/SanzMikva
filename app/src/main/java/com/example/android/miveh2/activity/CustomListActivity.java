@@ -39,6 +39,7 @@ import com.example.android.miveh2.model.NextRoomHelp;
 import com.example.android.miveh2.model.Room;
 import com.example.android.miveh2.model.User;
 import com.example.android.miveh2.utils.AppUtils;
+import com.example.android.miveh2.utils.LocaleHelper;
 import com.example.android.miveh2.utils.PreferenceUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +51,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomListActivity extends BaseActivity {
 
@@ -90,6 +92,8 @@ public class CustomListActivity extends BaseActivity {
     private int maxVal = 0;
     public static String helpKey;
     private AVLoadingIndicatorView avi;
+    private String songName;
+    private String language;
 
 
     @Override
@@ -803,13 +807,25 @@ public class CustomListActivity extends BaseActivity {
 
 
         if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+            clearMediaPlayer();
             rl_music.setVisibility(View.GONE);
         }
-        AppUtils.setLanguage(CustomListActivity.this);
+        //  AppUtils.setLanguage(CustomListActivity.this, ivVolumeDown, ivVolumeUp);
 
+        Locale current = getResources().getConfiguration().locale;
 
+        //Locale current = Resources.getSystem().getConfiguration().locale;
+        boolean locale = current.toString().contains("en");
+        if (locale) {
+            language = "iw";
+            AppUtils.setMirroredEnable(true, ivVolumeDown, ivVolumeUp);
+        } else {
+            language = "en";
+        }
+
+        LocaleHelper.setLocale(this, language);
+
+        recreate();
     }
 
 
@@ -911,11 +927,10 @@ public class CustomListActivity extends BaseActivity {
 
 
                 if (position != 0) {
-                    play(item);
+                    play(position);
                 } else {
                     if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
+                        clearMediaPlayer();
                         rl_music.setVisibility(View.GONE);
                     }
                 }
@@ -931,13 +946,13 @@ public class CustomListActivity extends BaseActivity {
         dialog.show();
     }
 
-    public void play(String song) {
+    public void play(int song) {
 
 
         rl_music.setVisibility(View.VISIBLE);
 
-        String songName = "";
-        switch (song) {
+        songName = "";
+     /*   switch (song) {
             case "Song Number One":
                 songName = "music1";
                 break;
@@ -967,37 +982,61 @@ public class CustomListActivity extends BaseActivity {
                 }
 
                 break;
+        }*/
+
+        switch (song) {
+            case 1:
+                songName = "music1";
+                break;
+            case 2:
+                songName = "music2";
+                break;
+            case 3:
+                songName = "music3";
+                break;
+            case 4:
+                songName = "music4";
+                break;
+            case 5:
+                songName = "music5";
+                break;
+            case 6:
+                songName = "music6";
+                break;
+            default:
+                songName = "music2";
+                break;
         }
 
         String filename = "android.resource://" + this.getPackageName() + "/raw/" + songName;
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("current_music", filename);
-        editor.commit();
-        mediaPlayer = new MediaPlayer();
-        if (mediaPlayer.isPlaying()) {
-            //stop or pause your media player mediaPlayer.stop(); or mediaPlayer.pause();
-            mediaPlayer.stop();
-            getToast("pause", Toast.LENGTH_LONG).show();
-        }
+        editor.apply();
+
+
         try {
+
+            clearMediaPlayer();
             mediaPlayer.setDataSource(this, Uri.parse(filename));
-        } catch (Exception e) {
-        }
-        try {
             mediaPlayer.prepare();
+            mediaPlayer.start();
         } catch (Exception e) {
         }
-        mediaPlayer.start();
 
 
     }
 
-    public void music(View V) {
-        //spinner.performClick();
-        txtSpin.setText(SongItem);
+    private void clearMediaPlayer() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = new MediaPlayer();
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
 
     private void populateUsersList() {
         // Construct the data source
