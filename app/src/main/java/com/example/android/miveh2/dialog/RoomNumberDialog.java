@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.miveh2.R;
-import com.example.android.miveh2.activity.CustomListActivity;
 import com.example.android.miveh2.model.FireBaseDBInstanceModel;
 import com.example.android.miveh2.model.Room;
 import com.example.android.miveh2.utils.AppUtils;
@@ -40,7 +39,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
     private final static String TAG = RoomNumberDialog.class.getSimpleName();
     private final DatabaseReference dbNextRoomHelp;
-    private final DatabaseReference dbHelp;
+    private final DatabaseReference dbHelp, dbSetting;
     private final FirebaseDatabase rootRef;
 
     public Activity activity;
@@ -72,6 +71,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         dbHelp = rootRef.getReference(AppUtils.HELP_TABLE);
 
         dbNextRoomHelp = rootRef.getReference(AppUtils.NEXT_ROOM_HELP);
+        dbSetting = rootRef.getReference(AppUtils.SETTING_TABLE);
     }
 
     @Override
@@ -281,13 +281,21 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                             removePriveousData(applesQuery);
                         }
                         if (dataSnapshot.hasChild(AppUtils.HELP_TABLE)) {
-                            dbHelp.child(CustomListActivity.helpKey).removeValue();
+
+                            Query applesQuery = dbHelp.orderByChild("uuid").equalTo(mUUID);
+                            removePriveousData(applesQuery);
+
                             //.orderByChild("status").equalTo(Help.HELP_PRESS);
                             // removePriveousData(applesQuery1);
                         }
                         if (dataSnapshot.hasChild(AppUtils.NEXT_ROOM_HELP)) {
                             Query applesQuery2 = dbNextRoomHelp.child(mDate).orderByChild("uuid").equalTo(mUUID);
                             removePriveousData(applesQuery2);
+                        }
+
+                        if (dataSnapshot.hasChild(AppUtils.SETTING_TABLE)) {
+                            Query applesQuery3 = dbSetting.orderByChild("uuid").equalTo(mUUID);
+                            removePriveousData(applesQuery3);
                         }
 
 
@@ -312,7 +320,6 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                         }
 
 
-
                     }
 
                     @Override
@@ -325,10 +332,6 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
         };
         thread.start();
-
-
-
-
 
 
     }

@@ -40,7 +40,7 @@ public class BaseActivity extends AppCompatActivity {
             progressDialog = new ProgressDialog(this, R.style.AppTheme_ProgressDialog_Theme);
 
         progressDialog.setCancelable(false);
-       // progressDialog.setTitle("please wait...");
+        // progressDialog.setTitle("please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         if (isProgress)
             progressDialog.show();

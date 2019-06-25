@@ -20,9 +20,12 @@ public class AppUtils {
     public static String ROOM_TABLE = "Room";
     public static String NEXT_ROOM_HELP = "NextRoomHelp";
     public static String HELP_TABLE = "Help";
+    public static String HELP_HISTORY_TABLE = "Help_History";
+    public static String SETTING_TABLE = "Setting";
     public static String FEEDBACK_TABLE = "Feedback";
     public static String ROOM_NUMBER = "room_number";
     public static String FCM_TOKEN = "FCMToken";
+    public static String TIME_FOR_DELETE_ROOM = "time_for_delete_room";
 
 
     //For Story Database
@@ -48,6 +51,16 @@ public class AppUtils {
         System.out.println("Current time => " + c);
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
+        return formattedDate;
+
+    }
+
+    public static String getDateD() {
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
         String formattedDate = df.format(c);
         return formattedDate;
 
@@ -88,7 +101,7 @@ public class AppUtils {
         res.updateConfiguration(conf, dm);
 */
 
-    //  LocaleHelper.setLocale(activity, language);
+        //  LocaleHelper.setLocale(activity, language);
 
         activity.recreate();
     }

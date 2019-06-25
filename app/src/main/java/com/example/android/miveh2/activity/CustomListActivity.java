@@ -28,8 +28,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.example.android.miveh2.R;
 import com.example.android.miveh2.adapter.CustomUsersAdapter;
+import com.example.android.miveh2.customeclass.MyWorker;
 import com.example.android.miveh2.dialog.CommonDialog;
 import com.example.android.miveh2.dialog.PinDialog;
 import com.example.android.miveh2.dialog.RatingDialog;
@@ -52,6 +56,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class CustomListActivity extends BaseActivity {
 
@@ -66,7 +71,7 @@ public class CustomListActivity extends BaseActivity {
     private String mRoomNumber = "";
     private Button btnHelp;
     private View helpLayout;
-    private DatabaseReference dbHelp;
+
     private Help help;
     private Button btnReady;
     private Button btnDone;
@@ -81,7 +86,7 @@ public class CustomListActivity extends BaseActivity {
 
     private SeekBar volumeSeekbar;
     private RelativeLayout rl_music;
-    private DatabaseReference dbRoomTable;
+
     private ArrayList<Room> mRoomsFromServerList = new ArrayList<>();
     private DatabaseReference dbNextRoomHelp;
     private FirebaseDatabase rootRef;
@@ -90,10 +95,11 @@ public class CustomListActivity extends BaseActivity {
     private static int mNextRoomHelpCount = 0;
     MediaPlayer mediaPlayer;
     private int maxVal = 0;
-    public static String helpKey;
+
     private AVLoadingIndicatorView avi;
     private String songName;
     private String language;
+    private DatabaseReference dbHelpHistory, dbHelp, dbRoomTable;
 
 
     @Override
@@ -112,6 +118,13 @@ public class CustomListActivity extends BaseActivity {
         bindViews();
         initialization();
         setVolumeControl();
+
+        PeriodicWorkRequest periodicWorkRequest =
+                new PeriodicWorkRequest.Builder(MyWorker.class, 35, TimeUnit.MINUTES)
+                        .build();
+
+        WorkManager.getInstance().
+                enqueue(periodicWorkRequest);
 
 
     }
@@ -147,6 +160,7 @@ public class CustomListActivity extends BaseActivity {
         dbFeedback = rootRef.getReference(AppUtils.FEEDBACK_TABLE);
         dbRoomTable = rootRef.getReference(AppUtils.ROOM_TABLE);
         dbNextRoomHelp = rootRef.getReference(AppUtils.NEXT_ROOM_HELP);
+        dbHelpHistory = rootRef.getReference(AppUtils.HELP_HISTORY_TABLE);
 
 
         //setRoomHelpTable(false);
@@ -281,7 +295,7 @@ public class CustomListActivity extends BaseActivity {
         } else {
             if (help == null || !help.getRoom_key().equalsIgnoreCase(mRoomNumber)) {
                 help = new Help();
-                helpKey = dbHelp.push().getKey();
+
             }
 
 
@@ -579,15 +593,23 @@ public class CustomListActivity extends BaseActivity {
 
 
             help.setStatus(status);
-            dbHelp.child(helpKey).setValue(help).addOnSuccessListener(new OnSuccessListener<Void>() {
+            dbHelp.child(mRoomNumber).setValue(help).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    if (isAhead) {
+                    if (isAhead)
                         callHelp();
+                    if (status.equalsIgnoreCase(Help.DONE)) {
+                        String helpKey = dbHelpHistory.push().getKey();
 
+                        dbHelpHistory.child(helpKey).setValue(help).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                dbHelp.getRef().child(mRoomNumber).removeValue();
+                            }
+                        });
                     }
-                    //  Toast.makeText(CustomListActivity.this, status, Toast.LENGTH_SHORT).show();
 
+                    //  Toast.makeText(CustomListActivity.this, status, Toast.LENGTH_SHORT).show();
                 }
 
             });
