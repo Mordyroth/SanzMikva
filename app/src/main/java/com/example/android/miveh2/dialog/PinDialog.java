@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.android.miveh2.R;
 import com.example.android.miveh2.utils.AppUtils;
+import com.goodiebag.pinview.Pinview;
 
 public class PinDialog extends Dialog implements View.OnClickListener {
 
@@ -27,10 +28,12 @@ public class PinDialog extends Dialog implements View.OnClickListener {
     EditText edtCode3;
     EditText edtCode4;
     String allPin = null;
+    RoomNumberDialog roomNnmberDialog;
 
     public PinDialog(Activity a) {
         super(a);
         this.c = a;
+        roomNnmberDialog = new RoomNumberDialog(c);
     }
 
     @Override
@@ -62,6 +65,18 @@ public class PinDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
+                String enteredPin = edtCode1.getText().toString().trim();
+                enteredPin += (edtCode2.getText().toString().trim());
+                enteredPin += (edtCode3.getText().toString().trim());
+                enteredPin += (edtCode4.getText().toString().trim());
+
+                if (!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim())) {
+                    AppUtils.hideKeyboard(c);
+                    verifyCode(enteredPin);
+
+                    if (!roomNnmberDialog.isShowing())
+                        roomNnmberDialog.show();
+                }
 
             }
         });
@@ -83,6 +98,18 @@ public class PinDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
+                String enteredPin = edtCode1.getText().toString().trim();
+                enteredPin += (edtCode2.getText().toString().trim());
+                enteredPin += (edtCode3.getText().toString().trim());
+                enteredPin += (edtCode4.getText().toString().trim());
+
+                if (!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim()) && !TextUtils.isEmpty(edtCode4.getText().toString().trim())) {
+                    AppUtils.hideKeyboard(c);
+                    verifyCode(enteredPin);
+
+                    if (!roomNnmberDialog.isShowing())
+                        roomNnmberDialog.show();
+                }
 
             }
         });
@@ -101,10 +128,24 @@ public class PinDialog extends Dialog implements View.OnClickListener {
                 } else if (s.length() == 0) {
                     setFocus(edtCode2);
                 }
+
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                String enteredPin = edtCode1.getText().toString().trim();
+                enteredPin += (edtCode2.getText().toString().trim());
+                enteredPin += (edtCode3.getText().toString().trim());
+                enteredPin += (edtCode4.getText().toString().trim());
+
+                if (!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim()) && !TextUtils.isEmpty(edtCode4.getText().toString().trim())) {
+                    AppUtils.hideKeyboard(c);
+                    verifyCode(enteredPin);
+
+                    if (!roomNnmberDialog.isShowing())
+                        roomNnmberDialog.show();
+                }
 
             }
         });
@@ -123,12 +164,12 @@ public class PinDialog extends Dialog implements View.OnClickListener {
                     enteredPin += (edtCode3.getText().toString().trim());
                     enteredPin += (edtCode4.getText().toString().trim());
 
-                    if (!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim())) {
+                    if (!TextUtils.isEmpty(edtCode1.getText().toString().trim()) && !TextUtils.isEmpty(edtCode2.getText().toString().trim()) && !TextUtils.isEmpty(edtCode3.getText().toString().trim()) && !TextUtils.isEmpty(edtCode4.getText().toString().trim())) {
                         AppUtils.hideKeyboard(c);
                         verifyCode(enteredPin);
 
-                        RoomNumberDialog roomNnmberDialog = new RoomNumberDialog(c);
-                        roomNnmberDialog.show();
+                        if (!roomNnmberDialog.isShowing())
+                            roomNnmberDialog.show();
                     }
                 } else if (s.length() == 0) {
                     setFocus(edtCode3);
@@ -147,6 +188,30 @@ public class PinDialog extends Dialog implements View.OnClickListener {
         no = (Button) findViewById(R.id.btn_no);
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
+
+
+        int hight = (int) getContext().getResources().getDimension(R.dimen._50sdp);
+        int width = (int) getContext().getResources().getDimension(R.dimen._60sdp);
+
+        Pinview pin = (Pinview) findViewById(R.id.pinview);
+        pin.setPinBackgroundRes(R.drawable.sample_background);
+        pin.setPinHeight(hight);
+        pin.setPinWidth(width);
+        // AppUtils.hideKeyboard(c);
+
+
+        pin.setPinViewEventListener(new Pinview.PinViewEventListener() {
+            @Override
+            public void onDataEntered(Pinview pinview, boolean fromUser) {
+                //Make api calls here or what not
+                AppUtils.hideKeyboard(c);
+                verifyCode(pinview.getValue());
+
+                RoomNumberDialog roomNnmberDialog = new RoomNumberDialog(c);
+                roomNnmberDialog.show();
+            }
+        });
+
 
     }
 

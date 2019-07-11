@@ -1,26 +1,25 @@
 package com.example.android.miveh2;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.androidnetworking.AndroidNetworking;
 import com.example.android.miveh2.model.FireBaseDBInstanceModel;
-import com.example.android.miveh2.utils.AppUtils;
 import com.google.firebase.database.FirebaseDatabase;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class MyApplication extends Application {
     private FirebaseDatabase mFirebaseInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+        /*CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("lato_regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
-        );
+        );*/
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
@@ -28,6 +27,8 @@ public class MyApplication extends Application {
 
         FireBaseDBInstanceModel model = FireBaseDBInstanceModel.getInstance();
         model.setmFirebaseInstance(mFirebaseInstance);
+
+        AndroidNetworking.initialize(getApplicationContext());
     }
 
 

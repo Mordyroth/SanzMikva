@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -17,11 +18,80 @@
             android:layout_margin="@dimen/_2sdp"
             android:layout_weight="5.5">
 
-            <ListView
-                android:id="@+id/lvUsers"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/llList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@color/colorWhite"
+                        android:elevation="@dimen/_10sdp"
+                        android:orientation="vertical" />
+
+
+                    <LinearLayout
+                        android:id="@+id/llList1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:elevation="@dimen/_10sdp"
+                        android:orientation="vertical" />
+
+                    <android.support.v4.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ListView
+                                android:id="@+id/lvUsers"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/llList"
+                                android:nestedScrollingEnabled="false" />
+                        </LinearLayout>
+                    </android.support.v4.widget.NestedScrollView>
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+
+            <!-- <android.support.v4.widget.NestedScrollView
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="vertical">
+
+
+
+
+                     <android.support.v4.widget.NestedScrollView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+
+
+
+
+
+                     </android.support.v4.widget.NestedScrollView>
+
+
+                 </LinearLayout>
+             </android.support.v4.widget.NestedScrollView>-->
+
 
             <include layout="@layout/rainbo_layout" />
 
@@ -39,13 +109,85 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center|top"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
+                        android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        android:layout_marginEnd="@dimen/_1sdp"
+                        android:orientation="horizontal"
+                        tools:ignore="NestedWeights">
+
+                        <!-- <ImageView
+                             android:layout_width="@dimen/_15sdp"
+                             android:layout_height="@dimen/_15sdp"
+                             android:src="@drawable/sunset"
+                             android:tint="@color/colorWhite" />-->
+
+                        <TextView
+                            android:id="@+id/tvSunset"
+                            style="@style/acmeFont"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/_8sdp"
+                            android:textStyle="bold"
+                            tools:text="7 PM" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
+                        android:layout_weight="1"
+                        android:background="#FFFFFF"
+                        android:layout_marginStart="@dimen/_1sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <!--  <ImageView
+                              android:layout_width="@dimen/_12sdp"
+                              android:layout_height="@dimen/_12sdp"
+                              android:src="@drawable/sunset"
+                              android:tint="@color/red" />-->
+
+                        <TextView
+                            android:id="@+id/tvSunset1"
+                            style="@style/acmeFont"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/_8sdp"
+                            android:textStyle="bold"
+                            tools:text="7 PM" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
 
                 <Button
                     android:id="@+id/lang"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_weight="0.9"
                     android:background="@drawable/language_button"
                     android:onClick="lang"
@@ -65,11 +207,10 @@
                     android:layout_weight="1.5"
                     android:visibility="gone">
 
-
                     <ImageView
                         android:id="@+id/ivVolumeDown"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="end"
@@ -96,11 +237,13 @@
 
                     <ImageView
                         android:id="@+id/ivVolumeUp"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_alignEnd="@+id/ivVolumeDown"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="start"
+                        android:layout_marginEnd="0dp"
                         android:background="@drawable/beck_volume_up"
                         android:elevation="@dimen/_10sdp"
                         android:padding="@dimen/_2sdp"
@@ -136,6 +279,10 @@
                     android:onClick="ready"
                     android:padding="@dimen/_8sdp"
                     android:shadowColor="#A8A8A8"
+
+                    android:enabled="false"
+                    android:alpha="0.5"
+
                     android:text="@string/ready"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/_14sdp" />
@@ -152,6 +299,10 @@
                     android:gravity="center"
                     android:onClick="done"
                     android:shadowColor="#A8A8A8"
+
+                    android:enabled="false"
+                    android:alpha="0.5"
+
                     android:text="@string/done"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/_14sdp" />

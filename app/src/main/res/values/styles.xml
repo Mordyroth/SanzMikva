@@ -21,6 +21,10 @@
         <item name="fontPath">acme_regular.ttf</item>
     </style>
 
+    <style name="chunkfive">
+        <item name="fontPath">lato_bold.ttf</item>
+    </style>
+
     <style name="pinStyle">
         <item name="android:padding">@dimen/_8sdp</item>
         <item name="android:textSize">@dimen/_25sdp</item>

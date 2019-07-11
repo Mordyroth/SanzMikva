@@ -24,8 +24,9 @@ public class Help {
     private String status;
 
 
-    private String help_to_ready_time="";
-    private String ready_to_done_time="";
+
+
+    private int help_count_number;
 
 
     public Long getHelp_press_time() {
@@ -135,19 +136,12 @@ public class Help {
     }
 
 
-    public String getHelp_to_ready_time() {
-        return help_to_ready_time;
+
+    public int getHelp_count_number() {
+        return help_count_number;
     }
 
-    public void setHelp_to_ready_time(String help_to_ready_time) {
-        this.help_to_ready_time = help_to_ready_time;
-    }
-
-    public String getReady_to_done_time() {
-        return ready_to_done_time;
-    }
-
-    public void setReady_to_done_time(String ready_to_done_time) {
-        this.ready_to_done_time = ready_to_done_time;
+    public void setHelp_count_number(int help_count_number) {
+        this.help_count_number = help_count_number;
     }
 }

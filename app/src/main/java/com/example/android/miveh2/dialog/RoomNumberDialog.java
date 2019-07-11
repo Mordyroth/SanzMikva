@@ -219,9 +219,9 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
         if (isRoomUUidSame) {
 
-            commonDialog = new CommonDialog(getContext(), activity.getString(R.string.alert), activity.getString(R.string.uuid_room_occupied), activity.getString(R.string.okay), "", new CommonDialog.OnButtonClickListener() {
+            CommonDialog commonDialog = new CommonDialog(getContext(), activity.getString(R.string.alert), activity.getString(R.string.uuid_room_occupied), activity.getString(R.string.okay), "", new CommonDialog.OnButtonClickListener() {
                 @Override
-                public void onOkClick(View view) {
+                public void onOkClick(View view, CommonDialog commonDialog) {
                     commonDialog.dismiss();
                     PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
@@ -234,10 +234,9 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         } else if (isRoomExist) {
 
 
-            commonDialog = new CommonDialog(getContext(), activity.getString(R.string.alert), activity.getString(R.string.aledy_occupied), activity.getString(R.string.yes), activity.getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
+            CommonDialog commonDialog = new CommonDialog(getContext(), activity.getString(R.string.alert), activity.getString(R.string.aledy_occupied), activity.getString(R.string.yes), activity.getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
                 @Override
-                public void onOkClick(View view) {
-
+                public void onOkClick(View view, CommonDialog commonDialog) {
                     if (view.getId() == R.id.tvYes) {
 
 
@@ -249,6 +248,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                         PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
                     }
                 }
+
+
             });
 
             commonDialog.show();
@@ -308,6 +309,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
                                     showProgressBar(false);
                                     activity.recreate();
+
 
                     /*Intent intent = new Intent(getContext(), CustomListActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -384,7 +386,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
     public void showProgressBar(boolean isProgress) {
 
 
-        if (progressDialog == null)
+       /* if (progressDialog == null)
             progressDialog = new ProgressDialog(getContext(), R.style.AppTheme_ProgressDialog_Theme);
 
         progressDialog.setCancelable(false);
@@ -393,6 +395,6 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         if (isProgress)
             progressDialog.show();
         else
-            progressDialog.dismiss();
+            progressDialog.dismiss();*/
     }
 }

@@ -1,15 +1,15 @@
 package com.example.android.miveh2.utils;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 
 import java.util.Locale;
+
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
 public class LocaleHelper {
 
@@ -52,19 +52,39 @@ public class LocaleHelper {
         editor.apply();
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
+    public static boolean isAtLeastVersion(int version) {
+        return Build.VERSION.SDK_INT >= version;
+    }
+
+
     private static Context updateResources(Context context, String language) {
+
         Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+
+        Resources res = context.getResources();
+        Configuration config = new Configuration(res.getConfiguration());
+        if (isAtLeastVersion(JELLY_BEAN_MR1)) {
+            config.setLocale(locale);
+            context = context.createConfigurationContext(config);
+        } else {
+            config.locale = locale;
+            res.updateConfiguration(config, res.getDisplayMetrics());
+        }
+
+
+
+      /*  Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration configuration = res.getConfiguration();
         configuration.setLocale(locale);
         configuration.setLayoutDirection(locale);
-        res.updateConfiguration(configuration, dm);
+        res.updateConfiguration(configuration, dm);*/
 
 
-        return context.createConfigurationContext(configuration);
+        return context;
     }
 
     @SuppressWarnings("deprecation")

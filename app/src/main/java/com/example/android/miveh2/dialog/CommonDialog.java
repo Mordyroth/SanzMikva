@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -73,8 +72,6 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         initialization();
 
 
-
-
         if (title == null || title.equalsIgnoreCase(""))
             tvTitle.setVisibility(View.GONE);
         tvTitle.setText(title);
@@ -107,23 +104,26 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (isEdittextVisible)
-            OnButtonClickListenerWithEdit.onOkClick(view, etFeedbacks.getText().toString().trim());
+            OnButtonClickListenerWithEdit.onOkClick(view, etFeedbacks.getText().toString().trim(), this);
         else
-            onButtonClickListener.onOkClick(view);
+            onButtonClickListener.onOkClick(view, this);
 
     }
 
 
     public interface OnButtonClickListener {
-        void onOkClick(View view);
+        void onOkClick(View view, CommonDialog commonDialog);
 
 
     }
 
+
     public interface OnButtonClickListenerWithEdit {
 
 
-        void onOkClick(View view, String value);
+        void onOkClick(View view, String value, CommonDialog commonDialog);
+
+
     }
 
 }

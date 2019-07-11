@@ -22,6 +22,74 @@
     <string name="question12">Check your body, visually and by touching, using a mirror when needed to ensure that you are free of intervening substances.</string>
     <string name="question13">Remove contact lenses or eyeglasses.</string>
     <string name="question14">Use the bathroom if necessary, be sure to wash all areas to ensure clean of toilet tissue, etc and re comb pubic hair.</string>
+
+
+    <string name="q1">Remember to do Sevent day bedika before Shkiah.</string>
+    <string name="q2">Preparations should be done calmly and slowly.</string>
+    <string name="q3">Preferably main preparations e.g. shampooing the hair and combing it out, should start whilst still day continuing until nightfall, and then immerse in the Mikvah. If that’s not possible, at least a significant part e.g. teeth and nails should be done whilst daytime.</string>
+    <string name="q4">If preparations start only after nightfall, a full hour should be spent doing them.</string>
+    <string name="q5">Those who prepared at home, must rewash, comb and recheck themselves at the Mikvah.</string>
+    <string name="q6">All jewellery and earrings must be removed.</string>
+    <string name="q7">The Halacha obligates to wash in hot, comfortable water, whilst the Minhag
+    obligates that this be done in a bath tub.</string>
+    <string name="q8">Scabs should be softened in warm water.</string>
+    <string name="q9">Consult a Rav on the following prior to preparations: Stitches in any part of the body, temporary fillings, hair growth between laser hair removal treatments, burns wounds or a cast.</string>
+
+
+    <string name="q10">Brush teeth thoroughly, clean between teeth with a tooth pick or dental floss and rinse well [those with fixed braces, clean fixtures well</string>
+    <string name="q11">False teeth or removable braces have to be removed.</string>
+    <string name="q12">Extra care has to be taken to remove all makeup, especially from lips and within skin creases.</string>
+    <string name="q13">Remove all eye discharge, remnants of makeup and loose eyelashes from the corners of the eye. It’s recommended to go over the outside of eyes with a wet Q-tip to ensure that there is no residues of eye makeup.</string>
+    <string name="q14">Remove contact lenses.</string>
+    <string name="q15">Clean the inside and outside of the nose with a wet finger.</string>
+    <string name="q16">Clean the face with soap and warm water.</string>
+    <string name="q17">Clean behind the ears and in the folds and the inside with a Q-tip.</string>
+    <string name="q18">Remove earrings and clean the hole; one can use the earring stick to do so.</string>
+    <string name="q19">Shampoo the head with hot but comfortable water and rinse well, then comb out well.</string>
+    <string name="q20">In cases of dandruff, comb out with a fine toothed comb whilst shampoo is on the hair, but don’t scrape the scalp.</string>
+    <string name="q21">In case of lice or nits, one should comb out with a lice comb and remove as much as she can as much as she would do at home. Consult with the Mikvah attendant.</string>
+
+    <string name="q22">Those who remove the hair of the head, should do so before immersing, and preferably three days before.</string>
+    <string name="q23">Cut nails and toenails well and make sure there aren’t any sharp edges remaining.</string>
+    <string name="q24">Clean well around the nails and underneath them.</string>
+    <string name="q25">Check well that there is no remaining colour or nail varnish, especially in the corners.</string>
+    <string name="q26">Remove hanging loose skin from around the nails.</string>
+    <string name="q27">Clean the hand well especially in crevices.</string>
+    <string name="q28">Clean armpits and hair well removing traces of dry sweat or deodorant. Use a comb.</string>
+    <string name="q29">Wash the neck, back of the neck, shoulders and back, well.</string>
+    <string name="q30">Wash breast area, underneath the breast and nipples removing dry milk.</string>
+    <string name="q31">Remove dirt and dry sweat from the body folds and clean the navel well. A Q-tip is helpful for navel.</string>
+    <string name="q32">Wash well between the legs and private parts with soap and warm water and then comb out the hair. Insert a finger slightly in the vaginal opening and clean with warm water.</string>
+    <string name="q33">The anus should be cleaned well with soap and warm water.</string>
+    <string name="q34">Those who have a Nuvaring with permission of their Rav, should remove it before immersing.Legs</string>
+    <string name="q35">Wash well the thighs, knees, ankles and sole.</string>
+    <string name="q36">Remove and wash all dirt between toes.</string>
+    <string name="q37">Hard skin should be softened in warm water. A pumice stone could be used.</string>
+    <string name="q38">After completing preparation, one must inspect the entire body and head to insure that in is completely clean.</string>
+    <string name="q39">Rinse again the entire body with warm water but without soap.</string>
+    <string name="q40">Comb out thoroughly the hair of the head, armpits and genital area. [On Shabbos one should wet the hair with the warm Mikvah water and then separate the hair gently with one’s fingers to make sure there are no knots.</string>
+    <string name="q41">Inspect all places possible and use a mirror for the face.</string>
+    <string name="q42">Places which are not possible to see should be inspected by feel of the hand.</string>
+    <string name="q43">Remove any foreign body, e.g dentures, retainer, contact lenses, nuvaring.</string>
+    <string name="q44">If something was eaten after cleaning the teeth, clean them a second time as above.</string>
+    <string name="q45">Use the bathroom if needed and then clean the area again.</string>
+    <string name="q46">General things which need to be removed: Body dirt, dry sweat, dry blood, dry milk, loose skin, paint, makeup, glue, plaster, remaining glue from plaster, unwanted body hair, wax, uncut nails.</string>
+    <!-- <string name="q47">Any uncertainty or question, one should ask the Mikvah attendant – they are there to help. Any Halachic question should be asked a Rav prior to immersion and not suffice with asking afterwards.</string>-->
+    <string name="q47" translatable="false">Any uncertainty or question, one should ask the Mikvah attendant – they are there to help. Any Halachic question should be asked a Rav prior to immersion and not suffice with asking afterwards.</string>
+
+
+    <string name="q48">Some have the Minhag to wet the hidden parts of the body with the Mikvah water prior to immersion. These places include: between the toes, the intimate folds, the navel, stomach folds, under and between the breasts, armpits, behind the ears, eyelids, lips, and between fingers.</string>
+    <string name="q49">During immersion care has to be taken not to seal the eyes or lips tightly, only gently and passively.</string>
+    <string name="q50">The immersion posture should be, slightly bent forward, legs slightly apart, arms slightly away from the body.</string>
+    <string name="q51">After the first immersion the Bracha is recited. During the Bracha one should cross the arms below the heart without touching covered parts and look away from the water. Some have the practice to cover the head during the Bracha.</string>
+    <string name="q52"> נוסח הברכה: &#34;ברוך אתה ד&#39; אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה&#34;.</string>
+    <string name="q53">The Minhag is to immerse another twice after the Bracha in the same way as the first. Others have the Minhag to do more.</string>
+    <string name="q54">After immersion the Minhag is to approach or touch the Mikvah attendant, in order not to meet firstly with something impure.</string>
+    <string name="q55">One is not allowed to wash themselves after immersion whilst in the Mikvah building.</string>
+    <string name="q56">Some have the custom to eat something before leaving the Mikvah building. Some also rub their nails on a rough surface after immersion.</string>
+    <string name="q57">When arriving home, one should say verbally to the husband, “I have immersed” or “I am pure”.</string>
+
+
     <string name="music_prompt">Choose a Song</string>
     <string name="cancel">CANCEL</string>
     <string name="yes">Yes</string>
@@ -47,9 +115,6 @@
     </string-array>
 
 
-
-
-
     !--
     <string name="smile_rating_terrible">Terrible</string>
     <string name="smile_rating_bad">Bad</string>-->
@@ -70,6 +135,7 @@
     <string name="people_ahead_of_you">People ahead of you</string>
     <string name="you_does_not_occupied_any_room">You does not Occupied any room,so are you want to occupied any Room??</string>
     <string name="must_cancel_other_request">Must cancel the other request first.</string>
+    <string name="str_donate">You can donate through the system outside</string>
 
 
     <string-array name="names">

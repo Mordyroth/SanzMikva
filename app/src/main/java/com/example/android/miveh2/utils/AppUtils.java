@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class AppUtils {
 
@@ -33,6 +35,8 @@ public class AppUtils {
     public static String StoryStorageFolder = "story_Image";
     public static String StoryVideoFolder = "Story_Video";
     private static String language;
+    private static String dateAsString;
+    private static String formattedDate;
 
 
     public static void hideKeyboard(Activity activity) {
@@ -83,27 +87,8 @@ public class AppUtils {
         LocaleHelper.setLocale(activity, language);
 
         activity.recreate();
-       /* Locale myLocale = new Locale(language);
-        Locale.setDefault(myLocale);
-        Resources res = activity.getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.setLocale(myLocale);
-        res.updateConfiguration(conf, dm);*/
 
-/*
-        Resources res = activity.getResources();
-// Change locale settings in the app.
-        DisplayMetrics dm = res.getDisplayMetrics();
-        android.content.res.Configuration conf = res.getConfiguration();
-        conf.setLocale(new Locale(language.toLowerCase())); // API 17+ only.
-// Use conf.locale = new Locale(...) if targeting lower versions
-        res.updateConfiguration(conf, dm);
-*/
 
-        //  LocaleHelper.setLocale(activity, language);
-
-        activity.recreate();
     }
 
     private static Context updateResources(Context context, String language) {
@@ -120,6 +105,28 @@ public class AppUtils {
             res.updateConfiguration(config, res.getDisplayMetrics());
         }
         return context;
+    }
+
+
+    //Convert Local time
+    public static String getLocalDate(String dateStr) {
+
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat("h:mm:ss a", Locale.ENGLISH);
+        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date = null;
+        try {
+            date = inputFormat.parse(dateStr);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("h:mm", Locale.ENGLISH);
+            outputFormat.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+            formattedDate = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        return formattedDate;
+
     }
 
     public static void setMirroredEnable(boolean enabled, ImageView... view) {
