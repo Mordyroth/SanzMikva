@@ -417,7 +417,7 @@ public class CustomListActivity extends BaseActivity implements
                     }
 
                 } catch (ParseException e) {
-                    tvSunset1.setText(AppUtils.getLocalDate(sunsetModel.getResults().getSunset()));
+
                     e.printStackTrace();
                 }
 

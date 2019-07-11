@@ -3,10 +3,9 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:elevation="3dp"
     card_view:cardElevation="3dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,9 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="#FFFFFF"
-        android:gravity="center"
         android:onClick="textCheckBox"
-        android:padding="@dimen/_3sdp"
         android:paddingStart="@dimen/_7sdp">
 
         <TextView
@@ -25,8 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/checkbox"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toEndOf="@+id/checkbox"
+            android:padding="@dimen/_5sdp"
             android:text="Comb all hair while still wet. It is helpful to place a towel under the hair so loose hair will not fall on body."
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="@dimen/_12sdp"
