@@ -26,6 +26,7 @@ public class AppUtils {
     public static String SETTING_TABLE = "Setting";
     public static String FEEDBACK_TABLE = "Feedback";
     public static String ROOM_NUMBER = "room_number";
+    public static String ROOM_RESET = "room_set";
     public static String FCM_TOKEN = "FCMToken";
     public static String TIME_FOR_DELETE_ROOM = "time_for_delete_room";
 

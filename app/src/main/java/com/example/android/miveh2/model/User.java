@@ -11,6 +11,7 @@ public class User {
     //declare private data instead of public to ensure the privacy of data field of each class
     private String name;
     private String id;
+    private boolean isChecked=false;
 
     public User(String name, String id) {
         this.name = name;
@@ -71,7 +72,6 @@ public class User {
         users.add(new User(mContext.getResources().getString(R.string.q46), "46"));
 
 
-
         return users;
     }
 
@@ -89,6 +89,17 @@ public class User {
         users.add(new User(mContext.getResources().getString(R.string.q8), "8"));
         users.add(new User(mContext.getResources().getString(R.string.q9), "9"));
 
+
+
+
+        return users;
+    }
+
+    public static ArrayList<User> getUsersOther1(Context context) {
+        Context mContext;
+        mContext = context;
+        ArrayList<User> users = new ArrayList<User>();
+
         users.add(new User(mContext.getResources().getString(R.string.q47), "47"));
         users.add(new User(mContext.getResources().getString(R.string.q48), "48"));
         users.add(new User(mContext.getResources().getString(R.string.q49), "49"));
@@ -105,4 +116,12 @@ public class User {
         return users;
     }
 
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 }

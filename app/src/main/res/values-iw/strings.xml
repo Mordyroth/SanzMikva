@@ -31,7 +31,7 @@
         <item>שיר מספר חמש</item>
         <item>השיר מספר שש</item>
     </string-array>
-    <string name="aledy_occupied">חדר זה כבר כבוש. האם אתה בטוח שאתה רוצה שוב הכבושים?</string>
+    <string name="aledy_occupied">יש כבר מכשיר עם מספר החדר, אם תמשיך, המכשיר האחר יאופס.</string>
     <string name="cancel">בטל</string>
     <string name="choose_music">בחר מוסיקה</string>
     <string name="could_use_imrove">יכול להשתמש בשיפור</string>
@@ -46,7 +46,7 @@
 
     <string name="q1">לזכור לעשות בדיקת יום השביעי לפני השקיעה.</string>
     <string name="q2">לעשות הכנות במתינות ובישוב הדעת.</string>
-    <string name="q3">לכתחלה להתחיל עיקר החפיפה וההכנות מבעוד יום ולהמשיך קצת בלילה ואז לטבול, ולכל הפחות לעשות חלק חשוב כגון השיניים וצפרניים בעוד יום.</string>
+    <string name="q3">לכתחלה להתחיל עיקר החפיפה וההכנות מבעוד יום ולהמשיך קצת בלילה ואז   לטבול, ולכל הפחות לעשות חלק חשוב כגון השיניים וצפרניים בעוד יום.</string>
     <string name="q4">ואם מתחילים ההכנות רק אחרי צאת הכוכבים אז לעסוק בהם לשעה אחת.</string>
     <string name="q5">גם אלו שעשו ההכנות בבית, צריכות לשוב להתרחץ ולהסתרק ולעשות עיון הגוף בבית הטבילה.</string>
     <string name="q6">להוריד כל תכשיטים ועגילים וכדומה.</string>
@@ -99,14 +99,14 @@
     <string name="q48">יש אלו שנוהגין להרטיב מקומות בית הסתרים בגוף הנקרא \'סימנים\' עם מי המקוה לפני הטבילה, ואלו הן המקומות: בין אצבעות הרגליים, בין קמטי אותו מקום ומאחורה, הטבור, קמטי הבטן, מתחת החזה לכל האורך, בית השחי, מאחורי האזנים, העפעפיים, שפתיים, בין אצבעות הידיים. </string>
     <string name="q49"> בשעת הטבילה צריכה לדקדק לא לסגור העיניים והשפתיים חזק אלא ברפיון ואופן רגיל.</string>
     <string name="q50">כשטובלת יש לכופף קצת קדימה חלק עליון של הגוף, ותרחיק רגליה זו מזו קצת, ותרחיק ידיה מהגוף קצת.</string>
-    <string name="q51">אחרי טבילה ראשונה מברכת, ובשעת הברכה תחבק ידיה על הגוף תחת הלב בלי לנגוע במקומות המכוסים, ולא תביט למטה בשעת הברכה. ויש נוהגין גם לכסות הראש.</string>
+    <string name="q51">אחרי טבילה ראשונה מברכת, ובשעת הברכה תחבק ידיה על הגוף תחת הלב בלי לנגוע במקומות המכוסים, ולא תביט למטה בשעת הברכה. ויש נוהגין גם   לכסות הראש.</string>
     <!--<string name="q52"> נוסח הברכה: \'ברוך אתה ד\' אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה\' \'.</string>-->
     <string name="q53">נוהגין לטבול עוד פעמיים אחרי הברכה באותו סגנון של טבילה ראשונה. ויש שטובלות טבילות</string>
     <string name="q54">לאחר הטבילה נוהגין ליפגש וגם לנגוע בחברתה או בבלנית המפקחת על הטבילה, כדי שלא תיפגש בדבר טמא תחילה.</string>
     <string name="q55"> לא תרחץ גופה במים בעודה בבית הטבילה.</string>
     <string name="q56">יש נוהגין לאכול דבר מה לפני צאתה מבית הטבילה, ויש נוהגין לגרד הצפרנים בכותל.</string>
     <string name="q57">כשחוזרת לביתה צריכה לומר לבעלה, &#34;טבלתי&#34; או &#34;טהורה אני</string>
-    <string name="q52"> נוסח הברכה: &#34;ברוך אתה ד&#39; אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה&#34;.</string>
+    <string name="q52">  נוסח הברכה &#34;ברוך אתה ד&#39; אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה&#34;.</string>
     <string name="alert">התראה</string>
     <string name="help_is_on_the_way">העזרה בדרך</string>
     <string name="occupied_successfully">נכבש בהצלחה</string>
@@ -116,12 +116,27 @@
     <string name="smile_rating_good">משביע רצון</string>
     <string name="smile_rating_great">מצוין</string>
     <string name="smile_rating_okay">יכול להשתמש בשיפור</string>
-    <string name="uuid_room_occupied">מספר חדר זה כבר נכבש עבור המכשיר שלך</string>
+    <string name="uuid_room_occupied">מכשיר זה כבר נמצא עם מספר החדר הזה</string>
     <string name="worker_on_the_way">העובד בדרך</string>
     <string name="you_does_not_occupied_any_room">אתה לא לכבוש כל חדר, אז אתה רוצה לכבוש כל חדר ??</string>
     <string name="your_experience">הניסיון שלך...</string>
+    <string name="str_set_room_number">הגדר מספר חדר</string>
 
-    <string name="enter_room_number_must_be_less_then_1_to_25">הזן מספר החדר חייב להיות פחות מ 1 עד 19</string>
+    <string name="enter_room_number_must_be_less_then_1_to_25">הגדר את מספר החדר עבור התקן זה. (1-19)</string>
 
     <string name="occupied">OCCUPIED</string>
+    <string name="str_countinue">המשך</string>
+    <string name="str_cancel">בטל</string>
+    <string name="str_donate">אתה יכול לתרום באמצעות המערכת בחוץ</string>
+    <string name="str_thank_you_for_comment">תודה לך על שהודעת לנו! נשמח לשמוע ממך יותר. נא להשאיר לנו תגובה!</string>
+    <string name="str_warning">אזהרה!</string>
+    <string name="smile_rating_terrible">נורא</string>
+    <string name="you_must_press_cancel_help">עליך ללחוץ על CELEL HELP לפני שתלחץ על מוכן</string>
+    <string name="people_ahead">אנשים לפניך</string>
+    <string name="people_is_ahed">אנשים לפניך</string>
+    <string name="str_some_one_will_be_right_with_you">ללא שם: מישהו יהיה צודק איתך!</string>
+    <string name="str_skip">לדלג</string>
+    <string name="str_thank_you_leave">תודה שבאת! נא להסתכל מסביב כדי לוודא שאתה לא משאיר שום דבר מאחור.</string>
+    <string name="smile_rating_bad">רע</string>
+    <string name="str_thank_you">תודה!</string>
 </resources>

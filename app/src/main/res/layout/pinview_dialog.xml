@@ -40,13 +40,13 @@
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:padding="20dp"
+            android:visibility="gone"
             app:cursorVisible="false"
             app:forceKeyboard="false"
             app:hint="0"
             app:inputType="number"
-            android:visibility="gone"
             app:password="false"
-            app:pinBackground="@drawable/example_drawable"
+
             app:pinHeight="40dp"
             app:pinLength="4"
             app:pinWidth="40dp" />
@@ -56,8 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:padding="20dp"
-           >
+            android:padding="20dp">
 
             <EditText
                 android:id="@+id/edtCode1"
@@ -65,7 +64,6 @@
                 android:layout_height="90dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/shape_rounded_sky"
-                android:cursorVisible="false"
                 android:digits="1234567890"
                 android:gravity="center"
                 android:imeOptions="actionNext"
@@ -80,7 +78,6 @@
                 android:layout_height="90dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/shape_rounded_sky"
-                android:cursorVisible="false"
                 android:digits="1234567890"
                 android:gravity="center"
                 android:imeOptions="actionNext"
@@ -95,7 +92,6 @@
                 android:layout_height="90dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/shape_rounded_sky"
-                android:cursorVisible="false"
                 android:digits="1234567890"
                 android:gravity="center"
                 android:imeOptions="actionNext"
@@ -109,7 +105,6 @@
                 android:layout_width="100dp"
                 android:layout_height="90dp"
                 android:background="@drawable/shape_rounded_sky"
-                android:cursorVisible="false"
                 android:digits="1234567890"
                 android:gravity="center"
                 android:imeOptions="actionDone"
@@ -142,15 +137,16 @@
 
             <Button
                 android:id="@+id/btn_no"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_50sdp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="@dimen/_40sdp"
                 android:background="@drawable/shape_rounded_sky"
                 android:clickable="true"
                 android:gravity="center"
+                android:paddingLeft="@dimen/_20sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingRight="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_5sdp"
                 android:text="Cancel"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_15sdp" />

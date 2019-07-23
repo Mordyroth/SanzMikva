@@ -28,11 +28,25 @@ public class PreferenceUtils {
         prefsEditor.apply();
     }
 
+
+    public void save(String key, boolean value) {
+
+        prefsEditor.putBoolean(key, value);
+        prefsEditor.apply();
+    }
+
     public String get(String key) {
         if (sharedPreferences != null) {
             return sharedPreferences.getString(key, "");
         }
         return "";
+    }
+
+    public boolean getBollean(String key) {
+        if (sharedPreferences != null) {
+            return sharedPreferences.getBoolean(key, false);
+        }
+        return false;
     }
 
  /*   public void save(String key, Integer value) {

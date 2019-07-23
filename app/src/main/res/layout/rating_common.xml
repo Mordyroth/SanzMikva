@@ -17,16 +17,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark"
-            android:gravity="center"
-            android:padding="@dimen/_10sdp"
-            android:text="How was your experience?"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/_12sdp" />
+            android:background="@color/colorPrimaryDark">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="How was your experience?"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_close" />
+        </RelativeLayout>
 
 
         <LinearLayout
@@ -81,9 +96,9 @@
                     style="@style/acmeFont"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="@string/satisfactory"
                     android:textColor="@color/colorBlack"
-                    android:gravity="center"
                     android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 
@@ -107,8 +122,8 @@
                     style="@style/acmeFont"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/excellent"
                     android:gravity="center"
+                    android:text="@string/excellent"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_12sdp" />
             </LinearLayout>

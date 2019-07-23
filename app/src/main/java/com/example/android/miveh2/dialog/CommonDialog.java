@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -36,6 +39,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
     boolean isEdittextVisible = false;
     private EditText etFeedbacks;
     private OnButtonClickListenerWithEdit OnButtonClickListenerWithEdit;
+    private Context context;
 
 
     public CommonDialog(Context context, String title, String message, String posMessage, String navMsg, OnButtonClickListener onButtonClickListener) {
@@ -45,6 +49,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         this.title = title;
         this.posMessage = posMessage;
         this.navMsg = navMsg;
+        this.context = context;
 
 
     }
@@ -57,6 +62,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         this.posMessage = posMessage;
         this.navMsg = navMsg;
         this.isEdittextVisible = isEdittextVisible;
+        this.context = context;
 
 
     }
@@ -72,16 +78,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         initialization();
 
 
-        if (title == null || title.equalsIgnoreCase(""))
-            tvTitle.setVisibility(View.GONE);
-        tvTitle.setText(title);
-        tvmessage.setText(message);
-        if (navMsg.equalsIgnoreCase("")) {
-            tvNo.setVisibility(View.GONE);
-        }
-        tvNo.setText(navMsg);
-        tvYes.setText(posMessage);
-        etFeedbacks.setVisibility(isEdittextVisible ? View.VISIBLE : View.GONE);
+
 
 
     }
@@ -93,12 +90,59 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         tvNo = findViewById(R.id.tvNo);
         etFeedbacks = findViewById(R.id.etFeedback);
 
+
+        if (title == null || title.equalsIgnoreCase(""))
+            tvTitle.setVisibility(View.GONE);
+
+        if (title.equalsIgnoreCase(context.getString(R.string.str_warning))) {
+            tvTitle.setTextColor(ContextCompat.getColor(context, R.color.red));
+        }
+        tvTitle.setText(title);
+        tvmessage.setText(message);
+        if (navMsg.equalsIgnoreCase("")) {
+            tvNo.setVisibility(View.GONE);
+        }
+        tvNo.setText(navMsg);
+        tvYes.setText(posMessage);
+        etFeedbacks.setVisibility(isEdittextVisible ? View.VISIBLE : View.GONE);
+        if(isEdittextVisible)
+        {
+            if (etFeedbacks.getText().toString().length() == 0) {
+                tvYes.setEnabled(false);
+                tvYes.setAlpha(0.5f);
+            }
+        }
         setListener();
     }
 
     private void setListener() {
         tvNo.setOnClickListener(this);
         tvYes.setOnClickListener(this);
+        etFeedbacks.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isEdittextVisible) {
+                    if (etFeedbacks.getText().toString().length() == 0) {
+                        tvYes.setEnabled(false);
+                        tvYes.setAlpha(0.5f);
+                    } else {
+                        tvYes.setEnabled(true);
+                        tvYes.setAlpha(1.0f);
+                    }
+                }
+
+            }
+        });
     }
 
     @Override

@@ -2,6 +2,7 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,33 +15,47 @@
         android:layout_gravity="center"
         android:background="#FFFFFF"
         android:onClick="textCheckBox"
-        android:paddingStart="@dimen/_7sdp">
+        android:orientation="horizontal">
+
 
         <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
+            android:id="@+id/tvNumber"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/checkbox"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:layout_toEndOf="@+id/checkbox"
-            android:padding="@dimen/_5sdp"
-            android:text="Comb all hair while still wet. It is helpful to place a towel under the hair so loose hair will not fall on body."
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12sdp"
+            android:includeFontPadding="false"
+            tools:text="1"
 
             />
-
 
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_3sdp"
             android:clickable="false"
             android:focusable="false"
             android:padding="@dimen/_4sdp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tvNumber"
+            android:padding="@dimen/_5sdp"
+            android:text="Comb all hair while still wet. It is helpful to place a towel under the hair so loose hair will not fall on body."
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12sdp"
+
+            />
 
 
     </RelativeLayout>

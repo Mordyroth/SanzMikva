@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.android.miveh2.R;
@@ -20,6 +21,7 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
 
     private LinearLayout llImprovement, llSatisfactory, llExcellent;
 
+    private ImageView ivClose;
 
     public RatingDialog(Context context, OnButtonClickListener onButtonClickListener) {
         super(context);
@@ -49,6 +51,7 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
         llExcellent = findViewById(R.id.llExcellent);
         llSatisfactory = findViewById(R.id.llSatisfactory);
         llImprovement = findViewById(R.id.llImprovement);
+        ivClose = findViewById(R.id.ivClose);
 
         setListener();
     }
@@ -58,6 +61,7 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
         llExcellent.setOnClickListener(this);
         llImprovement.setOnClickListener(this);
         llSatisfactory.setOnClickListener(this);
+        ivClose.setOnClickListener(this);
 
 
     }
@@ -67,6 +71,9 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
 
 
+        if (v.getId() == R.id.ivClose) {
+            dismiss();
+        }
 
         onButtonClickListener.onOkClick(v);
     }

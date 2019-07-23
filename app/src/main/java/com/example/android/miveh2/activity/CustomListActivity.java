@@ -40,7 +40,6 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.example.android.miveh2.R;
-import com.example.android.miveh2.adapter.CustomUsersAdapter;
 import com.example.android.miveh2.connection.ApiClient;
 import com.example.android.miveh2.connection.ApiInterface;
 import com.example.android.miveh2.customeclass.MyWorker;
@@ -210,7 +209,7 @@ public class CustomListActivity extends BaseActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        if (PreferenceUtils.getInstance(this).get(AppUtils.ROOM_NUMBER).equalsIgnoreCase("")) {
+        if (PreferenceUtils.getInstance(this).getBollean(AppUtils.ROOM_RESET)) {
 
             final Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK);
@@ -248,19 +247,39 @@ public class CustomListActivity extends BaseActivity implements
                     break;
             }
 
-            String message = "Did you do a הפסק טהרה last " + toDay + " before שקיעה";
+            String message = getString(R.string.str_did_you_do) + toDay + getString(R.string.str_before);
 
 
-            CommonDialog commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), message, getString(R.string.okay), "", new CommonDialog.OnButtonClickListener() {
+            final String finalToDay = toDay;
+            CommonDialog commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), message, getString(R.string.yes), getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
                 @Override
                 public void onOkClick(View view, CommonDialog commonDialog) {
 
-                    commonDialog.dismiss();
+                    if (view.getId() != R.id.tvNo) {
+
+                        String msg = "In order to do a Tevilah tonight you must have done a hefsak last" + finalToDay + "before shkia or as otherwise instructed by a Rav";
+
+                        CommonDialog dialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), msg,
+                                "Continue", "", new CommonDialog.OnButtonClickListener() {
+                            @Override
+                            public void onOkClick(View view, CommonDialog commonDialog) {
+
+                                commonDialog.dismiss();
+
+                            }
+                        });
+                        dialog.show();
+
+                        commonDialog.dismiss();
+                        //In order to do a Tevilah tonight you must have done a hefsak last Monday before shkia or as otherwise instructed by a Rav
+
+                    } else {
+                        commonDialog.dismiss();
+                    }
                 }
-
-
             });
             commonDialog.show();
+            PreferenceUtils.getInstance(this).save(AppUtils.ROOM_RESET, false);
 
 
         }
@@ -566,7 +585,7 @@ public class CustomListActivity extends BaseActivity implements
                 if (j == (size - 1)) {
 
                     if (tempList.size() == 0) {
-                        tvCurrantStatus.setText("You are next in line");
+                        tvCurrantStatus.setText(getString(R.string.str_some_one_will_be_right_with_you));
                         tvCurrantRoom.setVisibility(View.GONE);
                     } else {
                         tvCurrantRoom.setVisibility(View.VISIBLE);
@@ -574,9 +593,9 @@ public class CustomListActivity extends BaseActivity implements
                         tvCurrantRoom.setText("" + tempList.size());
 
                         if (tempList.size() > 1) {
-                            tvCurrantStatus.setText("People are ahead of you");
+                            tvCurrantStatus.setText(getString(R.string.people_ahead));
                         } else {
-                            tvCurrantStatus.setText("People is ahead of you");
+                            tvCurrantStatus.setText(getString(R.string.people_is_ahed));
                         }
                     }
 
@@ -597,32 +616,11 @@ public class CustomListActivity extends BaseActivity implements
 
         if (mRoomNumber.equalsIgnoreCase("")) {
 
-            CommonDialog commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), getString(R.string.you_does_not_occupied_any_room), getString(R.string.yes), getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
-                @Override
-                public void onOkClick(View view, CommonDialog commonDialog) {
 
-                    if (view.getId() == R.id.tvYes) {
-                        PinDialog cdd = new PinDialog(CustomListActivity.this);
-                        cdd.show();
-
-                        commonDialog.dismiss();
-
-                    } else {
-                        commonDialog.dismiss();
-                    }
-                }
-            });
-
-            commonDialog.show();
+            PinDialog cdd = new PinDialog(CustomListActivity.this);
+            cdd.show();
         } else {
-            if (help == null || !help.getRoom_key().equalsIgnoreCase(mRoomNumber)) {
-                help = new Help();
-
-            }
-
-
-            help.setUuid(mUUID);
-            help.setRoom_key(mRoomNumber);
+            createHelpNewObject();
 
 
             String curr_text = btnHelp.getText().toString();
@@ -630,7 +628,12 @@ public class CustomListActivity extends BaseActivity implements
 
             if (curr_text.equals(getString(R.string.help))) {
 
-                if (!status.equalsIgnoreCase(Help.DONE) || status.equalsIgnoreCase(Help.HELP_CANCEL)) {
+                if (status.equalsIgnoreCase(Help.READY_PRESS)) {
+
+                    getToast("You must press the NEED MORE TIME button before requesting help", Toast.LENGTH_SHORT).show();
+
+
+                } else {
 
                     //Press Help
 
@@ -642,21 +645,12 @@ public class CustomListActivity extends BaseActivity implements
                     help.setHelp_cancel_time(0l);
 
 
-                    tvStatusOfWorker.setText(getString(R.string.help_is_on_the_way));
                     btnHelp.setText(R.string.cancel_help);
                     btnHelp.setTextColor(Color.YELLOW);
 
                     addHelpInFireBase(help, true);
 
 
-                    btnReady.setEnabled(true);
-                    btnReady.setAlpha(1.0f);
-                    /*btnDone.setEnabled(true);
-                    btnDone.setAlpha(1.0f);*/
-
-                } else {
-
-                    getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
                 }
             } else {
 
@@ -673,15 +667,10 @@ public class CustomListActivity extends BaseActivity implements
                     addHelpInFireBase(help, true);
 
 
-                    btnReady.setEnabled(false);
-                    btnReady.setAlpha(0.5f);
-                    /*btnDone.setEnabled(false);
-                    btnDone.setAlpha(0.5f);*/
-
-                } else {
+                }/* else {
 
                     getToast(getString(R.string.must_cancel_other_request), Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             }
 
@@ -694,12 +683,19 @@ public class CustomListActivity extends BaseActivity implements
 
 
     public void ready(View v) {
+        createHelpNewObject();
 
 
         String curr_text = btnReady.getText().toString();
         if (curr_text.equals(getString(R.string.ready))) {
 
-            if (status.equalsIgnoreCase(Help.HELP_PRESS) || status.equalsIgnoreCase(Help.READY_CANCEL)) {
+            if (status.equalsIgnoreCase(Help.HELP_PRESS)) {
+
+
+                getToast(getString(R.string.you_must_press_cancel_help), Toast.LENGTH_SHORT).show();
+
+
+            } else {
 
                 btnReady.setText(R.string.cancel_ready);
                 btnReady.setTextColor(Color.YELLOW);
@@ -707,19 +703,11 @@ public class CustomListActivity extends BaseActivity implements
                 status = Help.READY_PRESS;
 
                 help.setReady_cancel_time(0l);
-                tvStatusOfWorker.setText(getString(R.string.worker_on_the_way));
+                //  tvStatusOfWorker.setText(getString(R.string.worker_on_the_way));
+                tvStatusOfWorker.setText("Someone is coming");
 
                 addHelpInFireBase(help, false);
 
-
-                btnDone.setEnabled(true);
-                btnDone.setAlpha(1.0f);
-
-            } else {
-
-                //if()
-
-                getToast("Must press help request first.", Toast.LENGTH_SHORT).show();
             }
         } else {
             if (status.equalsIgnoreCase(Help.READY_PRESS)) {
@@ -729,12 +717,9 @@ public class CustomListActivity extends BaseActivity implements
                 status = Help.READY_CANCEL;
                 help.setReady_cancel_time(System.currentTimeMillis());
 
-
                 addHelpInFireBase(help, false);
 
 
-                btnDone.setEnabled(false);
-                btnDone.setAlpha(0.5f);
             }
 
 
@@ -743,55 +728,62 @@ public class CustomListActivity extends BaseActivity implements
 
     }
 
+    private void createHelpNewObject() {
+        if (help == null) {
+            help = new Help();
+
+        } else {
+            if (!help.getRoom_key().equalsIgnoreCase(mRoomNumber)) {
+                help = new Help();
+            }
+        }
+
+        help.setUuid(mUUID);
+        help.setRoom_key(mRoomNumber);
+    }
+
     public void done(final View v) {
 
-        if (status.equalsIgnoreCase(Help.READY_PRESS)) {
-            if (btnDone.getText().toString().equals(getString(R.string.done))) {
+        createHelpNewObject();
 
-                tvStatusOfWorker.setText(getString(R.string.room_ready));
 
-                ratingDialog = new RatingDialog(CustomListActivity.this, new RatingDialog.OnButtonClickListener() {
-                    @Override
-                    public void onOkClick(View view) {
-                        if (view.getId() == R.id.llImprovement) {
-                            ratingStatus = getString(R.string.could_use_imrove).toLowerCase();
-                            openRatingDialog("Thank you!! for share your experience. Can you share with us, that you want to improved ? ");
-                        } else if (view.getId() == R.id.llExcellent) {
-                            ratingStatus = getString(R.string.excellent).toUpperCase();
-                            openRatingDialog("Thank you!! for share your experience. You want to provide us some feedback ? ");
-                        } else {
-                            ratingStatus = getString(R.string.satisfactory).toUpperCase();
-                            openRatingDialog("Thank you!! for share your experience. You want to provide us some feedback ? ");
-                        }
+        if (btnDone.getText().toString().equals(getString(R.string.done))) {
 
-                        ratingDialog.dismiss();
+            tvStatusOfWorker.setText(getString(R.string.room_ready));
+
+            ratingDialog = new RatingDialog(CustomListActivity.this, new RatingDialog.OnButtonClickListener() {
+                @Override
+                public void onOkClick(View view) {
+                    if (view.getId() == R.id.llImprovement) {
+                        ratingStatus = getString(R.string.could_use_imrove).toLowerCase();
+                        openRatingDialog();
+                    } else if (view.getId() == R.id.llExcellent) {
+                        ratingStatus = getString(R.string.excellent).toUpperCase();
+                        openRatingDialog();
+                    } else {
+                        ratingStatus = getString(R.string.satisfactory).toUpperCase();
+
                     }
-                });
-                ratingDialog.setCancelable(false);
-                ratingDialog.show();
-
-                btnDone.setText(R.string.done_mess);
-                btnDone.setTextColor(Color.YELLOW);
 
 
-                status = Help.DONE;
-                help.setDone_press_time(System.currentTimeMillis());
-                addHelpInFireBase(help, true);
-
-                helpLayout.setVisibility(View.GONE);
-                // helpLayout.setVisibility(View.GONE);
+                }
+            });
+            ratingDialog.setCancelable(true);
+            ratingDialog.show();
 
 
-                btnHelp.setEnabled(true);
-                btnHelp.setAlpha(1.0f);
-                btnReady.setEnabled(false);
-                btnReady.setAlpha(0.5f);
-                btnDone.setEnabled(false);
-                btnDone.setAlpha(0.5f);
-            }
-        } else {
-            getToast("Must press ready request first.", Toast.LENGTH_SHORT).show();
+            // helpLayout.setVisibility(View.GONE);
+
+
         }
+
+       /* if (status.equalsIgnoreCase(Help.READY_PRESS) || status.equalsIgnoreCase(Help.HELP_PRESS)) {
+            getToast("Must press ready request first.", Toast.LENGTH_SHORT).show();
+        } else {
+
+
+
+        }*/
     }
 
 
@@ -1091,25 +1083,70 @@ public class CustomListActivity extends BaseActivity implements
         }
     }
 */
-    private void openRatingDialog(String s) {
+    private void openRatingDialog() {
 
-        CommonDialog commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.your_experience), s, getString(R.string.submit), getString(R.string.cancel), true, new CommonDialog.OnButtonClickListenerWithEdit() {
+        CommonDialog commonDialog = new CommonDialog(CustomListActivity.this, getString(R.string.your_experience), getString(R.string.str_thank_you_for_comment), getString(R.string.submit), getString(R.string.str_skip), true, new CommonDialog.OnButtonClickListenerWithEdit() {
 
 
             @Override
             public void onOkClick(View view, String value, CommonDialog commonDialog) {
-                Feedback feedback = new Feedback();
-                feedback.setRoom_key(mRoomNumber);
-                feedback.setFeedback(value);
-                feedback.setCurrantDate(System.currentTimeMillis());
 
-                feedback.setExperience_status(ratingStatus);
-                addFeedbackInFireBase(feedback);
+                if (view.getId() == R.id.tvYes) {
+                    Feedback feedback = new Feedback();
+                    feedback.setRoom_key(mRoomNumber);
+                    feedback.setFeedback(value);
+                    feedback.setCurrantDate(System.currentTimeMillis());
+
+                    feedback.setExperience_status(ratingStatus);
+                    addFeedbackInFireBase(feedback);
 
 
-                commonDialog.dismiss();
+                    commonDialog.dismiss();
 
-                recreate();
+
+                    CommonDialog dialog = new CommonDialog(CustomListActivity.this, getString(R.string.str_thank_you), getString(R.string.str_thank_you_leave), getString(R.string.okay), "", new CommonDialog.OnButtonClickListener() {
+                        @Override
+                        public void onOkClick(View view, CommonDialog dialog) {
+
+
+                            dialog.dismiss();
+                            recreate();
+
+
+                        }
+                    });
+
+                    dialog.show();
+                } else {
+                    Feedback feedback = new Feedback();
+                    feedback.setRoom_key(mRoomNumber);
+                    feedback.setFeedback(value);
+                    feedback.setCurrantDate(System.currentTimeMillis());
+
+                    feedback.setExperience_status(ratingStatus);
+                    addFeedbackInFireBase(feedback);
+                    commonDialog.dismiss();
+                    recreate();
+
+
+                }
+
+                if (ratingDialog.isShowing()) {
+                    ratingDialog.dismiss();
+                }
+
+                btnDone.setText(R.string.done_mess);
+                btnDone.setTextColor(Color.YELLOW);
+
+
+                status = Help.DONE;
+                help.setDone_press_time(System.currentTimeMillis());
+                addHelpInFireBase(help, true);
+
+                helpLayout.setVisibility(View.GONE);
+
+
+                //
             }
 
 
@@ -1142,17 +1179,23 @@ public class CustomListActivity extends BaseActivity implements
     public void textCheckBox(View v) {
         try {
             CheckBox checkBox;
-            TextView text;
+            TextView text, text1;
             ViewGroup row = (ViewGroup) v;
             View view = row.getChildAt(1);
             View textView = row.getChildAt(0);
+            View textView1 = row.getChildAt(2);
             checkBox = (CheckBox) view;
             text = (TextView) textView;
+            text1 = (TextView) textView1;
+
+
             if (checkBox.isChecked()) {
                 text.setTextColor(getResources().getColor(R.color.auto));
+                text1.setTextColor(getResources().getColor(R.color.auto));
                 checkBox.setChecked(false);
             } else {
                 text.setTextColor(getResources().getColor(R.color.disabled));
+                text1.setTextColor(getResources().getColor(R.color.disabled));
                 checkBox.setChecked(true);
             }
         } catch (Exception e) {
@@ -1376,55 +1419,39 @@ public class CustomListActivity extends BaseActivity implements
     private void populateUsersList() {
 
         LinearLayout llList = findViewById(R.id.llList);
-
         llList.removeAllViews();
+        final ArrayList<User> arrayOfUsers = User.getUsersOther(this);
+        for (int i = 0; i < arrayOfUsers.size(); i++) {
 
-
-        ArrayList<User> arrayOfUsers1 = User.getUsersOther(this);
-        for (int i = 0; i < arrayOfUsers1.size(); i++) {
-
-            View view = LayoutInflater.from(this).inflate(R.layout.item_user, llList, false);
-
-            TextView tv = view.findViewById(R.id.tvName);
-            CheckBox checkBox = view.findViewById(R.id.checkbox);
+            View view = LayoutInflater.from(this).inflate(R.layout.item_user_without_checkbox, llList, false);
+            final TextView tv = view.findViewById(R.id.tvName);
+            TextView tvNumber = view.findViewById(R.id.tvNumber);
             tv.setTypeface(null, Typeface.ITALIC);
-            checkBox.setVisibility(View.GONE);
-
-
             ViewGroup.LayoutParams layoutparams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
             view.setLayoutParams(layoutparams);
-            view.setClickable(false);
+            tvNumber.setText(arrayOfUsers.get(i).getId() + ".");
 
-            tv.setText(arrayOfUsers1.get(i).getName());
-
+            tv.setText(" " + arrayOfUsers.get(i).getName());
 
             llList.addView(view);
-
-
         }
 
 
         // Construct the data source
-        ArrayList<User> arrayOfUsers = User.getUsers(this);
-        // Create the adapter to convert the array to views
-        CustomUsersAdapter adapter = new CustomUsersAdapter(this, arrayOfUsers);
-        // Attach the adapter to a ListView
-        ListView listView = (ListView) findViewById(R.id.lvUsers);
-        listView.setAdapter(adapter);
-
+        final ArrayList<User> arrayOfUsers1 = User.getUsers(this);
         LinearLayout llList1 = findViewById(R.id.llList1);
         llList1.removeAllViews();
 
-        for (int i = 0; i < arrayOfUsers.size(); i++) {
 
+        for (int i = 0; i < arrayOfUsers1.size(); i++) {
             View view = LayoutInflater.from(this).inflate(R.layout.item_user, llList1, false);
-
             TextView tv = view.findViewById(R.id.tvName);
             CheckBox checkBox = view.findViewById(R.id.checkbox);
-
+            TextView tvNumber = view.findViewById(R.id.tvNumber);
+            checkBox.setChecked(false);
 
             ViewGroup.LayoutParams layoutparams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -1432,16 +1459,62 @@ public class CustomListActivity extends BaseActivity implements
             );
 
             ((LinearLayout.LayoutParams) layoutparams).setMargins((int) this.getResources().getDimension(R.dimen._1sdp), 0,
-                    (int) this.getResources().getDimension(R.dimen._1sdp), (int) this.getResources().getDimension(R.dimen._10sdp));
+                    (int) this.getResources().getDimension(R.dimen._1sdp), (int) this.getResources().getDimension(R.dimen._8sdp));
             view.setLayoutParams(layoutparams);
 
-            tv.setText(arrayOfUsers.get(i).getName());
+            tv.setText(" " + arrayOfUsers1.get(i).getName());
+            tvNumber.setText(arrayOfUsers1.get(i).getId() + ".");
 
 
             llList1.addView(view);
 
+            /*final int finalI = i;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(CustomListActivity.this, "Click", Toast.LENGTH_SHORT).show();
+
+                    if (arrayOfUsers1.get(finalI).isChecked()) {
+                        tvNumber.setTextColor(getResources().getColor(R.color.auto));
+                        tv.setTextColor(getResources().getColor(R.color.auto));
+                        checkBox.setChecked(false);
+                        arrayOfUsers1.get(finalI).setChecked(false);
+                    } else {
+                        tvNumber.setTextColor(getResources().getColor(R.color.disabled));
+                        tv.setTextColor(getResources().getColor(R.color.disabled));
+                        checkBox.setChecked(true);
+                    }
+
+
+                }
+            });*/
+        }
+
+
+        ArrayList<User> arrayOfUsers2 = User.getUsersOther1(this);
+        LinearLayout llList2 = findViewById(R.id.llList2);
+        llList2.removeAllViews();
+
+        for (int i = 0; i < arrayOfUsers2.size(); i++) {
+
+            View view = LayoutInflater.from(this).inflate(R.layout.item_user_without_checkbox, llList, false);
+            TextView tv = view.findViewById(R.id.tvName);
+            TextView tvNumber = view.findViewById(R.id.tvNumber);
+            tv.setTypeface(null, Typeface.ITALIC);
+            ViewGroup.LayoutParams layoutparams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            view.setLayoutParams(layoutparams);
+            tvNumber.setText(arrayOfUsers2.get(i).getId() + ".");
+            tv.setText(" " + arrayOfUsers2.get(i).getName());
+
+
+            llList2.addView(view);
 
         }
+
+
     }
 
 

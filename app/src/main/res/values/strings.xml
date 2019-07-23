@@ -75,14 +75,14 @@
     <string name="q45">Use the bathroom if needed and then clean the area again.</string>
     <string name="q46">General things which need to be removed: Body dirt, dry sweat, dry blood, dry milk, loose skin, paint, makeup, glue, plaster, remaining glue from plaster, unwanted body hair, wax, uncut nails.</string>
     <!-- <string name="q47">Any uncertainty or question, one should ask the Mikvah attendant – they are there to help. Any Halachic question should be asked a Rav prior to immersion and not suffice with asking afterwards.</string>-->
-    <string name="q47" translatable="false">Any uncertainty or question, one should ask the Mikvah attendant – they are there to help. Any Halachic question should be asked a Rav prior to immersion and not suffice with asking afterwards.</string>
+    <string name="q47">Any uncertainty or question, one should ask the Mikvah attendant – they are there to help. Any Halachic question should be asked a Rav prior to immersion and not suffice with asking afterwards.</string>
 
 
     <string name="q48">Some have the Minhag to wet the hidden parts of the body with the Mikvah water prior to immersion. These places include: between the toes, the intimate folds, the navel, stomach folds, under and between the breasts, armpits, behind the ears, eyelids, lips, and between fingers.</string>
     <string name="q49">During immersion care has to be taken not to seal the eyes or lips tightly, only gently and passively.</string>
     <string name="q50">The immersion posture should be, slightly bent forward, legs slightly apart, arms slightly away from the body.</string>
     <string name="q51">After the first immersion the Bracha is recited. During the Bracha one should cross the arms below the heart without touching covered parts and look away from the water. Some have the practice to cover the head during the Bracha.</string>
-    <string name="q52"> נוסח הברכה: &#34;ברוך אתה ד&#39; אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה&#34;.</string>
+    <string name="q52">The Bracha: &#34;ברוך אתה ד&#39; אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה&#34;.</string>
     <string name="q53">The Minhag is to immerse another twice after the Bracha in the same way as the first. Others have the Minhag to do more.</string>
     <string name="q54">After immersion the Minhag is to approach or touch the Mikvah attendant, in order not to meet firstly with something impure.</string>
     <string name="q55">One is not allowed to wash themselves after immersion whilst in the Mikvah building.</string>
@@ -93,16 +93,17 @@
     <string name="music_prompt">Choose a Song</string>
     <string name="cancel">CANCEL</string>
     <string name="yes">Yes</string>
-    <string name="enter_room_number_must_be_less_then_1_to_25">Enter room number must be less then 1 to 19</string>
+    <string name="enter_room_number_must_be_less_then_1_to_25">Set the room number for this device.  (1-19)</string>
     <string name="room_number">Room Number</string>
     <string name="occupied">OCCUPIED</string>
     <string name="str_yes">YES</string>
     <string name="str_no">NO</string>
     <string name="choose_music">Choose Music</string>
     <string name="occupied_successfully">Occupied Successfully</string>
-    <string name="aledy_occupied">This Room is already Occupied.Are you sure you want Occupied again ?</string>
+    <string name="aledy_occupied">There is already a device with that room number, if you continue, the other device will be reset.</string>
     <string name="alert">Alert</string>
-    <string name="uuid_room_occupied">This Room number already Occupied for your Device</string>
+    <string name="uuid_room_occupied">This device is already a with this room number.</string>
+
     <string name="okay">OKAY</string>
     <string-array name="song_arrays">
         <item>No Music</item>
@@ -134,8 +135,22 @@
     <string name="room_ready">Room is ready.</string>
     <string name="people_ahead_of_you">People ahead of you</string>
     <string name="you_does_not_occupied_any_room">You does not Occupied any room,so are you want to occupied any Room??</string>
-    <string name="must_cancel_other_request">Must cancel the other request first.</string>
     <string name="str_donate">You can donate through the system outside</string>
+    <string name="str_set_room_number">SET ROOM NUMBER</string>
+    <string name="must_cancel_other_request">Must cancel the other request first.</string>
+    <string name="str_countinue">Continue</string>
+    <string name="str_cancel">Cancel</string>
+    <string name="str_thank_you_for_comment">Thank you for letting us know! We would love to hear more from you. Please leave us a comment!</string>
+    <string name="str_warning">Warning!</string>
+    <string name="str_did_you_do">Did you do a הפסק טהרה last</string>
+    <string name="str_before">before שקיעה</string>
+    <string name="str_some_one_will_be_right_with_you">Someone will be right with you!</string>
+    <string name="people_ahead">People are ahead of you</string>
+    <string name="people_is_ahed">People is ahead of you</string>
+    <string name="you_must_press_cancel_help">You must press CANCEL HELP before pressing Ready</string>
+    <string name="str_skip">Skip</string>
+    <string name="str_thank_you_leave">Thank you for coming! Please look around to make sure that you don\'t leave anything behind.</string>
+    <string name="str_thank_you">Thank you!</string>
 
 
     <string-array name="names">

@@ -199,7 +199,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
 
     private void setInitiateRoom() {
-
+        AppUtils.hideKeyboard(activity);
 
         mRoomNumber = String.valueOf(getRoomNumber());
         mUUID = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -234,7 +234,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         } else if (isRoomExist) {
 
 
-            CommonDialog commonDialog = new CommonDialog(getContext(), activity.getString(R.string.alert), activity.getString(R.string.aledy_occupied), activity.getString(R.string.yes), activity.getString(R.string.str_no), new CommonDialog.OnButtonClickListener() {
+            CommonDialog commonDialog = new CommonDialog(getContext(), activity.getString(R.string.str_warning), activity.getString(R.string.aledy_occupied), activity.getString(R.string.str_countinue), activity.getString(R.string.str_cancel), new CommonDialog.OnButtonClickListener() {
                 @Override
                 public void onOkClick(View view, CommonDialog commonDialog) {
                     if (view.getId() == R.id.tvYes) {
@@ -253,6 +253,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
             });
 
             commonDialog.show();
+
 
 
         } else {
@@ -305,6 +306,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(activity, activity.getString(R.string.occupied_successfully), Toast.LENGTH_SHORT).show();
+                                    PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_RESET, true);
                                     PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
                                     showProgressBar(false);
