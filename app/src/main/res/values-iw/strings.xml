@@ -48,7 +48,7 @@
     <string name="q2">לעשות הכנות במתינות ובישוב הדעת.</string>
     <string name="q3">לכתחלה להתחיל עיקר החפיפה וההכנות מבעוד יום ולהמשיך קצת בלילה ואז   לטבול, ולכל הפחות לעשות חלק חשוב כגון השיניים וצפרניים בעוד יום.</string>
     <string name="q4">ואם מתחילים ההכנות רק אחרי צאת הכוכבים אז לעסוק בהם לשעה אחת.</string>
-    <string name="q5">גם אלו שעשו ההכנות בבית, צריכות לשוב להתרחץ ולהסתרק ולעשות עיון הגוף בבית הטבילה.</string>
+    <string name="q5">גם אלו שעשו ההכנות בבית, צריכות לשוב להתרחץ  ולהסתרק ולעשות עיון הגוף בבית הטבילה.</string>
     <string name="q6">להוריד כל תכשיטים ועגילים וכדומה.</string>
     <string name="q7">המנהג הוא לישב ולרחוץ דוקא באמבטיה, ועל פי דין דוקא במים חמים.</string>
     <string name="q8">אם יש גלד של מכה לרכך אותה במים חמים.</string>
@@ -139,4 +139,15 @@
     <string name="str_thank_you_leave">תודה שבאת! נא להסתכל מסביב כדי לוודא שאתה לא משאיר שום דבר מאחור.</string>
     <string name="smile_rating_bad">רע</string>
     <string name="str_thank_you">תודה!</string>
+    <string name="pin_verification">אימות סיכה</string>
+    <string name="must_cancel_other_request">חובה לבטל את הבקשה האחרת תחילה.</string>
+    <string name="ster_in_order_to_do_a">כדי לעשות תפילה הלילה בטח עשית Hefsak אחרון</string>
+    <string name="str_before_shkia_or_as">לפני שקיה או כפי שהורה רב אחר</string>
+    <string name="str_help_alert">עליך ללחוץ על כפתור הצורך עוד זמן לפני שתבקש עזרה</string>
+    <string name="str_how_was_your_experience">איך הייתה החוויה שלך?</string>
+    <string name="str_location_permission">אנא ספק הרשאת מיקום כדי שתוכל לקבל זמן שקיעה</string>
+    <string name="str_need_more_time_in_the_room">זקוק ליותר זמן בחדר</string>
+    <string name="str_room_number">אנא הזן את מספר החדר.</string>
+    <string name="str_someone_is_comming">מישהו מגיע</string>
+    <string name="str_continue">המשך</string>
 </resources>

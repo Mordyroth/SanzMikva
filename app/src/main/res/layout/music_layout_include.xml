@@ -13,7 +13,6 @@
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_8sdp"
         android:elevation="4dp"
-        android:onClick="music"
         android:scaleType="fitCenter"
         android:src="@drawable/music1" />
 

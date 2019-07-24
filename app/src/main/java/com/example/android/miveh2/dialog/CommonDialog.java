@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -73,6 +75,8 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setCancelable(false);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setGravity(Gravity.CENTER);
         setContentView(R.layout.dialog_common);
 
         initialization();
@@ -110,6 +114,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
             if (etFeedbacks.getText().toString().length() == 0) {
                 tvYes.setEnabled(false);
                 tvYes.setAlpha(0.5f);
+
             }
         }
         setListener();

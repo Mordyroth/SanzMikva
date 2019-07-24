@@ -49,7 +49,7 @@ public class PinDialog extends Dialog implements View.OnClickListener {
         edtCode2 = (EditText) findViewById(R.id.edtCode2);
         edtCode3 = (EditText) findViewById(R.id.edtCode3);
         edtCode4 = (EditText) findViewById(R.id.edtCode4);
-
+      //  edtCode1.performClick();
         edtCode1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -190,17 +190,17 @@ public class PinDialog extends Dialog implements View.OnClickListener {
         no.setOnClickListener(this);
 
 
-        int hight = (int) getContext().getResources().getDimension(R.dimen._50sdp);
+        /*int hight = (int) getContext().getResources().getDimension(R.dimen._50sdp);
         int width = (int) getContext().getResources().getDimension(R.dimen._60sdp);
 
         Pinview pin = (Pinview) findViewById(R.id.pinview);
         pin.setPinBackgroundRes(R.drawable.sample_background);
         pin.setPinHeight(hight);
-        pin.setPinWidth(width);
+        pin.setPinWidth(width);*/
         // AppUtils.hideKeyboard(c);
 
 
-        pin.setPinViewEventListener(new Pinview.PinViewEventListener() {
+       /* pin.setPinViewEventListener(new Pinview.PinViewEventListener() {
             @Override
             public void onDataEntered(Pinview pinview, boolean fromUser) {
                 //Make api calls here or what not
@@ -210,7 +210,7 @@ public class PinDialog extends Dialog implements View.OnClickListener {
                 RoomNumberDialog roomNnmberDialog = new RoomNumberDialog(c);
                 roomNnmberDialog.show();
             }
-        });
+        });*/
 
 
     }
@@ -243,8 +243,7 @@ public class PinDialog extends Dialog implements View.OnClickListener {
             case R.id.btn_no:
                 dismiss();
                 break;
-            default:
-                break;
+
         }
         dismiss();
     }

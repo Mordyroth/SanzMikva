@@ -24,7 +24,7 @@
     <string name="question14">Use the bathroom if necessary, be sure to wash all areas to ensure clean of toilet tissue, etc and re comb pubic hair.</string>
 
 
-    <string name="q1">Remember to do Sevent day bedika before Shkiah.</string>
+    <string name="q1">Remember to do Seventh day bedika before Shkiah.</string>
     <string name="q2">Preparations should be done calmly and slowly.</string>
     <string name="q3">Preferably main preparations e.g. shampooing the hair and combing it out, should start whilst still day continuing until nightfall, and then immerse in the Mikvah. If that’s not possible, at least a significant part e.g. teeth and nails should be done whilst daytime.</string>
     <string name="q4">If preparations start only after nightfall, a full hour should be spent doing them.</string>
@@ -82,7 +82,7 @@
     <string name="q49">During immersion care has to be taken not to seal the eyes or lips tightly, only gently and passively.</string>
     <string name="q50">The immersion posture should be, slightly bent forward, legs slightly apart, arms slightly away from the body.</string>
     <string name="q51">After the first immersion the Bracha is recited. During the Bracha one should cross the arms below the heart without touching covered parts and look away from the water. Some have the practice to cover the head during the Bracha.</string>
-    <string name="q52">The Bracha: &#34;ברוך אתה ד&#39; אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה&#34;.</string>
+    <string name="q52">The Bracha: \n &#34;ברוך אתה ד&#39; אלוקינו מלך העולם אשר קדשנו במצוותיו וצונו על הטבילה&#34;.</string>
     <string name="q53">The Minhag is to immerse another twice after the Bracha in the same way as the first. Others have the Minhag to do more.</string>
     <string name="q54">After immersion the Minhag is to approach or touch the Mikvah attendant, in order not to meet firstly with something impure.</string>
     <string name="q55">One is not allowed to wash themselves after immersion whilst in the Mikvah building.</string>
@@ -151,6 +151,14 @@
     <string name="str_skip">Skip</string>
     <string name="str_thank_you_leave">Thank you for coming! Please look around to make sure that you don\'t leave anything behind.</string>
     <string name="str_thank_you">Thank you!</string>
+    <string name="str_room_number">Please Enter Room Number.</string>
+    <string name="str_someone_is_comming">Someone is coming</string>
+    <string name="str_help_alert">You must press the NEED MORE TIME button before requesting help</string>
+    <string name="str_location_permission">Please provide location permission so that you can get sunset time</string>
+    <string name="str_how_was_your_experience">How was your experience?</string>
+    <string name="str_need_more_time_in_the_room">Need more time in the room</string>
+    <string name="ster_in_order_to_do_a">In order to do a Tevilah tonight you must have done a hefsak last</string>
+    <string name="str_before_shkia_or_as">before shkia or as otherwise instructed by a Rav</string>
 
 
     <string-array name="names">
@@ -160,4 +168,6 @@
         <item>@string/smile_rating_good</item>
         <item>@string/smile_rating_great</item>
     </string-array>
+    <string name="pin_verification">Pin Verification</string>
+    <string name="str_continue">Continue</string>
 </resources>

@@ -169,7 +169,7 @@ public class CustomListActivity extends BaseActivity implements
                 enqueue(periodicWorkRequest);
 
 
-        String rationale = "Please provide location permission so that you can get sunset time";
+        String rationale = getString(R.string.str_location_permission);
         Permissions.Options options = new Permissions.Options()
                 .setRationaleDialogTitle("Info")
                 .setSettingsDialogTitle("Warning");
@@ -247,7 +247,7 @@ public class CustomListActivity extends BaseActivity implements
                     break;
             }
 
-            String message = getString(R.string.str_did_you_do) + toDay + getString(R.string.str_before);
+            String message = getString(R.string.str_did_you_do) + " " + toDay + " " + getString(R.string.str_before);
 
 
             final String finalToDay = toDay;
@@ -257,10 +257,10 @@ public class CustomListActivity extends BaseActivity implements
 
                     if (view.getId() != R.id.tvNo) {
 
-                        String msg = "In order to do a Tevilah tonight you must have done a hefsak last " + finalToDay + " before shkia or as otherwise instructed by a Rav";
+                        String msg = getString(R.string.ster_in_order_to_do_a) + " " + finalToDay + " " + getString(R.string.str_before_shkia_or_as);
 
                         CommonDialog dialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), msg,
-                                "Continue", "", new CommonDialog.OnButtonClickListener() {
+                                getString(R.string.str_continue), "", new CommonDialog.OnButtonClickListener() {
                             @Override
                             public void onOkClick(View view, CommonDialog commonDialog) {
 
@@ -271,7 +271,7 @@ public class CustomListActivity extends BaseActivity implements
                         dialog.show();
 
                         commonDialog.dismiss();
-                        
+
 
                     } else {
                         commonDialog.dismiss();
@@ -584,7 +584,7 @@ public class CustomListActivity extends BaseActivity implements
                         if (status.equalsIgnoreCase(Help.HELP_PRESS))
                             tvCurrantStatus.setText(getString(R.string.str_some_one_will_be_right_with_you));
                         else if (status.equalsIgnoreCase(Help.READY_PRESS))
-                            tvCurrantStatus.setText("Someone is coming");
+                            tvCurrantStatus.setText(getString(R.string.str_someone_is_comming));
                         tvCurrantRoom.setVisibility(View.GONE);
                     } else {
                         tvCurrantRoom.setVisibility(View.VISIBLE);
@@ -629,7 +629,7 @@ public class CustomListActivity extends BaseActivity implements
 
                 if (status.equalsIgnoreCase(Help.READY_PRESS)) {
 
-                    getToast("You must press the NEED MORE TIME button before requesting help", Toast.LENGTH_SHORT).show();
+                    getToast(getString(R.string.str_help_alert), Toast.LENGTH_SHORT).show();
 
 
                 } else {
@@ -700,7 +700,7 @@ public class CustomListActivity extends BaseActivity implements
                 btnReady.setTextColor(Color.YELLOW);
                 help.setReady_press_time(System.currentTimeMillis());
                 status = Help.READY_PRESS;
-                tvStatusOfWorker.setText("Someone is coming");
+                tvStatusOfWorker.setText(getString(R.string.str_someone_is_comming));
                 help.setReady_cancel_time(0l);
                 //  tvStatusOfWorker.setText(getString(R.string.worker_on_the_way));
 
@@ -753,6 +753,7 @@ public class CustomListActivity extends BaseActivity implements
             ratingDialog = new RatingDialog(CustomListActivity.this, new RatingDialog.OnButtonClickListener() {
                 @Override
                 public void onOkClick(View view) {
+                    ratingDialog.dismiss();
                     if (view.getId() == R.id.llImprovement) {
                         ratingStatus = getString(R.string.could_use_imrove).toLowerCase();
                         openRatingDialog();
@@ -957,7 +958,7 @@ public class CustomListActivity extends BaseActivity implements
             dbFeedback.child(key).setValue(feedback).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    getToast("Thank for your feedback", Toast.LENGTH_SHORT).show();
+                    //                                                                          getToast("Thank for your feedback", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -1130,9 +1131,9 @@ public class CustomListActivity extends BaseActivity implements
 
                 }
 
-                if (ratingDialog.isShowing()) {
+               /* if (ratingDialog.isShowing()) {
                     ratingDialog.dismiss();
-                }
+                }*/
 
                 btnDone.setText(R.string.done_mess);
                 btnDone.setTextColor(Color.YELLOW);
@@ -1146,7 +1147,6 @@ public class CustomListActivity extends BaseActivity implements
 
 
                 //
-
 
 
             }

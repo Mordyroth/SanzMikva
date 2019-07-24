@@ -29,27 +29,11 @@
             android:background="@color/colorPrimaryDark"
             android:gravity="center"
             android:padding="@dimen/_10sdp"
-            android:text="Pin Verification"
+            android:text="@string/pin_verification"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/_20sdp" />
 
-        <com.goodiebag.pinview.Pinview
-            android:id="@+id/pinview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:padding="20dp"
-            android:visibility="gone"
-            app:cursorVisible="false"
-            app:forceKeyboard="false"
-            app:hint="0"
-            app:inputType="number"
-            app:password="false"
 
-            app:pinHeight="40dp"
-            app:pinLength="4"
-            app:pinWidth="40dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -147,7 +131,7 @@
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingRight="@dimen/_20sdp"
                 android:paddingBottom="@dimen/_5sdp"
-                android:text="Cancel"
+                android:text="@string/str_cancel"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_15sdp" />
         </LinearLayout>

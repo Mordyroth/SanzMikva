@@ -147,14 +147,20 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                if (getRoomNumber() != 0 && getRoomNumber() <= 19) {
 
-                    progressBar.setVisibility(View.VISIBLE);
-                    setInitiateRoom();
+                if (!edtRoomCode.getText().toString().isEmpty()) {
+                    if (getRoomNumber() != 0 && getRoomNumber() <= 19) {
+
+                        progressBar.setVisibility(View.VISIBLE);
+                        setInitiateRoom();
+                        dismiss();
 
 
+                    } else {
+                        Log.e("TAG:::", "is not under 19");
+                    }
                 } else {
-                    Log.e("TAG:::", "is not under 19");
+                    Toast.makeText(activity, activity.getString(R.string.str_room_number), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btn_no:
@@ -163,7 +169,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
             default:
                 break;
         }
-        dismiss();
+
     }
 
 
@@ -253,7 +259,6 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
             });
 
             commonDialog.show();
-
 
 
         } else {
