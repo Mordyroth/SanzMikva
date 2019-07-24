@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_5sdp"
+
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_12sdp"
         tools:text="1"
@@ -23,9 +23,8 @@
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="fill_vertical"
-        android:includeFontPadding="false"
         android:padding="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:text="Comb all hair while still wet. It is helpful to place a towel under the hair so loose hair will not fall on body."
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_12sdp" />

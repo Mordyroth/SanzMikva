@@ -56,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:padding="@dimen/_5sdp"
-            android:text="People ahead of you"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />

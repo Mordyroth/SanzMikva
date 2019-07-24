@@ -130,6 +130,24 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnNeedMoreTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/colorPrimaryDark"
+                android:padding="@dimen/_10sdp"
+                android:text="Need more time in the room"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_10sdp" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

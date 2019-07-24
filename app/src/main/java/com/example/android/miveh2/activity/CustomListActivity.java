@@ -257,7 +257,7 @@ public class CustomListActivity extends BaseActivity implements
 
                     if (view.getId() != R.id.tvNo) {
 
-                        String msg = "In order to do a Tevilah tonight you must have done a hefsak last" + finalToDay + "before shkia or as otherwise instructed by a Rav";
+                        String msg = "In order to do a Tevilah tonight you must have done a hefsak last " + finalToDay + " before shkia or as otherwise instructed by a Rav";
 
                         CommonDialog dialog = new CommonDialog(CustomListActivity.this, getString(R.string.alert), msg,
                                 "Continue", "", new CommonDialog.OnButtonClickListener() {
@@ -271,7 +271,7 @@ public class CustomListActivity extends BaseActivity implements
                         dialog.show();
 
                         commonDialog.dismiss();
-                        //In order to do a Tevilah tonight you must have done a hefsak last Monday before shkia or as otherwise instructed by a Rav
+                        
 
                     } else {
                         commonDialog.dismiss();
@@ -569,10 +569,6 @@ public class CustomListActivity extends BaseActivity implements
 
         if (isBreak) {
 
-            if (status.equalsIgnoreCase(Help.HELP_PRESS))
-                helpLayout.setVisibility(View.VISIBLE);
-            else helpLayout.setVisibility(View.GONE);
-
 
             for (int j = 0; j < size; j++) {
 
@@ -585,7 +581,10 @@ public class CustomListActivity extends BaseActivity implements
                 if (j == (size - 1)) {
 
                     if (tempList.size() == 0) {
-                        tvCurrantStatus.setText(getString(R.string.str_some_one_will_be_right_with_you));
+                        if (status.equalsIgnoreCase(Help.HELP_PRESS))
+                            tvCurrantStatus.setText(getString(R.string.str_some_one_will_be_right_with_you));
+                        else if (status.equalsIgnoreCase(Help.READY_PRESS))
+                            tvCurrantStatus.setText("Someone is coming");
                         tvCurrantRoom.setVisibility(View.GONE);
                     } else {
                         tvCurrantRoom.setVisibility(View.VISIBLE);
@@ -650,7 +649,7 @@ public class CustomListActivity extends BaseActivity implements
 
                     addHelpInFireBase(help, true);
 
-
+                    helpLayout.setVisibility(View.VISIBLE);
                 }
             } else {
 
@@ -696,16 +695,16 @@ public class CustomListActivity extends BaseActivity implements
 
 
             } else {
-
+                helpLayout.setVisibility(View.VISIBLE);
                 btnReady.setText(R.string.cancel_ready);
                 btnReady.setTextColor(Color.YELLOW);
                 help.setReady_press_time(System.currentTimeMillis());
                 status = Help.READY_PRESS;
-
+                tvStatusOfWorker.setText("Someone is coming");
                 help.setReady_cancel_time(0l);
                 //  tvStatusOfWorker.setText(getString(R.string.worker_on_the_way));
-                tvStatusOfWorker.setText("Someone is coming");
 
+                helpLayout.setVisibility(View.VISIBLE);
                 addHelpInFireBase(help, false);
 
             }
@@ -718,7 +717,7 @@ public class CustomListActivity extends BaseActivity implements
                 help.setReady_cancel_time(System.currentTimeMillis());
 
                 addHelpInFireBase(help, false);
-
+                helpLayout.setVisibility(View.GONE);
 
             }
 
@@ -1147,6 +1146,9 @@ public class CustomListActivity extends BaseActivity implements
 
 
                 //
+
+
+
             }
 
 

@@ -4,8 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -22,6 +25,7 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
     private LinearLayout llImprovement, llSatisfactory, llExcellent;
 
     private ImageView ivClose;
+    private Button btnNeedMoreTime;
 
     public RatingDialog(Context context, OnButtonClickListener onButtonClickListener) {
         super(context);
@@ -37,6 +41,8 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setCancelable(false);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setGravity(Gravity.CENTER);
         setContentView(R.layout.rating_common);
 
         initialization();
@@ -52,6 +58,7 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
         llSatisfactory = findViewById(R.id.llSatisfactory);
         llImprovement = findViewById(R.id.llImprovement);
         ivClose = findViewById(R.id.ivClose);
+        btnNeedMoreTime = findViewById(R.id.btnNeedMoreTime);
 
         setListener();
     }
@@ -62,6 +69,7 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
         llImprovement.setOnClickListener(this);
         llSatisfactory.setOnClickListener(this);
         ivClose.setOnClickListener(this);
+        btnNeedMoreTime.setOnClickListener(this);
 
 
     }
@@ -71,7 +79,7 @@ public class RatingDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
 
 
-        if (v.getId() == R.id.ivClose) {
+        if (v.getId() == R.id.ivClose || v.getId() == R.id.btnNeedMoreTime) {
             dismiss();
         }
 
