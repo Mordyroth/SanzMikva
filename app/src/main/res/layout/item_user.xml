@@ -51,7 +51,7 @@ card_view:cardElevation="3dp">
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/tvNumber"
         android:padding="@dimen/_5sdp"
-        android:text="Comb all hair while still wet. It is helpful to place a towel under the hair so loose hair will not fall on body."
+
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_12sdp"
 

@@ -18,6 +18,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -1461,7 +1463,7 @@ public class CustomListActivity extends BaseActivity implements
         for (int i = 0; i < arrayOfUsers.size(); i++) {
 
             View view = LayoutInflater.from(this).inflate(R.layout.item_user_without_checkbox, llList, false);
-            final TextView tv = view.findViewById(R.id.tvName);
+
             TextView tvNumber = view.findViewById(R.id.tvNumber);
             //tv.setTypeface(null, Typeface.ITALIC);
             ViewGroup.LayoutParams layoutparams = new LinearLayout.LayoutParams(
@@ -1473,7 +1475,8 @@ public class CustomListActivity extends BaseActivity implements
             view.setLayoutParams(layoutparams);
             tvNumber.setText(arrayOfUsers.get(i).getId() + ".");
 
-            tv.setText(arrayOfUsers.get(i).getName() );
+            TextView tv = view.findViewById(R.id.tvName);
+            tv.setText(arrayOfUsers.get(i).getName());
 
             if (arrayOfUsers.get(i).getId().equalsIgnoreCase("")) {
                 tvNumber.setVisibility(View.GONE);
@@ -1526,26 +1529,7 @@ public class CustomListActivity extends BaseActivity implements
 
             llList1.addView(view);
 
-            /*final int finalI = i;
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(CustomListActivity.this, "Click", Toast.LENGTH_SHORT).show();
 
-                    if (arrayOfUsers1.get(finalI).isChecked()) {
-                        tvNumber.setTextColor(getResources().getColor(R.color.auto));
-                        tv.setTextColor(getResources().getColor(R.color.auto));
-                        checkBox.setChecked(false);
-                        arrayOfUsers1.get(finalI).setChecked(false);
-                    } else {
-                        tvNumber.setTextColor(getResources().getColor(R.color.disabled));
-                        tv.setTextColor(getResources().getColor(R.color.disabled));
-                        checkBox.setChecked(true);
-                    }
-
-
-                }
-            });*/
         }
 
 
@@ -1556,7 +1540,7 @@ public class CustomListActivity extends BaseActivity implements
         for (int i = 0; i < arrayOfUsers2.size(); i++) {
 
             View view = LayoutInflater.from(this).inflate(R.layout.item_user_without_checkbox, llList, false);
-            TextView tv = view.findViewById(R.id.tvName);
+
             TextView tvNumber = view.findViewById(R.id.tvNumber);
             //    tv.setTypeface(null, Typeface.ITALIC);
             ViewGroup.LayoutParams layoutparams = new LinearLayout.LayoutParams(
@@ -1568,6 +1552,7 @@ public class CustomListActivity extends BaseActivity implements
             view.setLayoutParams(layoutparams);
             view.setLayoutParams(layoutparams);
             tvNumber.setText(arrayOfUsers2.get(i).getId() + ".");
+            TextView tv = view.findViewById(R.id.tvName);
             tv.setText(arrayOfUsers2.get(i).getName());
             if (arrayOfUsers2.get(i).getId().equalsIgnoreCase("")) {
                 tvNumber.setVisibility(View.GONE);
