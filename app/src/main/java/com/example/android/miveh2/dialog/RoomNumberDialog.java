@@ -175,6 +175,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
                         progressBar.setVisibility(View.VISIBLE);
                         setInitiateRoom();
+                        dismiss();
 
 
                     } else {
@@ -251,7 +252,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                 public void onOkClick(View view, CommonDialog commonDialog) {
                     commonDialog.dismiss();
                     PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
-                    AppUtils.showKeyboard(activity);
+                    RoomNumberDialog roomNnmberDialog = new RoomNumberDialog(activity);
+                    roomNnmberDialog.show();
 
                 }
             });
@@ -275,7 +277,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                     } else {
                         commonDialog.dismiss();
                         PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
-                        AppUtils.showKeyboard(activity);
+                        RoomNumberDialog roomNnmberDialog = new RoomNumberDialog(activity);
+                        roomNnmberDialog.show();
                     }
                 }
 
