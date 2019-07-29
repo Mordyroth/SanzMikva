@@ -122,8 +122,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 edtRoomCode.setSelection(edtRoomCode.getText().length());
+
             }
         });
 
@@ -251,6 +251,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                 public void onOkClick(View view, CommonDialog commonDialog) {
                     commonDialog.dismiss();
                     PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
+                    AppUtils.showKeyboard(activity);
 
                 }
             });
@@ -274,6 +275,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                     } else {
                         commonDialog.dismiss();
                         PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
+                        AppUtils.showKeyboard(activity);
                     }
                 }
 
