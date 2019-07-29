@@ -18,7 +18,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +29,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -130,7 +128,7 @@ public class CustomListActivity extends BaseActivity implements
 
     private AVLoadingIndicatorView avi;
 
-    public static int roomNumber=0;
+    public static int roomNumber = 0;
     private String songName;
     private String language;
     private DatabaseReference dbHelpHistory, dbHelp, dbRoomTable;
@@ -167,6 +165,7 @@ public class CustomListActivity extends BaseActivity implements
         clearMediaPlayer();
 
         mDate = AppUtils.getDate();
+        roomNumber = 0;
 
         // mediaPlayer = new MediaPlayer();
         clearMediaPlayer();
@@ -429,43 +428,46 @@ public class CustomListActivity extends BaseActivity implements
 
                 SunsetModel sunsetModel = response.body();
 
-                try {
+                if (sunsetModel != null && sunsetModel.getResults() != null) {
 
-                    tvSunset.setText(" שקיעה " + AppUtils.getLocalDate(sunsetModel.getResults().getSunset()));
+                    try {
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        tvSunset.setText(" שקיעה " + AppUtils.getLocalDate(sunsetModel.getResults().getSunset()));
 
-                }
+                    } catch (Exception e) {
+                        e.printStackTrace();
 
-
-                try {
-
-                    if (sunsetModel.getResults() != null) {
-                        String myTime = AppUtils.getLocalDate(sunsetModel.getResults().getSunset());
-                        SimpleDateFormat df = new SimpleDateFormat("h:mm");
-                        Date d = null;
-                        d = df.parse(myTime);
-
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(d);
-                        cal.add(Calendar.MINUTE, 20);
-                        String newTime = df.format(cal.getTime());
-
-
-                        try {
-
-                            tvSunset1.setText(" זמן טבילה " + newTime);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-
-                        }
                     }
 
-                } catch (ParseException e) {
 
-                    e.printStackTrace();
+                    try {
+
+                        if (sunsetModel.getResults() != null) {
+                            String myTime = AppUtils.getLocalDate(sunsetModel.getResults().getSunset());
+                            SimpleDateFormat df = new SimpleDateFormat("h:mm");
+                            Date d = null;
+                            d = df.parse(myTime);
+
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(d);
+                            cal.add(Calendar.MINUTE, 20);
+                            String newTime = df.format(cal.getTime());
+
+
+                            try {
+
+                                tvSunset1.setText(" זמן טבילה " + newTime);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+
+                            }
+                        }
+
+                    } catch (ParseException e) {
+
+                        e.printStackTrace();
+                    }
                 }
 
 

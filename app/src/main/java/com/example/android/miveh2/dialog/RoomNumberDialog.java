@@ -103,8 +103,11 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
         progressBar = findViewById(R.id.ivProgress);
 
-        if (CustomListActivity.roomNumber != 0)
+        if (CustomListActivity.roomNumber != 0) {
             edtRoomCode.setText("" + CustomListActivity.roomNumber);
+
+            edtRoomCode.setSelection(edtRoomCode.getText().toString().length());
+        }
 
 
         yes = (Button) findViewById(R.id.btn_yes);
@@ -277,7 +280,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
                         commonDialog.dismiss();
                         addRoomInFireBase(room);
-                        CustomListActivity.roomNumber=0;
+                        CustomListActivity.roomNumber = 0;
 
 
                     } else {
