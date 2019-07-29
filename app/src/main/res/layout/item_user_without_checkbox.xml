@@ -3,8 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
 
     <TextView
@@ -22,16 +21,16 @@
         />
 
 
-    <android.support.v7.widget.AppCompatTextView
+    <com.example.android.miveh2.utils.NewTextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:fontFamily="@font/roboto_regular_italic"
         android:padding="@dimen/_5sdp"
-        android:shadowRadius="2"
-        android:shadowDx="2"
         android:shadowColor="#00000000"
+        android:shadowDx="2"
+        android:shadowRadius="2"
         android:text="לכתחלה להתחיל עיקר החפיפה וההכנות מבעוד יום ולהמשיך קצת בלילה ואז   לטבול, ולכל הפחות לעשות חלק חשוב כגון השיניים וצפרניים בעוד יום."
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_12sdp" />
