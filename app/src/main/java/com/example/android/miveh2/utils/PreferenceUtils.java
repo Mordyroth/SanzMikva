@@ -46,6 +46,7 @@ public class PreferenceUtils {
         if (sharedPreferences != null) {
             return sharedPreferences.getBoolean(key, false);
         }
+        
         return false;
     }
 
