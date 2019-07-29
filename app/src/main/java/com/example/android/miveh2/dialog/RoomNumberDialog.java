@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.miveh2.R;
+import com.example.android.miveh2.activity.CustomListActivity;
 import com.example.android.miveh2.model.FireBaseDBInstanceModel;
 import com.example.android.miveh2.model.Room;
 import com.example.android.miveh2.utils.AppUtils;
@@ -102,6 +103,9 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
         progressBar = findViewById(R.id.ivProgress);
 
+        if (CustomListActivity.roomNumber != 0)
+            edtRoomCode.setText("" + CustomListActivity.roomNumber);
+
 
         yes = (Button) findViewById(R.id.btn_yes);
         no = (Button) findViewById(R.id.btn_no);
@@ -174,6 +178,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                     if (getRoomNumber() != 0 && getRoomNumber() <= 19) {
 
                         progressBar.setVisibility(View.VISIBLE);
+                        CustomListActivity.roomNumber = getRoomNumber();
                         setInitiateRoom();
                         dismiss();
 
@@ -272,6 +277,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
                         commonDialog.dismiss();
                         addRoomInFireBase(room);
+                        CustomListActivity.roomNumber=0;
 
 
                     } else {

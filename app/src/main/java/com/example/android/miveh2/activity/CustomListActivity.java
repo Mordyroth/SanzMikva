@@ -127,7 +127,10 @@ public class CustomListActivity extends BaseActivity implements
     static MediaPlayer mediaPlayer;
     private int maxVal = 0;
 
+
     private AVLoadingIndicatorView avi;
+
+    public static int roomNumber=0;
     private String songName;
     private String language;
     private DatabaseReference dbHelpHistory, dbHelp, dbRoomTable;
