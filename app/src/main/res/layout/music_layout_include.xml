@@ -32,11 +32,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:textSize="@dimen/_11sdp" />
+            android:textSize="@dimen/_9sdp" />
 
         <ImageView
             android:id="@+id/dropdown"

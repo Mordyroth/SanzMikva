@@ -7,10 +7,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
@@ -96,6 +98,8 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         });
         edtRoomCode.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
 
+        edtRoomCode.requestFocus();
+
         progressBar = findViewById(R.id.ivProgress);
 
 
@@ -104,6 +108,24 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
         getDataFromServer();
+
+        edtRoomCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                edtRoomCode.setSelection(edtRoomCode.getText().length());
+            }
+        });
 
     }
 
@@ -153,7 +175,6 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
                         progressBar.setVisibility(View.VISIBLE);
                         setInitiateRoom();
-                        dismiss();
 
 
                     } else {
@@ -236,6 +257,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
             commonDialog.show();
 
+            isRoomUUidSame = false;
 
         } else if (isRoomExist) {
 
@@ -245,9 +267,9 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                 public void onOkClick(View view, CommonDialog commonDialog) {
                     if (view.getId() == R.id.tvYes) {
 
-
-                        addRoomInFireBase(room);
                         commonDialog.dismiss();
+                        addRoomInFireBase(room);
+
 
                     } else {
                         commonDialog.dismiss();
@@ -315,6 +337,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
                                     PreferenceUtils.getInstance(getContext()).save(AppUtils.ROOM_NUMBER, mRoomNumber);
 
                                     showProgressBar(false);
+                                    dismiss();
                                     activity.recreate();
 
 
@@ -369,6 +392,7 @@ public class RoomNumberDialog extends Dialog implements android.view.View.OnClic
 
 
         boolean isValid = false;
+        isRoomUUidSame = false;
 
         for (int i = 0; i < mRoomsFromServerList.size(); i++) {
 

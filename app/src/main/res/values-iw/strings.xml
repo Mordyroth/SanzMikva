@@ -31,7 +31,7 @@
         <item>שיר מספר חמש</item>
         <item>השיר מספר שש</item>
     </string-array>
-    <string name="aledy_occupied">יש כבר מכשיר עם מספר החדר, אם תמשיך, המכשיר האחר יאופס.</string>
+    <string name="aledy_occupied">מספר החדר הזה משמש כבר מכשיר אחר. אם תבחר להמשיך, המכשיר האחר יאופס ודורש מספר חדר חדש</string>
     <string name="cancel">בטל</string>
     <string name="choose_music">בחר מוסיקה</string>
     <string name="could_use_imrove">יכול להשתמש בשיפור</string>
@@ -46,7 +46,7 @@
 
     <string name="q1">לזכור לעשות בדיקת יום השביעי לפני השקיעה.</string>
     <string name="q2">לעשות הכנות במתינות ובישוב הדעת.</string>
-    <string name="q3">לכתחלה להתחיל עיקר החפיפה וההכנות מבעוד יום ולהמשיך קצת בלילה ואז   לטבול, ולכל הפחות לעשות חלק חשוב כגון השיניים וצפרניים בעוד יום.</string>
+    <string name="q3">\לכתחלה להתחיל עיקר החפיפה וההכנות מבעוד יום ולהמשיך קצת בלילה ואז   לטבול, ולכל הפחות לעשות חלק חשוב כגון השיניים וצפרניים בעוד יום.</string>
     <string name="q4">ואם מתחילים ההכנות רק אחרי צאת הכוכבים אז לעסוק בהם לשעה אחת.</string>
     <string name="q5">גם אלו שעשו ההכנות בבית, צריכות לשוב להתרחץ  ולהסתרק ולעשות עיון הגוף בבית הטבילה.</string>
     <string name="q6">להוריד כל תכשיטים ועגילים וכדומה.</string>
@@ -90,6 +90,8 @@
     <string name="q40">לסרוק שערות הראש, וכן לסרוק שער בית השחי והערוה, [בשבת, צריכה להרטיב שערה במי מקוה ואח\'כ להעביר אצבעותיה ולפספס שערות ראשה ושאר מקומות בעדינות לוודא שאין שם קשרים].</string>
     <string name="q41">להסתכל בכל מקום שאפשר, ולהיעזר במראה בבדיקת פניה.</string>
     <string name="q42">במקומות שאי אפשר לראות, לעבור ביד ולמשש לוודא שאין שום לכלוך.</string>
+
+
     <string name="q43">להוציא כל גוף זר כגון שיניים תותבות ופלטה מהפה, עדשות מגע, ונוברינג.</string>
     <string name="q44">אם אכלה משהו אחרי ניקוי השיניים, לעבור עוד הפעם על השיניים.</string>
     <string name="q45">לבדוק אם לא צריכים לשירותים, ואם כן, לנקות שוב המקום במים.</string>
@@ -150,4 +152,13 @@
     <string name="str_room_number">אנא הזן את מספר החדר.</string>
     <string name="str_someone_is_comming">מישהו מגיע</string>
     <string name="str_continue">המשך</string>
+    <string name="str_ready_to_done">עליך ללחוץ על CANCEL HELP לפני שתלחץ על Done</string>
+    <string name="str_done_to_help">עליך ללחוץ על כפתור הצורך עוד זמן לפני שתבקש בוצע</string>
+
+
+    <string name="q1_to_q9">Prior to Preparation</string>
+    <string name="q10_to_q37">Preparations</string>
+    <string name="q38_to_q47">Inspection</string>
+    <string name="q48_to_q53">Immersion</string>
+    <string name="q54_to_q57">After Immersion</string>
 </resources>

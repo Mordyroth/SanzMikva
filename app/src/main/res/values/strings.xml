@@ -25,6 +25,7 @@
 
 
     <string name="q1">Remember to do Seventh day bedika before Shkiah.</string>
+
     <string name="q2">Preparations should be done calmly and slowly.</string>
     <string name="q3">Preferably main preparations e.g. shampooing the hair and combing it out, should start whilst still day continuing until nightfall, and then immerse in the Mikvah. If that’s not possible, at least a significant part e.g. teeth and nails should be done whilst daytime.</string>
     <string name="q4">If preparations start only after nightfall, a full hour should be spent doing them.</string>
@@ -90,6 +91,13 @@
     <string name="q57">When arriving home, one should say verbally to the husband, “I have immersed” or “I am pure”.</string>
 
 
+    <string name="q1_to_q9">Prior to Preparation</string>
+    <string name="q10_to_q37">Preparations</string>
+    <string name="q38_to_q47">Inspection</string>
+    <string name="q48_to_q53">Immersion</string>
+    <string name="q54_to_q57">After Immersion</string>
+
+
     <string name="music_prompt">Choose a Song</string>
     <string name="cancel">CANCEL</string>
     <string name="yes">Yes</string>
@@ -100,7 +108,7 @@
     <string name="str_no">NO</string>
     <string name="choose_music">Choose Music</string>
     <string name="occupied_successfully">Occupied Successfully</string>
-    <string name="aledy_occupied">There is already a device with that room number, if you continue, the other device will be reset.</string>
+    <string name="aledy_occupied">This room number is already used by another device. if you choose to continue, the other device will be reset and require a new room number</string>
     <string name="alert">Alert</string>
     <string name="uuid_room_occupied">This device is already a with this room number.</string>
 
@@ -170,4 +178,6 @@
     </string-array>
     <string name="pin_verification">Pin Verification</string>
     <string name="str_continue">Continue</string>
+    <string name="str_done_to_help">You must press the NEED MORE TIME button before requesting Done</string>
+    <string name="str_ready_to_done">You must press CANCEL HELP before pressing Done</string>
 </resources>

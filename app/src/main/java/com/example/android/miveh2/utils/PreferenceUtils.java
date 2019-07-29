@@ -42,7 +42,7 @@ public class PreferenceUtils {
         return "";
     }
 
-    public boolean getBollean(String key) {
+    public boolean getbollean(String key) {
         if (sharedPreferences != null) {
             return sharedPreferences.getBoolean(key, false);
         }

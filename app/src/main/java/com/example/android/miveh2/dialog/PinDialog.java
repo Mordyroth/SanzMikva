@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.android.miveh2.R;
 import com.example.android.miveh2.utils.AppUtils;
-import com.goodiebag.pinview.Pinview;
 
 public class PinDialog extends Dialog implements View.OnClickListener {
 
@@ -49,7 +48,12 @@ public class PinDialog extends Dialog implements View.OnClickListener {
         edtCode2 = (EditText) findViewById(R.id.edtCode2);
         edtCode3 = (EditText) findViewById(R.id.edtCode3);
         edtCode4 = (EditText) findViewById(R.id.edtCode4);
-      //  edtCode1.performClick();
+        //  edtCode1.performClick();
+
+
+        //   AppUtils.showKeyboard(c);
+        edtCode1.requestFocus();
+
         edtCode1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

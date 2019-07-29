@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
@@ -18,6 +19,7 @@ import java.util.TimeZone;
 
 public class AppUtils {
 
+    public static String SET_VOLUME = "SET_VOLUME";
     public static String DEVICES_DB = "Devices";
     public static String ROOM_TABLE = "Room";
     public static String NEXT_ROOM_HELP = "NextRoomHelp";
@@ -128,6 +130,13 @@ public class AppUtils {
 
         return formattedDate;
 
+    }
+
+    public static void showKeyboard(Activity activity) {
+        if (activity != null) {
+            activity.getWindow()
+                    .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 
     public static void setMirroredEnable(boolean enabled, ImageView... view) {

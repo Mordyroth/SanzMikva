@@ -64,6 +64,7 @@ public class LocaleHelper {
 
         Resources res = context.getResources();
         Configuration config = new Configuration(res.getConfiguration());
+
         if (isAtLeastVersion(JELLY_BEAN_MR1)) {
             config.setLocale(locale);
             context = context.createConfigurationContext(config);

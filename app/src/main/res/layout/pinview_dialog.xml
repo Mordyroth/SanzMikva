@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/tools"
-
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="fill_parent"
@@ -53,6 +52,8 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
+                android:focusable="true"
+                android:textCursorDrawable="@drawable/blackpipe"
                 android:textColor="@color/colorBlack"
                 android:textSize="45dp" />
 
@@ -67,6 +68,8 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
+                android:focusable="true"
+                android:textCursorDrawable="@drawable/blackpipe"
                 android:textColor="@color/colorBlack"
                 android:textSize="45dp" />
 
@@ -81,6 +84,8 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
+                android:focusable="true"
+                android:textCursorDrawable="@drawable/blackpipe"
                 android:textColor="@color/colorBlack"
                 android:textSize="45dp" />
 
@@ -95,6 +100,8 @@
                 android:inputType="number"
                 android:maxLength="1"
                 android:maxLines="1"
+                android:textCursorDrawable="@drawable/blackpipe"
+                android:focusable="true"
                 android:textColor="@color/colorBlack"
                 android:textSize="45dp" />
         </LinearLayout>

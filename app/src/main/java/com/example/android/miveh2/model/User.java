@@ -11,7 +11,7 @@ public class User {
     //declare private data instead of public to ensure the privacy of data field of each class
     private String name;
     private String id;
-    private boolean isChecked=false;
+    private boolean isChecked = false;
 
     public User(String name, String id) {
         this.name = name;
@@ -32,7 +32,14 @@ public class User {
         mContext = context;
         ArrayList<User> users = new ArrayList<User>();
 
+/*<string name="q1_to_q9">Prior to Preparation</string>
+    <string name="q10_to_q37">Preparations</string>
+    <string name="q38_to_q47">Inspection</string>
+    <string name="q48_to_q53">Immersion</string>
+    <string name="q54_to_q57">After Immersion</string>*/
 
+
+        users.add(new User(mContext.getResources().getString(R.string.q10_to_q37), ""));
         users.add(new User(mContext.getResources().getString(R.string.q10), "10"));
         users.add(new User(mContext.getResources().getString(R.string.q11), "11"));
         users.add(new User(mContext.getResources().getString(R.string.q12), "12"));
@@ -61,10 +68,13 @@ public class User {
         users.add(new User(mContext.getResources().getString(R.string.q35), "35"));
         users.add(new User(mContext.getResources().getString(R.string.q36), "36"));
         users.add(new User(mContext.getResources().getString(R.string.q37), "37"));
+
+
+        users.add(new User(mContext.getResources().getString(R.string.q38_to_q47), ""));
         users.add(new User(mContext.getResources().getString(R.string.q38), "38"));
         users.add(new User(mContext.getResources().getString(R.string.q39), "39"));
         users.add(new User(mContext.getResources().getString(R.string.q40), "40"));
-        users.add(new User(mContext.getResources().getString(R.string.q41), "42"));
+        users.add(new User(mContext.getResources().getString(R.string.q41), "41"));
         users.add(new User(mContext.getResources().getString(R.string.q42), "42"));
         users.add(new User(mContext.getResources().getString(R.string.q43), "43"));
         users.add(new User(mContext.getResources().getString(R.string.q44), "44"));
@@ -79,6 +89,7 @@ public class User {
         Context mContext;
         mContext = context;
         ArrayList<User> users = new ArrayList<User>();
+        users.add(new User(mContext.getResources().getString(R.string.q1_to_q9), ""));
         users.add(new User(mContext.getResources().getString(R.string.q1), "1"));
         users.add(new User(mContext.getResources().getString(R.string.q2), "2"));
         users.add(new User(mContext.getResources().getString(R.string.q3), "3"));
@@ -90,8 +101,6 @@ public class User {
         users.add(new User(mContext.getResources().getString(R.string.q9), "9"));
 
 
-
-
         return users;
     }
 
@@ -101,12 +110,18 @@ public class User {
         ArrayList<User> users = new ArrayList<User>();
 
         users.add(new User(mContext.getResources().getString(R.string.q47), "47"));
+
+
+        users.add(new User(mContext.getResources().getString(R.string.q48_to_q53), ""));
         users.add(new User(mContext.getResources().getString(R.string.q48), "48"));
         users.add(new User(mContext.getResources().getString(R.string.q49), "49"));
         users.add(new User(mContext.getResources().getString(R.string.q50), "50"));
         users.add(new User(mContext.getResources().getString(R.string.q51), "51"));
         users.add(new User(mContext.getResources().getString(R.string.q52), "52"));
         users.add(new User(mContext.getResources().getString(R.string.q53), "53"));
+
+
+        users.add(new User(mContext.getResources().getString(R.string.q54_to_q57), ""));
         users.add(new User(mContext.getResources().getString(R.string.q54), "54"));
         users.add(new User(mContext.getResources().getString(R.string.q55), "55"));
         users.add(new User(mContext.getResources().getString(R.string.q56), "56"));

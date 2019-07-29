@@ -32,24 +32,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:background="@color/colorPrimaryDark"
                 android:gravity="center"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_7sdp"
                 android:text="@string/room_number"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:text="@string/enter_room_number_must_be_less_then_1_to_25"
                 android:textColor="#000000"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,16 +61,18 @@
                 <EditText
                     android:id="@+id/edtRoomCode"
                     android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:background="@drawable/shape_rounded_sky"
                     android:digits="1234567890"
+                    android:focusable="true"
                     android:gravity="center"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:maxLength="2"
+                    android:maxLength="3"
                     android:maxLines="1"
+                    android:textCursorDrawable="@drawable/blackpipe"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_18sdp" />
+                    android:textSize="@dimen/_16sdp" />
 
             </LinearLayout>
 
@@ -87,16 +88,17 @@
                 <Button
                     android:id="@+id/btn_yes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/_2sdp"
                     android:background="@drawable/shape_rounded_sky"
                     android:clickable="true"
                     android:elevation="@dimen/_10sdp"
                     android:gravity="center"
-                    android:padding="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingEnd="@dimen/_20sdp"
                     android:text="@string/str_set_room_number"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:textStyle="bold" />
 
                 <Button
@@ -123,4 +125,5 @@
 
 
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>

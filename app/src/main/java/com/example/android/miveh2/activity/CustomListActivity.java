@@ -8,7 +8,6 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.media.AudioManager;
@@ -18,6 +17,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,6 +151,13 @@ public class CustomListActivity extends BaseActivity implements
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_customer_help);
+        RelativeLayout relativeLayout = findViewById(R.id.mainView);
+
+        if (TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+            relativeLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            relativeLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
         populateUsersList();
         clearMediaPlayer();
 
@@ -179,22 +187,20 @@ public class CustomListActivity extends BaseActivity implements
             @Override
             public void onGranted() {
                 // do your task.
-                mGoogleApiClient = new GoogleApiClient.Builder(CustomListActivity.this)
-                        // The next two lines tell the new client that “this” current class will handle connection stuff
-                        .addConnectionCallbacks(CustomListActivity.this)
-                        .addOnConnectionFailedListener(CustomListActivity.this)
-                        //fourth line adds the LocationServices API endpoint from GooglePlayServices
-                        .addApi(LocationServices.API)
-                        .build();
+                locationPermission();
 
-                // Create the LocationRequest object
-                mLocationRequest = LocationRequest.create()
-                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                        .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                        .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
+                didYouDo();
             }
         });
         // do your task.
+        locationPermission();
+
+
+        getSunSineTime(latitude, longitude);
+    }
+
+    private void locationPermission() {
         mGoogleApiClient = new GoogleApiClient.Builder(CustomListActivity.this)
                 // The next two lines tell the new client that “this” current class will handle connection stuff
                 .addConnectionCallbacks(CustomListActivity.this)
@@ -208,8 +214,10 @@ public class CustomListActivity extends BaseActivity implements
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+    }
 
-        if (PreferenceUtils.getInstance(this).getBollean(AppUtils.ROOM_RESET)) {
+    private void didYouDo() {
+        if (PreferenceUtils.getInstance(this).getbollean(AppUtils.ROOM_RESET)) {
 
             final Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK);
@@ -255,7 +263,7 @@ public class CustomListActivity extends BaseActivity implements
                 @Override
                 public void onOkClick(View view, CommonDialog commonDialog) {
 
-                    if (view.getId() != R.id.tvNo) {
+                    if (view.getId() == R.id.tvNo) {
 
                         String msg = getString(R.string.ster_in_order_to_do_a) + " " + finalToDay + " " + getString(R.string.str_before_shkia_or_as);
 
@@ -265,6 +273,10 @@ public class CustomListActivity extends BaseActivity implements
                             public void onOkClick(View view, CommonDialog commonDialog) {
 
                                 commonDialog.dismiss();
+                                if (PreferenceUtils.getInstance(CustomListActivity.this).get(AppUtils.ROOM_NUMBER).equalsIgnoreCase("")) {
+                                    openPinDialog();
+
+                                }
 
                             }
                         });
@@ -275,15 +287,26 @@ public class CustomListActivity extends BaseActivity implements
 
                     } else {
                         commonDialog.dismiss();
+                        if (PreferenceUtils.getInstance(CustomListActivity.this).get(AppUtils.ROOM_NUMBER).equalsIgnoreCase("")) {
+                            openPinDialog();
+                        }
                     }
                 }
             });
             commonDialog.show();
+
             PreferenceUtils.getInstance(this).save(AppUtils.ROOM_RESET, false);
-
-
+        } else {
+            if (PreferenceUtils.getInstance(CustomListActivity.this).get(AppUtils.ROOM_NUMBER).equalsIgnoreCase("")) {
+                openPinDialog();
+            }
         }
-        getSunSineTime(latitude, longitude);
+    }
+
+    private void openPinDialog() {
+        PinDialog cdd = new PinDialog(CustomListActivity.this);
+        cdd.show();
+        // AppUtils.showKeyboard(this);
     }
 
     @Override
@@ -748,28 +771,43 @@ public class CustomListActivity extends BaseActivity implements
 
         if (btnDone.getText().toString().equals(getString(R.string.done))) {
 
-            tvStatusOfWorker.setText(getString(R.string.room_ready));
 
-            ratingDialog = new RatingDialog(CustomListActivity.this, new RatingDialog.OnButtonClickListener() {
-                @Override
-                public void onOkClick(View view) {
-                    ratingDialog.dismiss();
-                    if (view.getId() == R.id.llImprovement) {
-                        ratingStatus = getString(R.string.could_use_imrove).toLowerCase();
-                        openRatingDialog();
-                    } else if (view.getId() == R.id.llExcellent) {
-                        ratingStatus = getString(R.string.excellent).toUpperCase();
-                        openRatingDialog();
-                    } else {
-                        ratingStatus = getString(R.string.satisfactory).toUpperCase();
+            if (status.equalsIgnoreCase(Help.HELP_PRESS)) {
+
+
+                getToast(getString(R.string.str_ready_to_done), Toast.LENGTH_SHORT).show();
+
+
+            } else if (status.equalsIgnoreCase(Help.READY_PRESS)) {
+
+                getToast(getString(R.string.str_done_to_help), Toast.LENGTH_SHORT).show();
+
+
+            } else {
+
+                tvStatusOfWorker.setText(getString(R.string.room_ready));
+
+                ratingDialog = new RatingDialog(CustomListActivity.this, new RatingDialog.OnButtonClickListener() {
+                    @Override
+                    public void onOkClick(View view) {
+                        ratingDialog.dismiss();
+                        if (view.getId() == R.id.llImprovement) {
+                            ratingStatus = getString(R.string.could_use_imrove).toLowerCase();
+                            openRatingDialog();
+                        } else if (view.getId() == R.id.llExcellent) {
+                            ratingStatus = getString(R.string.excellent).toUpperCase();
+                            openRatingDialog();
+                        } else {
+                            ratingStatus = getString(R.string.satisfactory).toUpperCase();
+
+                        }
+
 
                     }
-
-
-                }
-            });
-            ratingDialog.setCancelable(true);
-            ratingDialog.show();
+                });
+                ratingDialog.setCancelable(true);
+                ratingDialog.show();
+            }
 
 
             // helpLayout.setVisibility(View.GONE);
@@ -1051,18 +1089,11 @@ public class CustomListActivity extends BaseActivity implements
         });
 
 
-        if (PreferenceUtils.getInstance(this).get(AppUtils.ROOM_NUMBER).equalsIgnoreCase("")) {
-            PinDialog cdd = new PinDialog(CustomListActivity.this);
-            cdd.setCancelable(false);
-            cdd.show();
-        }
-
         mPinView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                PinDialog cdd = new PinDialog(CustomListActivity.this);
-                cdd.show();
+                openPinDialog();
 
             }
         });
@@ -1137,7 +1168,7 @@ public class CustomListActivity extends BaseActivity implements
 
                 btnDone.setText(R.string.done_mess);
                 btnDone.setTextColor(Color.YELLOW);
-
+                PreferenceUtils.getInstance(CustomListActivity.this).save(AppUtils.SET_VOLUME, false);
 
                 status = Help.DONE;
                 help.setDone_press_time(System.currentTimeMillis());
@@ -1227,6 +1258,7 @@ public class CustomListActivity extends BaseActivity implements
             language = "en";
         }
 
+
         LocaleHelper.setLocale(this, language);
 
         recreate();
@@ -1256,13 +1288,16 @@ public class CustomListActivity extends BaseActivity implements
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         try {
 
-
             volumeSeekbar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
             volumeSeekbar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+            if (!PreferenceUtils.getInstance(this).getbollean(AppUtils.SET_VOLUME)) {
 
-            float percent = 7.5f;
-            int seventyVolume = (int) (percent);
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, seventyVolume, AudioManager.FLAG_SHOW_UI);
+                float percent = 7.5f;
+                int seventyVolume = (int) (percent);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, seventyVolume, AudioManager.FLAG_SHOW_UI);
+                PreferenceUtils.getInstance(this).save(AppUtils.SET_VOLUME, true);
+
+            }
 
 
             volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -1276,8 +1311,8 @@ public class CustomListActivity extends BaseActivity implements
 
                 @Override
                 public void onProgressChanged(SeekBar arg0, int progress, boolean arg2) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                            progress, 0);
+                    /*audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                            progress, 0);*/
                 }
             });
         } catch (Exception e) {
@@ -1428,15 +1463,26 @@ public class CustomListActivity extends BaseActivity implements
             View view = LayoutInflater.from(this).inflate(R.layout.item_user_without_checkbox, llList, false);
             final TextView tv = view.findViewById(R.id.tvName);
             TextView tvNumber = view.findViewById(R.id.tvNumber);
-            tv.setTypeface(null, Typeface.ITALIC);
+            //tv.setTypeface(null, Typeface.ITALIC);
             ViewGroup.LayoutParams layoutparams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
+
+
             view.setLayoutParams(layoutparams);
             tvNumber.setText(arrayOfUsers.get(i).getId() + ".");
 
-            tv.setText(" " + arrayOfUsers.get(i).getName());
+            tv.setText(arrayOfUsers.get(i).getName() );
+
+            if (arrayOfUsers.get(i).getId().equalsIgnoreCase("")) {
+                tvNumber.setVisibility(View.GONE);
+
+            } else {
+
+                tvNumber.setVisibility(View.VISIBLE);
+
+            }
 
             llList.addView(view);
         }
@@ -1464,7 +1510,17 @@ public class CustomListActivity extends BaseActivity implements
                     (int) this.getResources().getDimension(R.dimen._1sdp), (int) this.getResources().getDimension(R.dimen._8sdp));
             view.setLayoutParams(layoutparams);
 
-            tv.setText(" " + arrayOfUsers1.get(i).getName());
+            tv.setText(arrayOfUsers1.get(i).getName());
+
+            if (arrayOfUsers1.get(i).getId().equalsIgnoreCase("")) {
+                tvNumber.setVisibility(View.GONE);
+                checkBox.setVisibility(View.GONE);
+            } else {
+                checkBox.setVisibility(View.VISIBLE);
+                tvNumber.setVisibility(View.VISIBLE);
+
+            }
+
             tvNumber.setText(arrayOfUsers1.get(i).getId() + ".");
 
 
@@ -1502,14 +1558,25 @@ public class CustomListActivity extends BaseActivity implements
             View view = LayoutInflater.from(this).inflate(R.layout.item_user_without_checkbox, llList, false);
             TextView tv = view.findViewById(R.id.tvName);
             TextView tvNumber = view.findViewById(R.id.tvNumber);
-            tv.setTypeface(null, Typeface.ITALIC);
+            //    tv.setTypeface(null, Typeface.ITALIC);
             ViewGroup.LayoutParams layoutparams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
+
+
+            view.setLayoutParams(layoutparams);
             view.setLayoutParams(layoutparams);
             tvNumber.setText(arrayOfUsers2.get(i).getId() + ".");
-            tv.setText(" " + arrayOfUsers2.get(i).getName());
+            tv.setText(arrayOfUsers2.get(i).getName());
+            if (arrayOfUsers2.get(i).getId().equalsIgnoreCase("")) {
+                tvNumber.setVisibility(View.GONE);
+
+            } else {
+
+                tvNumber.setVisibility(View.VISIBLE);
+
+            }
 
 
             llList2.addView(view);

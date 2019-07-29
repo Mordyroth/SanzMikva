@@ -66,6 +66,7 @@
                     android:hint="@string/your_experience"
                     android:padding="@dimen/_5sdp"
                     android:textSize="@dimen/_12sdp"
+                    android:textCursorDrawable="@drawable/blackpipe"
                     android:visibility="gone" />
 
 
